@@ -1,0 +1,235 @@
+/* ==========================================================================
+   Global Styles — prettyprettyprettygood
+   ========================================================================== */
+
+@import "./tokens.css";
+
+/* --------------------------------------------------------------------------
+   Self-hosted font faces
+   Files live in /public/fonts/. Add @font-face blocks here when fonts
+   are downloaded. font-display: swap ensures text remains visible during load.
+
+   Example:
+   @font-face {
+     font-family: 'Fraunces';
+     src: url('/fonts/Fraunces-VariableFont.woff2') format('woff2');
+     font-weight: 100 900;
+     font-style: normal;
+     font-display: swap;
+   }
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Modern CSS Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
+html {
+  font-size: var(--text-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--transition-fast),
+    text-decoration-color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* --------------------------------------------------------------------------
+   Focus Styles — visually prominent, never removed
+   These apply to all interactive elements by default.
+   -------------------------------------------------------------------------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px
+    color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Interactive Elements — all must have a cursor and visible state
+   -------------------------------------------------------------------------- */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------------------
+   Skip Navigation — visually hidden until focused (for keyboard users)
+   This style is paired with the <SkipToContent /> component.
+   -------------------------------------------------------------------------- */
+.skip-nav {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: var(--z-skip);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-on-primary);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+
+  /* Visually hidden by default */
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+
+  transition:
+    clip-path var(--transition-fast),
+    width var(--transition-fast),
+    height var(--transition-fast);
+}
+
+.skip-nav:focus-visible {
+  clip: auto;
+  clip-path: none;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  white-space: normal;
+  outline: 3px solid var(--color-text-on-primary);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion — disable all animations and transitions globally
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Layout Utilities
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: 72rem; /* 1152px */
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (min-width: 48rem) {
+  .container {
+    padding-inline: var(--space-10);
+  }
+}

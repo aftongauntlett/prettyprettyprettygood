@@ -1,0 +1,83 @@
+---
+// Footer.astro
+const year = new Date().getFullYear();
+const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p class="site-footer__copy">
+      &copy; {year} prettyprettyprettygood — volunteer web design for nonprofits &amp; mission-driven orgs.
+    </p>
+    <div class="site-footer__right">
+      {kofiUrl && (
+        <a
+          href={kofiUrl}
+          class="kofi-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Support this work on Ko-fi"
+        >
+          ☕ Support this work
+        </a>
+      )}
+      <p class="site-footer__credit">
+        Built with care by <a href="https://github.com/aftongauntlett" rel="noopener noreferrer">Afton Gauntlett</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-neutral-200);
+    background-color: var(--color-surface-raised);
+    padding-block: var(--space-10);
+    margin-top: var(--space-16);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .site-footer__right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .site-footer__copy,
+  .site-footer__credit {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .kofi-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    border: 1.5px solid var(--color-accent-light);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .kofi-btn:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+    border-color: var(--color-accent);
+    color: var(--color-primary-dark);
+  }
+</style>
+

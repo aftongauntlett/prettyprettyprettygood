@@ -1,226 +1,632 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Palette, Sparkles, Accessibility, Gamepad2, Search, LayoutGrid, ExternalLink } from '@lucide/astro';
+import { Image } from 'astro:assets';
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
 const formAction = `https://formspree.io/f/${formspreeId}`;
+
+const whoIWorkWith = [
+  {
+    label: 'Community & Cause',
+    items: ['Nonprofits', 'Civic Orgs', 'Animal Welfare', 'Intentional Communities', 'Fan Communities'],
+  },
+  {
+    label: 'Arts & Culture',
+    items: ['Musicians', 'Artists', 'Museums', 'Game Studios'],
+  },
+  {
+    label: 'Care & Craft',
+    items: ['Therapists', 'Herbalists', 'Farmers Markets', 'Co-ops'],
+  },
+];
+
+const services = [
+  {
+    icon: Palette,
+    title: 'Custom Static Sites',
+    body: 'Fast, accessible, built to last. No monthly fees, no CMS lock-in — just a site you own outright.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Animation & Motion',
+    body: 'Personality-forward design with thoughtful motion. Delightful, not distracting — and always with a no-motion fallback.',
+  },
+  {
+    icon: Accessibility,
+    title: 'Accessibility-First',
+    body: 'WCAG 2.2 AA as the floor, AAA where practical. Clear UI, keyboard navigation, and semantic HTML for everyone.',
+  },
+  {
+    icon: Gamepad2,
+    title: 'Browser-Based Games',
+    body: 'Your website can be a game. Interactive experiences, playful interfaces, or a full-blown browser game — all of the above.',
+  },
+  {
+    icon: Search,
+    title: 'Finding Your Vision',
+    body: "Don't know what you need yet? That's fine — the best part. We figure out what your web presence could be, then build it.",
+  },
+  {
+    icon: LayoutGrid,
+    title: 'Off Paid Platforms',
+    body: 'Migrating you off WordPress, Squarespace, or anything else charging you monthly for things you should just own.',
+  },
+];
+
+const work = [
+  {
+    title: 'No Whiteboard Dashboard',
+    status: 'In Production',
+    description:
+      'A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.',
+    tech: ['Astro', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+    link: 'https://github.com/aftongauntlett/no-whiteboard-jobs-dashboard',
+    demo: 'https://no-wb.org',
+    image: '/images/no-wb.png',
+    imageAlt: 'Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don\'t whiteboard in interviews',
+  },
+  {
+    title: 'Astrid Beauty Hair Salon',
+    status: 'In Production',
+    description:
+      'A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking — with accessible markup and SEO-friendly structure throughout.',
+    tech: ['Astro', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+    link: 'https://github.com/aftongauntlett/astrid-beauty',
+    demo: 'https://www.byastridbeautysalon.com/',
+    image: '/images/astrid.png',
+    imageAlt: 'Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information',
+  },
+  {
+    title: 'Ghostbusters Virginia',
+    status: 'In Development',
+    description:
+      'A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.',
+    tech: ['Astro', 'TypeScript', 'Keystatic', 'Vercel'],
+    link: 'https://github.com/aftongauntlett/ghostbustersva',
+    demo: '',
+    image: '/images/gbva.png',
+    imageAlt: 'Screenshot of the Ghostbusters Virginia community website showing event listings and team information',
+  },
+];
 ---
 
 <BaseLayout
-  title="prettyprettyprettygood"
-  description="Volunteer web design for nonprofits and mission-driven organizations."
+  title="prettyprettyprettygood — free web design for good people"
+  description="Free, custom websites for nonprofits, community orgs, artists, and mission-driven people. No templates, no monthly fees, no WordPress."
 >
+
   <!-- ═══════════════════════════════════════════════════════════
        HERO
   ═══════════════════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="container hero__inner">
-      <p class="hero__eyebrow">volunteer web design</p>
-      <h1 class="hero__heading">
-        Good design for<br />good causes.
-      </h1>
-      <p class="hero__body">
-        Free, thoughtful web design for nonprofits and mission-driven
-        organizations. Every site is built by hand, with care — no templates,
-        no shortcuts.
-      </p>
-      <div class="hero__actions">
-        <a href="#contact" class="btn btn--primary">Get in touch</a>
-        <a href="#work" class="btn btn--ghost">See the work</a>
+      <div class="hero__content">
+        <p class="eyebrow">free web design · by afton</p>
+        <h1 class="hero__heading">
+          Your work is good.<br />
+          Your website<br />
+          should be too.
+        </h1>
+        <p class="hero__body">
+          I build free, custom websites for nonprofits, community orgs, artists,
+          and mission-driven people. No templates, no monthly fees, no WordPress —
+          just a thoughtful site you own outright.
+        </p>
+        <div class="hero__actions">
+          <a href="#work" class="btn btn--secondary">See the work</a>
+          <a href="#contact" class="btn btn--primary">Start a project</a>
+        </div>
+      </div>
+      <div class="hero__visual" aria-hidden="true">
+        <canvas id="hero-canvas" class="hero__canvas"></canvas>
       </div>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       STYLE PREVIEW — Typography
+       WHO I WORK WITH
   ═══════════════════════════════════════════════════════════════ -->
-  <section class="preview-section" id="work">
+  <section class="section section--raised" id="who" aria-labelledby="who-heading">
     <div class="container">
-      <h2 class="preview-section__title">Typography</h2>
-
-      <div class="type-scale">
-        <div class="type-row">
-          <span class="type-label">--text-5xl / display</span>
-          <p class="type-specimen type-specimen--5xl">The quick brown fox</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-4xl / h1</span>
-          <p class="type-specimen type-specimen--4xl">The quick brown fox</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-3xl / h2</span>
-          <p class="type-specimen type-specimen--3xl">The quick brown fox</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-2xl / h3</span>
-          <p class="type-specimen type-specimen--2xl">The quick brown fox</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-xl / h4</span>
-          <p class="type-specimen type-specimen--xl">The quick brown fox</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-lg / lead</span>
-          <p class="type-specimen type-specimen--lg">The quick brown fox jumps over the lazy dog</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-base / body</span>
-          <p class="type-specimen type-specimen--base">The quick brown fox jumps over the lazy dog. Warm, genuine, intentional — that's the goal with every pixel we place.</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--text-sm / small</span>
-          <p class="type-specimen type-specimen--sm">The quick brown fox jumps over the lazy dog. Used for captions, labels, and meta text.</p>
-        </div>
-        <div class="type-row">
-          <span class="type-label">--font-mono / code</span>
-          <code class="type-specimen type-specimen--mono">const warmth = 'intentional';</code>
-        </div>
+      <div class="section-header">
+        <p class="eyebrow">who this is for</p>
+        <h2 id="who-heading">If this sounds like you, let's talk.</h2>
+        <p class="section-lead">
+          I work with people doing good work — not people trying to extract
+          maximum profit. If you're building something that matters to a community,
+          a cause, or a creative life, this is for you.
+        </p>
       </div>
+      <dl class="who-groups">
+        {whoIWorkWith.map((group) => (
+          <div class="who-group">
+            <dt class="who-group__label">{group.label}</dt>
+            <dd class="who-group__tags">
+              <ul class="tag-grid" role="list">
+                {group.items.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       STYLE PREVIEW — Color Palette
+       SERVICES
   ═══════════════════════════════════════════════════════════════ -->
-  <section class="preview-section preview-section--raised">
+  <section class="section" id="services" aria-labelledby="services-heading">
     <div class="container">
-      <h2 class="preview-section__title">Color Palette</h2>
-
-      <div class="swatch-group">
-        <h3 class="swatch-group__heading">Brand</h3>
-        <div class="swatch-row">
-          <div class="swatch" style="background:var(--color-primary)"><span>primary</span></div>
-          <div class="swatch" style="background:var(--color-primary-light)"><span>primary-light</span></div>
-          <div class="swatch" style="background:var(--color-primary-dark)"><span>primary-dark</span></div>
-          <div class="swatch" style="background:var(--color-accent)"><span>accent</span></div>
-          <div class="swatch" style="background:var(--color-accent-light)"><span>accent-light</span></div>
-          <div class="swatch" style="background:var(--color-accent-dark)"><span>accent-dark</span></div>
-        </div>
+      <div class="section-header">
+        <p class="eyebrow">what i build</p>
+        <h2 id="services-heading">More than a template with your logo on it.</h2>
+        <p class="section-lead">
+          Every site is built by hand. No page builders, no themes, no shortcuts.
+          The goal is a website that feels like you — not like every other site
+          on the same platform.
+        </p>
       </div>
-
-      <div class="swatch-group">
-        <h3 class="swatch-group__heading">Neutral</h3>
-        <div class="swatch-row">
-          <div class="swatch" style="background:var(--color-neutral-50)"><span class="dark">50</span></div>
-          <div class="swatch" style="background:var(--color-neutral-100)"><span class="dark">100</span></div>
-          <div class="swatch" style="background:var(--color-neutral-200)"><span class="dark">200</span></div>
-          <div class="swatch" style="background:var(--color-neutral-300)"><span class="dark">300</span></div>
-          <div class="swatch" style="background:var(--color-neutral-400)"><span>400</span></div>
-          <div class="swatch" style="background:var(--color-neutral-500)"><span>500</span></div>
-          <div class="swatch" style="background:var(--color-neutral-600)"><span>600</span></div>
-          <div class="swatch" style="background:var(--color-neutral-700)"><span>700</span></div>
-          <div class="swatch" style="background:var(--color-neutral-800)"><span>800</span></div>
-          <div class="swatch" style="background:var(--color-neutral-900)"><span>900</span></div>
-        </div>
-      </div>
-
-      <div class="swatch-group">
-        <h3 class="swatch-group__heading">Semantic</h3>
-        <div class="swatch-row">
-          <div class="swatch" style="background:var(--color-surface)"><span class="dark">surface</span></div>
-          <div class="swatch" style="background:var(--color-surface-raised)"><span class="dark">raised</span></div>
-          <div class="swatch" style="background:var(--color-surface-overlay)"><span class="dark">overlay</span></div>
-          <div class="swatch" style="background:var(--color-error)"><span>error</span></div>
-          <div class="swatch" style="background:var(--color-success)"><span>success</span></div>
-        </div>
-      </div>
+      <ul class="service-grid" role="list">
+        {services.map((s) => (
+          <li class="service-card">
+            <s.icon size={28} class="service-card__icon" aria-hidden="true" />
+            <div>
+              <h3 class="service-card__title">{s.title}</h3>
+              <p class="service-card__body">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       STYLE PREVIEW — Buttons & Interactive Elements
+       HOW IT WORKS
   ═══════════════════════════════════════════════════════════════ -->
-  <section class="preview-section" id="about">
+  <section class="section section--raised" aria-labelledby="how-heading">
     <div class="container">
-      <h2 class="preview-section__title">Buttons &amp; Interactive</h2>
+      <div class="section-header">
+        <p class="eyebrow">how it works</p>
+        <h2 id="how-heading">No pitch decks. No retainers. No nonsense.</h2>
+      </div>
+      <ol class="steps" role="list">
+        <li class="step">
+          <span class="step__number" aria-hidden="true">01</span>
+          <div class="step__content">
+            <h3 class="step__title">Tell me about your work</h3>
+            <p class="step__body">Fill out the form below. Tell me what you do, who you serve, and what you need. No RFP required.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step__number" aria-hidden="true">02</span>
+          <div class="step__content">
+            <h3 class="step__title">We figure out the vision</h3>
+            <p class="step__body">We talk. What does your web presence want to be? What story does it need to tell? I help you find that before I write a single line of code.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step__number" aria-hidden="true">03</span>
+          <div class="step__content">
+            <h3 class="step__title">I build it</h3>
+            <p class="step__body">Fully custom. Accessible. Fast. Made to last. You get final say on everything.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step__number" aria-hidden="true">04</span>
+          <div class="step__content">
+            <h3 class="step__title">You own it — for free</h3>
+            <p class="step__body">No invoices. No recurring fees. No asking permission to update your own homepage. Just a website that belongs to you.</p>
+          </div>
+        </li>
+      </ol>
 
-      <div class="preview-row">
-        <a href="#" class="btn btn--primary">Primary</a>
-        <a href="#" class="btn btn--secondary">Secondary</a>
-        <a href="#" class="btn btn--ghost">Ghost</a>
-        <button class="btn btn--primary" disabled>Disabled</button>
+      <aside class="caveat">
+        <p>
+          I take projects based on my availability and whether the work genuinely
+          excites me. I can't take everything — but I read every message.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       WORK
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="section" id="work" aria-labelledby="work-heading">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">the work</p>
+        <h2 id="work-heading">See my work</h2>
+        <p class="section-lead">
+          Hand-built, accessible, and free to own. Simple to use for the people
+          who need it, and made to last without a monthly bill attached.
+        </p>
+      </div>
+      <ul class="work-grid" role="list">
+        {work.map((w) => (
+          <li>
+            <a
+              class="work-card"
+              href={w.demo || w.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${w.title} — opens in new tab`}
+            >
+              <div class="work-card__image-wrap">
+                <Image
+                  src={w.image}
+                  width={1200}
+                  height={750}
+                  alt={w.imageAlt}
+                  class="work-card__image"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="work-card__image-overlay" aria-hidden="true">
+                  <ExternalLink size={32} class="work-card__overlay-icon" />
+                </div>
+              </div>
+              <div class="work-card__content">
+                <div class="work-card__title-row">
+                  <h3 class="work-card__title">{w.title}</h3>
+                  <span class={`work-card__status work-card__status--${w.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {w.status}
+                  </span>
+                </div>
+                <p class="work-card__desc">{w.description}</p>
+                <ul class="work-card__tech tag-grid" role="list">
+                  {w.tech.map((t) => <li class="tag">{t}</li>)}
+                </ul>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CONTACT
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="section section--raised" id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">start a project</p>
+        <h2 id="contact-heading">Tell me what you're building.</h2>
+        <p class="section-lead">
+          Don't overthink it. A few sentences about who you are and what you need
+          is plenty. I'll follow up if it's a good fit.
+        </p>
       </div>
 
-      <h3 class="preview-subsection-title">Form elements</h3>
-      <form class="preview-form" action={formAction} method="POST">
-        <input type="hidden" name="_subject" value="New message — prettyprettyprettygood" />
+      <form class="contact-form" action={formAction} method="POST">
+        <input type="hidden" name="_subject" value="New project inquiry — prettyprettyprettygood" />
+
         <div class="field">
           <label class="field__label" for="name">Your name</label>
-          <input class="field__input" type="text" id="name" name="name" placeholder="Afton Gauntlett" autocomplete="name" />
+          <input class="field__input" type="text" id="name" name="name"
+            placeholder="What should I call you?" autocomplete="name" required />
         </div>
+
         <div class="field">
           <label class="field__label" for="email">Email address</label>
-          <input class="field__input" type="email" id="email" name="email" placeholder="hello@example.com" autocomplete="email" />
+          <input class="field__input" type="email" id="email" name="email"
+            placeholder="Where should I write back?" autocomplete="email" required />
         </div>
+
         <div class="field">
-          <label class="field__label" for="org">Organization</label>
-          <input class="field__input" type="text" id="org" name="org" placeholder="Nonprofit or mission-driven org" />
+          <label class="field__label" for="org">
+            Organization or project
+            <span class="field__hint">(optional)</span>
+          </label>
+          <input class="field__input" type="text" id="org" name="org"
+            placeholder="Your org, band, co-op, studio…" />
         </div>
+
         <div class="field">
-          <label class="field__label" for="message">Tell me about your organization</label>
-          <textarea class="field__input field__textarea" id="message" name="message" rows="4" placeholder="What do you do, who do you serve, and what does your site need?"></textarea>
+          <label class="field__label" for="message">Tell me about your work</label>
+          <textarea class="field__input field__textarea" id="message" name="message"
+            rows="5"
+            placeholder="What do you do, who do you serve, and what does your site need? There's no wrong answer."
+            required></textarea>
         </div>
-        <button type="submit" class="btn btn--primary">Send message</button>
+
+        <div class="field">
+          <label class="field__label" for="existing-site">
+            Existing website
+            <span class="field__hint">(if you have one)</span>
+          </label>
+          <input class="field__input" type="url" id="existing-site" name="existing-site"
+            placeholder="https://" autocomplete="url" />
+        </div>
+
+        <button type="submit" class="btn btn--primary">Send it →</button>
       </form>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       STYLE PREVIEW — Cards & Surfaces
-  ═══════════════════════════════════════════════════════════════ -->
-  <section class="preview-section preview-section--raised" id="contact">
-    <div class="container">
-      <h2 class="preview-section__title">Cards &amp; Surfaces</h2>
-      <div class="card-grid">
-        <article class="card">
-          <div class="card__badge">Nonprofit</div>
-          <h3 class="card__title">Community Food Bank</h3>
-          <p class="card__body">A volunteer-built site for a local food bank serving 3,000 families a month. Clean, accessible, and easy to update.</p>
-          <a href="#" class="card__link">View project →</a>
-        </article>
-        <article class="card">
-          <div class="card__badge">Education</div>
-          <h3 class="card__title">Youth Arts Initiative</h3>
-          <p class="card__body">Redesigned branding and web presence for an arts program that gives free lessons to kids in under-resourced schools.</p>
-          <a href="#" class="card__link">View project →</a>
-        </article>
-        <article class="card">
-          <div class="card__badge">Advocacy</div>
-          <h3 class="card__title">Clean River Coalition</h3>
-          <p class="card__body">A fast, SEO-optimized site that helps the coalition grow its volunteer base and attract grant funding.</p>
-          <a href="#" class="card__link">View project →</a>
-        </article>
-      </div>
-    </div>
-  </section>
 </BaseLayout>
 
+<script>
+  // Hero canvas — fluid push physics.
+  // Cursor velocity drives a directional drag force so particles get swept
+  // in the direction of travel (not just radially away). Spring pulls home gently.
+  // ~25% of particles are hollow rings for visual variety.
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rand = (a: number, b: number) => a + Math.random() * (b - a);
+  const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
+
+  if (canvas && !prefersReduced) {
+    const ctx = canvas.getContext('2d')!;
+
+    const cssVars = getComputedStyle(document.documentElement);
+    const colors = [
+      cssVars.getPropertyValue('--color-primary').trim()       || '#8b5e3c',
+      cssVars.getPropertyValue('--color-primary-light').trim() || '#b07d56',
+      cssVars.getPropertyValue('--color-accent').trim()        || '#c8973c',
+      cssVars.getPropertyValue('--color-accent-light').trim()  || '#e0b86a',
+      cssVars.getPropertyValue('--color-neutral-300').trim()   || '#d4c5b0',
+      cssVars.getPropertyValue('--color-neutral-400').trim()   || '#b8a48c',
+    ];
+
+    let CW = 0, CH = 0;
+    let mx = -9999, my = -9999;
+    let prevMx = -9999, prevMy = -9999;
+    // Smoothed cursor velocity
+    let cvx = 0, cvy = 0;
+
+    // ── Tuning ──────────────────────────────────────────────
+    const PARTICLE_COUNT = 78;
+    const REPEL_RADIUS   = 100;  // px — influence zone around cursor
+    const REPEL_FORCE    = 0.42; // radial push strength
+    const DRAG_FORCE     = 0.18; // directional sweep strength (the "push" feel)
+    const SPRING_K       = 0.010; // spring home strength — softer = less orbiting
+    const FRICTION       = 0.84;  // velocity damping — lower = settles quicker
+    const MAX_SPEED      = 5.0;
+    const VEL_SMOOTH     = 0.35;  // cursor velocity smoothing (0=instant, 1=frozen)
+    // ────────────────────────────────────────────────────────
+
+    type Shape = 'circle' | 'ring';
+
+    interface Particle {
+      x: number; y: number;
+      hx: number; hy: number;
+      vx: number; vy: number;
+      r: number;
+      lw: number;         // stroke width for rings
+      color: string;
+      alpha: number;
+      shape: Shape;
+      phase: number;      // idle breathing phase offset
+      breatheAmp: number; // idle oscillation amplitude (px)
+    }
+
+    const particles: Particle[] = [];
+
+    function makeParticle(hx: number, hy: number): Particle {
+      const isRing = Math.random() < 0.28;
+      return {
+        x: hx, y: hy, hx, hy,
+        vx:         rand(-0.3, 0.3),
+        vy:         rand(-0.25, 0.25),
+        r:          isRing ? rand(5, 13) : rand(2.5, 9),
+        lw:         rand(1, 2.5),
+        color:      colors[Math.floor(Math.random() * colors.length)],
+        alpha:      isRing ? rand(0.18, 0.45) : rand(0.14, 0.55),
+        shape:      isRing ? 'ring' : 'circle',
+        phase:      Math.random() * Math.PI * 2,
+        breatheAmp: rand(4, 12),
+      };
+    }
+
+    // Random placement — naturally covers corners, no grid bias
+    function randomHomes(): [number, number][] {
+      const pad = 8;
+      return Array.from({ length: PARTICLE_COUNT }, () => [
+        rand(pad, CW - pad),
+        rand(pad, CH - pad),
+      ]);
+    }
+
+    function resize() {
+      const rect = canvas!.getBoundingClientRect();
+      CW = rect.width;
+      CH = rect.height;
+      canvas!.width  = CW * devicePixelRatio;
+      canvas!.height = CH * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function update() {
+      const now = performance.now() * 0.001;
+      // ── Smooth cursor velocity ──
+      if (mx > -9990 && prevMx > -9990) {
+        cvx = cvx * (1 - VEL_SMOOTH) + (mx - prevMx) * VEL_SMOOTH;
+        cvy = cvy * (1 - VEL_SMOOTH) + (my - prevMy) * VEL_SMOOTH;
+      } else {
+        cvx *= 0.85;
+        cvy *= 0.85;
+      }
+      prevMx = mx;
+      prevMy = my;
+
+      for (const p of particles) {
+        const dx   = p.x - mx;
+        const dy   = p.y - my;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < REPEL_RADIUS && dist > 0) {
+          const influence = 1 - dist / REPEL_RADIUS;
+          // Radial: push outward from cursor centre
+          p.vx += (dx / dist) * influence * REPEL_FORCE;
+          p.vy += (dy / dist) * influence * REPEL_FORCE;
+          // Directional: sweep in the direction the cursor is actually moving
+          p.vx += cvx * influence * DRAG_FORCE;
+          p.vy += cvy * influence * DRAG_FORCE;
+        }
+
+        // Spring toward breathing home (subtle idle drift)
+        const bx = p.hx + Math.sin(now * 0.4  + p.phase)       * p.breatheAmp;
+        const by = p.hy + Math.cos(now * 0.31 + p.phase * 1.3) * p.breatheAmp;
+        p.vx += (bx - p.x) * SPRING_K;
+        p.vy += (by - p.y) * SPRING_K;
+
+        // Friction + speed cap
+        p.vx *= FRICTION;
+        p.vy *= FRICTION;
+        const spd = Math.hypot(p.vx, p.vy);
+        if (spd > MAX_SPEED) {
+          p.vx = (p.vx / spd) * MAX_SPEED;
+          p.vy = (p.vy / spd) * MAX_SPEED;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Soft wall nudge — spring home handles long-range return
+        const m = p.r;
+        if (p.x < m)      { p.x = m;      p.vx =  Math.abs(p.vx) * 0.4; }
+        if (p.x > CW - m) { p.x = CW - m; p.vx = -Math.abs(p.vx) * 0.4; }
+        if (p.y < m)      { p.y = m;      p.vy =  Math.abs(p.vy) * 0.4; }
+        if (p.y > CH - m) { p.y = CH - m; p.vy = -Math.abs(p.vy) * 0.4; }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, CW, CH);
+      for (const p of particles) {
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        if (p.shape === 'ring') {
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth   = p.lw;
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+    function init() {
+      resize();
+      particles.length = 0;
+      const homes = randomHomes();
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const [hx, hy] = homes[i];
+        particles.push(makeParticle(hx, hy));
+      }
+      loop();
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas!.getBoundingClientRect();
+      mx = e.clientX - rect.left;
+      my = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      mx = -9999; my = -9999;
+      cvx = 0; cvy = 0;
+      prevMx = -9999; prevMy = -9999;
+    });
+
+    const ro = new ResizeObserver(() => {
+      resize();
+      const homes = randomHomes();
+      particles.forEach((p, i) => {
+        p.hx = homes[i][0];
+        p.hy = homes[i][1];
+        p.x  = Math.min(Math.max(p.x, p.r), CW - p.r);
+        p.y  = Math.min(Math.max(p.y, p.r), CH - p.r);
+      });
+    });
+    ro.observe(canvas);
+
+    init();
+  }
+
+</script>
 <style>
-  /* ── Hero ─────────────────────────────────────────────── */
-  .hero {
+  /* ── Shared section rhythm ────────────────────────────── */
+  .section {
     padding-block: var(--space-16);
-    background-color: var(--color-surface);
   }
 
-  .hero__inner {
-    max-width: 44rem;
+  .section--raised {
+    background-color: var(--color-surface-raised);
   }
 
-  .hero__eyebrow {
-    font-size: var(--text-sm);
+  .section-header {
+    max-width: 40rem;
+    margin-bottom: var(--space-12);
+  }
+
+  .section-header h2 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+    color: var(--color-neutral-700);
+  }
+
+  .section-lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     color: var(--color-accent-dark);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hero {
+    padding-block: var(--space-16);
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .hero__content {
+    max-width: 36rem;
+  }
+
+  .hero__visual {
+    position: relative;
+    height: 28rem;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    background-color: var(--color-surface-subtle);
+    order: -1;
+  }
+
+  .hero__canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .hero__heading {
     font-size: var(--text-5xl);
-    font-family: var(--font-display);
-    font-weight: var(--font-weight-bold);
     line-height: var(--leading-tight);
-    color: var(--color-text);
     margin-bottom: var(--space-6);
+    letter-spacing: var(--tracking-tight);
   }
 
   .hero__body {
@@ -234,27 +640,25 @@ const formAction = `https://formspree.io/f/${formspreeId}`;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-4);
+    justify-content: flex-end;
   }
 
   /* ── Buttons ──────────────────────────────────────────── */
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
     padding: var(--space-3) var(--space-6);
     font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
-    line-height: 1;
     border-radius: var(--radius-md);
     text-decoration: none;
     border: 2px solid transparent;
     cursor: pointer;
     transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast),
-      border-color var(--transition-fast),
-      box-shadow var(--transition-fast);
+      background-color var(--transition-base),
+      color var(--transition-base),
+      border-color var(--transition-base);
   }
 
   .btn--primary {
@@ -270,145 +674,369 @@ const formAction = `https://formspree.io/f/${formspreeId}`;
   }
 
   .btn--secondary {
-    background-color: var(--color-surface-raised);
-    color: var(--color-primary);
-    border-color: var(--color-neutral-300);
+    background-color: transparent;
+    color: var(--color-accent-dark);
+    border-color: var(--color-accent);
   }
 
   .btn--secondary:hover {
-    border-color: var(--color-primary);
+    background-color: var(--color-accent);
+    border-color: var(--color-accent-dark);
+    color: var(--color-text-on-primary);
   }
 
-  .btn--ghost {
-    background-color: transparent;
-    color: var(--color-primary);
-    border-color: transparent;
-  }
-
-  .btn--ghost:hover {
-    background-color: var(--color-surface-raised);
-  }
-
-  .btn:disabled,
-  .btn[disabled] {
-    opacity: 0.45;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-
-  /* ── Preview Sections ────────────────────────────────── */
-  .preview-section {
-    padding-block: var(--space-16);
-  }
-
-  .preview-section--raised {
-    background-color: var(--color-surface-raised);
-  }
-
-  .preview-section__title {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-10);
-    padding-bottom: var(--space-4);
-    border-bottom: 2px solid var(--color-neutral-200);
-  }
-
-  .preview-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-10);
-  }
-
-  .preview-subsection-title {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-6);
-    color: var(--color-text-muted);
-    font-weight: var(--font-weight-medium);
-  }
-
-  /* ── Type Scale ──────────────────────────────────────── */
-  .type-scale {
+  /* ── Tags — who I work with ───────────────────────────── */
+  .who-groups {
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
   }
 
-  .type-row {
+  .who-group {
     display: grid;
-    grid-template-columns: 11rem 1fr;
-    gap: var(--space-4);
-    align-items: baseline;
-    padding-bottom: var(--space-6);
-    border-bottom: 1px solid var(--color-neutral-100);
+    grid-template-columns: 10rem 1fr;
+    gap: var(--space-6);
+    align-items: start;
   }
 
-  .type-label {
-    font-family: var(--font-mono);
+  .who-group__label {
     font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    padding-top: var(--space-1);
-  }
-
-  .type-specimen { font-family: var(--font-body); }
-  .type-specimen--5xl  { font-family: var(--font-display); font-size: var(--text-5xl); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); }
-  .type-specimen--4xl  { font-family: var(--font-display); font-size: var(--text-4xl); font-weight: var(--font-weight-bold); line-height: var(--leading-tight); }
-  .type-specimen--3xl  { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: var(--font-weight-bold); }
-  .type-specimen--2xl  { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: var(--font-weight-bold); }
-  .type-specimen--xl   { font-size: var(--text-xl); }
-  .type-specimen--lg   { font-size: var(--text-lg); color: var(--color-text-muted); }
-  .type-specimen--base { font-size: var(--text-base); line-height: var(--leading-relaxed); }
-  .type-specimen--sm   { font-size: var(--text-sm); color: var(--color-text-muted); }
-  .type-specimen--mono { font-family: var(--font-mono); font-size: var(--text-sm); background: var(--color-surface-overlay); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); }
-
-  /* ── Color Swatches ──────────────────────────────────── */
-  .swatch-group {
-    margin-bottom: var(--space-8);
-  }
-
-  .swatch-group__heading {
-    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
+    padding-top: var(--space-2);
   }
 
-  .swatch-row {
+  .who-group__tags {
+    margin: 0;
+  }
+
+  .tag-grid {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
   }
 
-  .swatch {
-    width: 5rem;
-    height: 5rem;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+  .tag {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-neutral-200);
+    border-radius: var(--radius-full);
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .tag:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+    border-color: var(--color-accent-light);
+    color: var(--color-primary-dark);
+  }
+
+  @media (max-width: 40rem) {
+    .who-group {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+
+  /* ── Services ─────────────────────────────────────────── */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: var(--space-6);
+  }
+
+  .service-card {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-5);
+    align-items: start;
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-neutral-300);
+  }
+
+  .service-card__icon {
+    color: var(--color-accent-dark);
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+    transition: color var(--transition-base);
+  }
+
+  .service-card:hover .service-card__icon {
+    color: var(--color-primary);
+    animation: icon-wiggle 0.5s ease forwards;
+  }
+
+  @keyframes icon-wiggle {
+    0%   { transform: rotate(0deg) scale(1); }
+    20%  { transform: rotate(-12deg) scale(1.2); }
+    45%  { transform: rotate(9deg) scale(1.15); }
+    65%  { transform: rotate(-6deg) scale(1.1); }
+    80%  { transform: rotate(3deg) scale(1.05); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card:hover .service-card__icon {
+      animation: none;
+    }
+  }
+
+  .service-card__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .service-card__body {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── How it works ─────────────────────────────────────── */
+  .steps {
     display: flex;
-    align-items: flex-end;
-    padding: var(--space-2);
-    border: 1px solid rgb(0 0 0 / 0.06);
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: var(--space-10);
   }
 
-  .swatch span {
+  .step {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--space-6);
+    padding-block: var(--space-8);
+    padding-inline: var(--space-6);
+    border-bottom: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-base);
+  }
+
+  .step:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  }
+
+  .step:hover .step__number {
+    background-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    color: var(--color-primary-dark);
+    animation: icon-wiggle 0.5s ease forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step:hover .step__number {
+      animation: none;
+    }
+  }
+
+  .step:hover .step__title {
+    color: var(--color-primary);
+  }
+
+  .step:last-child {
+    border-bottom: none;
+  }
+
+  .step__number {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--color-neutral-50);
-    line-height: 1.2;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent-dark);
+    letter-spacing: var(--tracking-wide);
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border-radius: var(--radius-full);
+    transition:
+      background-color var(--transition-base),
+      color var(--transition-base);
   }
 
-  .swatch span.dark {
-    color: var(--color-neutral-800);
+  .step__title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+    transition: color var(--transition-base);
   }
 
-  /* ── Form ────────────────────────────────────────────── */
-  .preview-form {
+  .step__body {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .caveat {
+    padding: var(--space-6);
+    background-color: var(--color-surface);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .caveat p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    font-style: italic;
+  }
+
+  /* ── Work / portfolio ────────────────────────────────── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr));
+    gap: var(--space-8);
+  }
+
+  .work-card {
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-neutral-300);
+  }
+
+  .work-card__image-wrap {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: var(--color-surface-overlay);
+  }
+
+  .work-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: transform var(--transition-slow);
+  }
+
+  .work-card:hover .work-card__image {
+    transform: scale(1.03);
+  }
+
+  .work-card__image-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0 0 0 / 0.4);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .work-card:hover .work-card__image-overlay {
+    opacity: 1;
+  }
+
+  .work-card__overlay-icon {
+    color: #fff;
+    filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.4));
+  }
+
+  .work-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    flex: 1;
+  }
+
+  .work-card__title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .work-card__status {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .work-card__status--in-production {
+    background-color: var(--color-success-surface);
+    color: var(--color-success);
+  }
+
+  .work-card__status--in-development {
+    background-color: var(--color-primary-surface);
+    color: var(--color-primary-dark);
+  }
+
+  .work-card__title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    line-height: var(--leading-snug);
+  }
+
+  .work-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .work-card__tech {
+    margin-top: auto;
+  }
+
+  .work-card__tech .tag {
+    border-radius: var(--radius-md);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  /* ── Contact form ─────────────────────────────────────── */
+  .contact-form {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
     max-width: 36rem;
+  }
+
+  .contact-form .btn {
+    align-self: flex-end;
   }
 
   .field {
@@ -421,6 +1049,11 @@ const formAction = `https://formspree.io/f/${formspreeId}`;
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text);
+  }
+
+  .field__hint {
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-muted);
   }
 
   .field__input {
@@ -451,67 +1084,50 @@ const formAction = `https://formspree.io/f/${formspreeId}`;
 
   .field__textarea {
     resize: vertical;
-    min-height: 8rem;
+    min-height: 9rem;
   }
 
-  /* ── Cards ───────────────────────────────────────────── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-    gap: var(--space-6);
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 56rem) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__visual {
+      display: none;
+    }
   }
 
-  .card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-neutral-200);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    box-shadow: var(--shadow-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    transition: box-shadow var(--transition-base), transform var(--transition-base);
-  }
+  @media (max-width: 40rem) {
+    .hero__heading {
+      font-size: var(--text-4xl);
+    }
 
-  .card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
-  }
+    .section-header h2 {
+      font-size: var(--text-3xl);
+    }
 
-  .card__badge {
-    display: inline-flex;
-    align-self: flex-start;
-    padding: var(--space-1) var(--space-3);
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-accent-dark);
-    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
-    border-radius: var(--radius-full);
-  }
+    .step {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+      text-align: center;
+    }
 
-  .card__title {
-    font-size: var(--text-xl);
-  }
+    .step__number {
+      padding-top: 0;
+      margin-inline: auto;
+    }
 
-  .card__body {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    line-height: var(--leading-relaxed);
-    flex: 1;
-  }
+    .service-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-4);
+    }
 
-  .card__link {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
-    text-decoration: none;
-    align-self: flex-start;
-  }
-
-  .card__link:hover {
-    color: var(--color-primary-dark);
+    .service-card__icon {
+      margin-top: 0;
+    }
   }
 </style>
-

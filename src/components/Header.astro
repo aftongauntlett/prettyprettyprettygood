@@ -7,15 +7,117 @@
     <a href="/" class="site-header__logo" aria-label="prettyprettyprettygood — home">
       pretty<wbr />pretty<wbr />pretty<wbr />good
     </a>
-    <nav aria-label="Primary navigation">
-      <ul class="site-header__nav" role="list">
-        <li><a href="/#work">Work</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#contact">Contact</a></li>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <ul class="site-nav__list" role="list">
+        <li>
+          <a href="/#who" class="site-nav__link" data-section="who">About</a>
+        </li>
+        <li>
+          <a href="/#services" class="site-nav__link" data-section="services">Services</a>
+        </li>
+        <li>
+          <a href="/#work" class="site-nav__link" data-section="work">Work</a>
+        </li>
+        <li>
+          <a href="/#contact" class="site-nav__link" data-section="contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <button
+      class="site-header__menu-btn"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <span class="site-header__bar" aria-hidden="true"></span>
+      <span class="site-header__bar" aria-hidden="true"></span>
+      <span class="site-header__bar" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="site-header__mobile" id="mobile-nav" hidden>
+    <nav aria-label="Mobile navigation">
+      <ul class="site-nav__list site-nav__list--mobile" role="list">
+        <li>
+          <a href="/#who" class="site-nav__link" data-section="who">About</a>
+        </li>
+        <li>
+          <a href="/#services" class="site-nav__link" data-section="services">Services</a>
+        </li>
+        <li>
+          <a href="/#work" class="site-nav__link" data-section="work">Work</a>
+        </li>
+        <li>
+          <a href="/#contact" class="site-nav__link" data-section="contact">Contact</a>
+        </li>
       </ul>
     </nav>
   </div>
 </header>
+
+<script>
+  // ── Active section highlighting via IntersectionObserver ──
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.site-nav__link[data-section]');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+
+  if (sections.length && navLinks.length) {
+    // Pre-activate from URL hash on load
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      for (const link of navLinks) {
+        link.classList.toggle('is-active', link.dataset.section === hash);
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            for (const link of navLinks) {
+              link.classList.toggle('is-active', link.dataset.section === id);
+            }
+          }
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px' },
+    );
+
+    for (const section of sections) {
+      observer.observe(section);
+    }
+  }
+
+  // ── Mobile menu toggle ──
+  const menuBtn = document.querySelector<HTMLButtonElement>('.site-header__menu-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  if (menuBtn && mobileNav) {
+    menuBtn.addEventListener('click', () => {
+      const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+      const next = !isOpen;
+      menuBtn.setAttribute('aria-expanded', String(next));
+      menuBtn.setAttribute('aria-label', next ? 'Close navigation menu' : 'Open navigation menu');
+      if (next) {
+        mobileNav.removeAttribute('hidden');
+      } else {
+        mobileNav.setAttribute('hidden', '');
+      }
+    });
+
+    // Close menu when a link is tapped
+    for (const link of mobileNav.querySelectorAll('a')) {
+      link.addEventListener('click', () => {
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Open navigation menu');
+        mobileNav.setAttribute('hidden', '');
+      });
+    }
+  }
+</script>
 
 <style>
   .site-header {
@@ -35,6 +137,7 @@
     padding-block: var(--space-4);
   }
 
+  /* ── Logo ── */
   .site-header__logo {
     font-family: var(--font-display);
     font-size: var(--text-lg);
@@ -48,13 +151,26 @@
     color: var(--color-primary-dark);
   }
 
-  .site-header__nav {
+  /* ── Desktop nav ── */
+  .site-nav {
+    display: none;
+  }
+
+  @media (min-width: 48rem) {
+    .site-nav {
+      display: block;
+    }
+  }
+
+  .site-nav__list {
     display: flex;
     align-items: center;
     gap: var(--space-6);
   }
 
-  .site-header__nav a {
+  .site-nav__link {
+    position: relative;
+    padding-block-end: var(--space-1);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text-muted);
@@ -62,8 +178,106 @@
     transition: color var(--transition-fast);
   }
 
-  .site-header__nav a:hover {
+  .site-nav__link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -2px;
+    height: 2px;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-full);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--transition-fast);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link.is-active {
     color: var(--color-primary);
+  }
+
+  .site-nav__link:hover::after,
+  .site-nav__link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Hamburger button ── */
+  .site-header__menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: var(--space-2);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  @media (min-width: 48rem) {
+    .site-header__menu-btn {
+      display: none;
+    }
+  }
+
+  .site-header__bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentcolor;
+    border-radius: var(--radius-full);
+    transition:
+      transform var(--transition-fast),
+      opacity var(--transition-fast);
+    transform-origin: center;
+  }
+
+  .site-header__menu-btn[aria-expanded='true'] .site-header__bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .site-header__menu-btn[aria-expanded='true'] .site-header__bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .site-header__menu-btn[aria-expanded='true'] .site-header__bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Mobile nav panel ── */
+  .site-header__mobile {
+    border-top: 1px solid var(--color-neutral-200);
+    background-color: var(--color-surface);
+    padding-block: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .site-header__mobile {
+      display: none;
+    }
+  }
+
+  .site-nav__list--mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-inline: var(--space-6);
+  }
+
+  .site-nav__list--mobile .site-nav__link {
+    display: block;
+    width: 100%;
+    padding-block: var(--space-3);
+    font-size: var(--text-base);
+    border-bottom: 1px solid var(--color-neutral-100);
+  }
+
+  .site-nav__list--mobile li:last-child .site-nav__link {
+    border-bottom: none;
   }
 </style>
 

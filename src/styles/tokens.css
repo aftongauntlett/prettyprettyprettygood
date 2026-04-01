@@ -11,13 +11,13 @@
      -------------------------------------------------------------------------- */
 
   /* Brand */
-  --color-primary: #8b5e3c; /* warm terracotta brown */
-  --color-primary-light: #b07d56;
-  --color-primary-dark: #6b4328;
+  --color-primary: #b8622e; /* burnt orange */
+  --color-primary-light: #d08050;
+  --color-primary-dark: #9a5024;
 
-  --color-accent: #c8973c; /* golden amber */
-  --color-accent-light: #e0b86a;
-  --color-accent-dark: #a07820;
+  --color-accent: #7b9e7a; /* sage green */
+  --color-accent-light: #9ebf9d;
+  --color-accent-dark: #5a7d59;
 
   /* Neutral scale (warm-tinted grays) */
   --color-neutral-50: #fdfaf6;
@@ -33,6 +33,7 @@
 
   /* Semantic surface + text */
   --color-surface: #fffdf8; /* warm off-white */
+  --color-surface-subtle: #faf6f0; /* between surface and raised — for cards on page bg */
   --color-surface-raised: #f5efe7;
   --color-surface-overlay: #ede4d6;
 
@@ -44,22 +45,25 @@
   --color-error: #b53a2f;
   --color-error-surface: #fdecea;
   --color-success: #3a7d5a;
-  --color-success-surface: #e8f5ee;
+  --color-success-surface: #b8e8ce;
+  --color-primary-surface: #f8ceaa;
+  --color-accent-surface: #edf5ec;
 
   /* --------------------------------------------------------------------------
      Color Palette — Dark Mode
      -------------------------------------------------------------------------- */
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-primary: #c4896a;
-      --color-primary-light: #dba888;
-      --color-primary-dark: #9c6248;
+      --color-primary: #d4835a;
+      --color-primary-light: #e8a07a;
+      --color-primary-dark: #b06840;
 
-      --color-accent: #d4a84e;
-      --color-accent-light: #eac67a;
-      --color-accent-dark: #b08530;
+      --color-accent: #8fb38e;
+      --color-accent-light: #aecead;
+      --color-accent-dark: #6b8f6a;
 
       --color-surface: #18120b;
+      --color-surface-subtle: #1e160e; /* between surface and raised — for cards on page bg */
       --color-surface-raised: #231a11;
       --color-surface-overlay: #2e221a;
 
@@ -70,7 +74,9 @@
       --color-error: #e57373;
       --color-error-surface: #2e1515;
       --color-success: #6dbf8e;
-      --color-success-surface: #0f2317;
+      --color-success-surface: #0a3320;
+      --color-primary-surface: #3a1c06;
+      --color-accent-surface: #0d1f0d;
     }
   }
 
@@ -190,7 +196,9 @@
   --color-error: #e57373;
   --color-error-surface: #2e1515;
   --color-success: #6dbf8e;
-  --color-success-surface: #0f2317;
+  --color-success-surface: #0a3320;
+  --color-primary-surface: #3a1c06;
+  --color-accent-surface: #0d1f0d;
 }
 
 [data-theme="light"] {
@@ -213,5 +221,7 @@
   --color-error: #b53a2f;
   --color-error-surface: #fdecea;
   --color-success: #3a7d5a;
-  --color-success-surface: #e8f5ee;
+  --color-success-surface: #b8e8ce;
+  --color-primary-surface: #f8ceaa;
+  --color-accent-surface: #edf5ec;
 }

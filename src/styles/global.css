@@ -219,6 +219,64 @@ textarea:disabled {
 }
 
 /* --------------------------------------------------------------------------
+   Reveal / Scroll Animations
+   Guarded by .js class (set synchronously in <head>) for progressive
+   enhancement — elements are always visible without JS.
+   -------------------------------------------------------------------------- */
+
+/* Initial hidden state — only when JS has initialized */
+.js [data-reveal],
+.js [data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(var(--space-4));
+  transition:
+    opacity var(--duration-appear) var(--easing-appear),
+    transform var(--duration-appear) var(--easing-appear);
+}
+
+/* Visible state */
+.js [data-reveal].is-visible,
+.js [data-reveal-stagger].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for grid/list children */
+.js [data-reveal-stagger].is-visible > *:nth-child(2) {
+  transition-delay: calc(var(--reveal-stagger) * 1);
+}
+.js [data-reveal-stagger].is-visible > *:nth-child(3) {
+  transition-delay: calc(var(--reveal-stagger) * 2);
+}
+.js [data-reveal-stagger].is-visible > *:nth-child(4) {
+  transition-delay: calc(var(--reveal-stagger) * 3);
+}
+.js [data-reveal-stagger].is-visible > *:nth-child(5) {
+  transition-delay: calc(var(--reveal-stagger) * 4);
+}
+.js [data-reveal-stagger].is-visible > *:nth-child(6) {
+  transition-delay: calc(var(--reveal-stagger) * 5);
+}
+
+/* System reduced-motion preference — show elements without animation */
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal-stagger] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* User-toggled reduced-motion preference */
+.js[data-motion="reduced"] [data-reveal],
+.js[data-motion="reduced"] [data-reveal-stagger] > * {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* --------------------------------------------------------------------------
    Layout Utilities
    -------------------------------------------------------------------------- */
 .container {

@@ -38,6 +38,26 @@ export interface FaqItem {
   links?: FaqLink[];
 }
 
+export interface NavItem {
+  label: string;
+  href: string;
+  section: string;
+  footerLabel?: string;
+}
+
+export const primaryNavItems: NavItem[] = [
+  { label: "About", href: "/#who", section: "who" },
+  { label: "Services", href: "/#services", section: "services" },
+  { label: "Work", href: "/#work", section: "work" },
+  { label: "FAQ", href: "/#faq", section: "faq" },
+  {
+    label: "Contact",
+    href: "/#contact",
+    section: "contact",
+    footerLabel: "Start a project",
+  },
+];
+
 export const whoIWorkWith: WhoIWorkWithGroup[] = [
   {
     label: "Community & Cause",

@@ -1,5 +1,6 @@
 ---
 // Header.astro
+import { primaryNavItems } from '../content/home-data';
 ---
 
 <header class="site-header">
@@ -10,21 +11,11 @@
 
     <nav class="site-nav" aria-label="Primary navigation">
       <ul class="site-nav__list" role="list">
-        <li>
-          <a href="/#who" class="site-nav__link" data-section="who">About</a>
-        </li>
-        <li>
-          <a href="/#services" class="site-nav__link" data-section="services">Services</a>
-        </li>
-        <li>
-          <a href="/#work" class="site-nav__link" data-section="work">Work</a>
-        </li>
-        <li>
-          <a href="/#contact" class="site-nav__link" data-section="contact">Contact</a>
-        </li>
-        <li>
-          <a href="/#faq" class="site-nav__link" data-section="faq">FAQ</a>
-        </li>
+        {primaryNavItems.map((item) => (
+          <li>
+            <a href={item.href} class="site-nav__link" data-section={item.section}>{item.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
 
@@ -44,21 +35,11 @@
   <div class="site-header__mobile" id="mobile-nav" hidden>
     <nav aria-label="Mobile navigation">
       <ul class="site-nav__list site-nav__list--mobile" role="list">
-        <li>
-          <a href="/#who" class="site-nav__link" data-section="who">About</a>
-        </li>
-        <li>
-          <a href="/#services" class="site-nav__link" data-section="services">Services</a>
-        </li>
-        <li>
-          <a href="/#work" class="site-nav__link" data-section="work">Work</a>
-        </li>
-        <li>
-          <a href="/#faq" class="site-nav__link" data-section="faq">FAQ</a>
-        </li>
-        <li>
-          <a href="/#contact" class="site-nav__link" data-section="contact">Contact</a>
-        </li>
+        {primaryNavItems.map((item) => (
+          <li>
+            <a href={item.href} class="site-nav__link" data-section={item.section}>{item.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
   </div>
@@ -102,24 +83,47 @@
   const mobileNav = document.getElementById('mobile-nav');
 
   if (menuBtn && mobileNav) {
-    menuBtn.addEventListener('click', () => {
-      const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
-      const next = !isOpen;
-      menuBtn.setAttribute('aria-expanded', String(next));
-      menuBtn.setAttribute('aria-label', next ? 'Close navigation menu' : 'Open navigation menu');
-      if (next) {
+    const getFirstActionable = () =>
+      mobileNav.querySelector<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+
+    const setMenuState = (
+      isOpen: boolean,
+      options: { focusFirstAction?: boolean; restoreTriggerFocus?: boolean } = {},
+    ) => {
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      if (isOpen) {
         mobileNav.removeAttribute('hidden');
+        if (options.focusFirstAction) {
+          getFirstActionable()?.focus();
+        }
       } else {
         mobileNav.setAttribute('hidden', '');
+        if (options.restoreTriggerFocus) {
+          menuBtn.focus();
+        }
+      }
+    };
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+      setMenuState(!isOpen, { focusFirstAction: !isOpen });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+      if (event.key === 'Escape' && isOpen) {
+        event.preventDefault();
+        setMenuState(false, { restoreTriggerFocus: true });
       }
     });
 
     // Close menu when a link is tapped
     for (const link of mobileNav.querySelectorAll('a')) {
       link.addEventListener('click', () => {
-        menuBtn.setAttribute('aria-expanded', 'false');
-        menuBtn.setAttribute('aria-label', 'Open navigation menu');
-        mobileNav.setAttribute('hidden', '');
+        setMenuState(false);
       });
     }
   }

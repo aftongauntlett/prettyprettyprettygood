@@ -1,5 +1,7 @@
 ---
 // Footer.astro
+import { primaryNavItems } from '../content/home-data';
+
 const year = new Date().getFullYear();
 const kofiUrl =
   import.meta.env.PUBLIC_KOFI_URL?.trim() ||
@@ -23,11 +25,9 @@ const paypalUrl = 'https://paypal.me/aftons';
         </p>
         <nav class="site-footer__nav" aria-label="Footer navigation">
           <ul role="list">
-            <li><a href="/#who">About</a></li>
-            <li><a href="/#services">Services</a></li>
-            <li><a href="/#work">Work</a></li>
-            <li><a href="/#faq">FAQ</a></li>
-            <li><a href="/#contact">Start a project</a></li>
+            {primaryNavItems.map((item) => (
+              <li><a href={item.href}>{item.footerLabel ?? item.label}</a></li>
+            ))}
           </ul>
         </nav>
       </div>
@@ -42,7 +42,7 @@ const paypalUrl = 'https://paypal.me/aftons';
         <div class="site-footer__donate-group">
           <a
             href={kofiUrl}
-            class="site-footer__donate-btn"
+            class="btn btn--support"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -50,7 +50,7 @@ const paypalUrl = 'https://paypal.me/aftons';
           </a>
           <a
             href={paypalUrl}
-            class="site-footer__donate-btn"
+            class="btn btn--support"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -206,35 +206,6 @@ const paypalUrl = 'https://paypal.me/aftons';
   .site-footer__donate-group {
     display: flex;
     gap: var(--space-3);
-  }
-
-  .site-footer__donate-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-2) var(--space-4);
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    border: 1.5px solid var(--color-neutral-300);
-    color: var(--color-text-muted);
-    background-color: transparent;
-    transition:
-      background-color var(--transition-base),
-      border-color var(--transition-base),
-      color var(--transition-base);
-  }
-
-  .site-footer__donate-btn:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary-dark);
-    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
-  }
-
-  .site-footer__donate-btn:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
   }
 
   /* ── Bottom bar: copyright + credit ── */

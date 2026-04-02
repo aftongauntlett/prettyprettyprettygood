@@ -1,9 +1,3 @@
----
-interface Props {}
-
-const {} = Astro.props;
----
-
 <section class="hero">
   <div class="container hero__inner">
     <div class="hero__content">
@@ -102,12 +96,15 @@ const {} = Astro.props;
 </style>
 
 <script>
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rand = (a: number, b: number) => a + Math.random() * (b - a);
   const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
 
-  if (canvas && !prefersReduced) {
-    const ctx = canvas.getContext('2d')!;
+  if (canvas) {
+    const visual = canvas.closest('.hero__visual') as HTMLElement | null;
+    const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ctx = canvas.getContext('2d');
+
+    if (visual && ctx) {
 
     const cssVars = getComputedStyle(document.documentElement);
     const colors = [
@@ -127,6 +124,9 @@ const {} = Astro.props;
     let prevMy = -9999;
     let cvx = 0;
     let cvy = 0;
+    let rafId: number | null = null;
+    let isInitialized = false;
+    let isRunning = false;
 
     const PARTICLE_COUNT = 78;
     const REPEL_RADIUS = 100;
@@ -213,13 +213,30 @@ const {} = Astro.props;
       return Array.from({ length: PARTICLE_COUNT }, () => [rand(pad, CW - pad), rand(pad, CH - pad)]);
     }
 
+    function isMotionReduced(): boolean {
+      return (
+        motionMediaQuery.matches ||
+        document.documentElement.dataset.motion === 'reduced'
+      );
+    }
+
+    function isVisualRendered(): boolean {
+      const style = window.getComputedStyle(visual!);
+      if (style.display === 'none' || style.visibility === 'hidden') {
+        return false;
+      }
+
+      const rect = visual!.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    }
+
     function resize() {
       const rect = canvas!.getBoundingClientRect();
       CW = rect.width;
       CH = rect.height;
       canvas!.width = CW * devicePixelRatio;
       canvas!.height = CH * devicePixelRatio;
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      ctx!.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
     }
 
     function update() {
@@ -284,44 +301,48 @@ const {} = Astro.props;
     }
 
     function draw() {
-      ctx.clearRect(0, 0, CW, CH);
+      ctx!.clearRect(0, 0, CW, CH);
 
       // Background orbital rings — drawn first so they sit behind everything
       const now = performance.now() * 0.001;
       for (const o of orbitalRings) {
         const x = o.cx * CW + Math.sin(now * o.driftFreqX + o.phase) * o.driftAmp;
         const y = o.cy * CH + Math.cos(now * o.driftFreqY + o.phase * 1.4) * o.driftAmp;
-        ctx.globalAlpha = o.alpha;
-        ctx.beginPath();
-        ctx.arc(x, y, o.r, 0, Math.PI * 2);
-        ctx.strokeStyle = o.color;
-        ctx.lineWidth = o.lw;
-        ctx.stroke();
+        ctx!.globalAlpha = o.alpha;
+        ctx!.beginPath();
+        ctx!.arc(x, y, o.r, 0, Math.PI * 2);
+        ctx!.strokeStyle = o.color;
+        ctx!.lineWidth = o.lw;
+        ctx!.stroke();
       }
 
       for (const p of particles) {
-        ctx.globalAlpha = p.alpha;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx!.globalAlpha = p.alpha;
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         if (p.shape === 'ring') {
-          ctx.strokeStyle = p.color;
-          ctx.lineWidth = p.lw;
-          ctx.stroke();
+          ctx!.strokeStyle = p.color;
+          ctx!.lineWidth = p.lw;
+          ctx!.stroke();
         } else {
-          ctx.fillStyle = p.color;
-          ctx.fill();
+          ctx!.fillStyle = p.color;
+          ctx!.fill();
         }
       }
-      ctx.globalAlpha = 1;
+      ctx!.globalAlpha = 1;
     }
 
     function loop() {
+      if (!isRunning) {
+        return;
+      }
+
       update();
       draw();
-      requestAnimationFrame(loop);
+      rafId = requestAnimationFrame(loop);
     }
 
-    function init() {
+    function initScene() {
       resize();
       particles.length = 0;
       orbitalRings.length = 0;
@@ -333,7 +354,43 @@ const {} = Astro.props;
       for (let i = 0; i < ORBITAL_COUNT; i += 1) {
         orbitalRings.push(makeOrbitalRing());
       }
+
+      isInitialized = true;
+    }
+
+    function startLoop() {
+      if (isRunning) {
+        return;
+      }
+
+      if (!isInitialized) {
+        initScene();
+      } else {
+        resize();
+      }
+
+      isRunning = true;
       loop();
+    }
+
+    function stopLoop() {
+      isRunning = false;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      if (CW > 0 && CH > 0) {
+        ctx!.clearRect(0, 0, CW, CH);
+      }
+    }
+
+    function syncAnimationState() {
+      if (isMotionReduced() || !isVisualRendered()) {
+        stopLoop();
+        return;
+      }
+
+      startLoop();
     }
 
     canvas.addEventListener('mousemove', (e) => {
@@ -352,6 +409,15 @@ const {} = Astro.props;
     });
 
     const ro = new ResizeObserver(() => {
+      if (!isVisualRendered()) {
+        stopLoop();
+        return;
+      }
+
+      if (!isInitialized) {
+        return;
+      }
+
       resize();
       const homes = randomHomes();
       particles.forEach((p, i) => {
@@ -361,8 +427,34 @@ const {} = Astro.props;
         p.y = Math.min(Math.max(p.y, p.r), CH - p.r);
       });
     });
-    ro.observe(canvas);
+    ro.observe(visual!);
 
-    init();
+    const motionAttrObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-motion') {
+          syncAnimationState();
+          break;
+        }
+      }
+    });
+
+    motionMediaQuery.addEventListener('change', syncAnimationState);
+    window.addEventListener('resize', syncAnimationState);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        stopLoop();
+        return;
+      }
+
+      syncAnimationState();
+    });
+
+    motionAttrObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-motion'],
+    });
+
+      syncAnimationState();
+    }
   }
 </script>

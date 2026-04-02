@@ -33,7 +33,7 @@ const { faqs }: Props = Astro.props;
                   {faq.links && (
                     <div class="faq-donate">
                       {faq.links.map((link) => (
-                        <a href={link.href} class="faq-donate__link" target="_blank" rel="noopener noreferrer">
+                        <a href={link.href} class="btn btn--support" target="_blank" rel="noopener noreferrer">
                           {link.label}
                         </a>
                       ))}

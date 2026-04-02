@@ -1,0 +1,127 @@
+---
+import { Send } from '@lucide/astro';
+
+interface Props {
+  status?: 'sent' | 'error' | null;
+}
+
+const { status = null }: Props = Astro.props;
+---
+
+<section class="section" id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="eyebrow">start a project</p>
+      <h2 id="contact-heading">Tell me what you're building.</h2>
+      <p class="section-lead">
+        Don't overthink it. A few sentences about who you are and what you need
+        is plenty. I'll follow up if it's a good fit.
+      </p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-form-card" data-reveal>
+        <form class="contact-form" action="/api/contact" method="POST">
+          {
+            status === 'sent' && (
+              <p class="contact-notice contact-notice--success" role="status" aria-live="polite">
+                Message sent. I will get back to you soon.
+              </p>
+            )
+          }
+          {
+            status === 'error' && (
+              <p class="contact-notice contact-notice--error" role="alert" aria-live="assertive">
+                Something went wrong while sending your message. Please try again.
+              </p>
+            )
+          }
+
+          <div class="field">
+            <label class="field__label" for="name">Your name</label>
+            <input class="field__input" type="text" id="name" name="name" placeholder="What should I call you?" autocomplete="name" required />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="email">Email address</label>
+            <input class="field__input" type="email" id="email" name="email" placeholder="Where should I write back?" autocomplete="email" required />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="org">
+              Organization or project
+              <span class="field__hint">(optional)</span>
+            </label>
+            <input class="field__input" type="text" id="org" name="org" placeholder="Your org, band, co-op, studio..." />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="message">Tell me about your work</label>
+            <textarea
+              class="field__input field__textarea"
+              id="message"
+              name="message"
+              rows="5"
+              placeholder="What do you do, who do you serve, and what does your site need? There's no wrong answer."
+              required
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="existing-site">
+              Existing website
+              <span class="field__hint">(if you have one)</span>
+            </label>
+            <input class="field__input" type="url" id="existing-site" name="existing-site" placeholder="https://" autocomplete="url" />
+          </div>
+
+          <button type="submit" class="btn btn--primary">
+            <span>Send</span>
+            <Send class="btn__icon" aria-hidden="true" size={18} strokeWidth={2} />
+          </button>
+        </form>
+      </div>
+
+      <div class="contact-steps">
+        <p class="eyebrow" data-reveal>how it works</p>
+        <ol class="steps" role="list" data-reveal-stagger>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">01</span>
+            <div class="step__content">
+              <h4 class="step__title">Tell me about your work</h4>
+              <p class="step__body">Fill out the form. Tell me what you do, who you serve, and what you need. No RFP required.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">02</span>
+            <div class="step__content">
+              <h4 class="step__title">We figure out the vision together</h4>
+              <p class="step__body">We talk. What does your web presence want to be? What story does it need to tell? I help you find that before a single line of code.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">03</span>
+            <div class="step__content">
+              <h4 class="step__title">I build it</h4>
+              <p class="step__body">Fully custom. Accessible. Fast. Made to last. You get final say on everything.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">04</span>
+            <div class="step__content">
+              <h4 class="step__title">You own it - for free</h4>
+              <p class="step__body">No invoices. No recurring fees. No asking permission to update your own homepage. Just a website that belongs to you.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <aside class="caveat" data-reveal>
+      <p>
+        I take projects based on availability and whether the work excites me.
+        I can't take everything - but I read every message.
+      </p>
+    </aside>
+  </div>
+</section>

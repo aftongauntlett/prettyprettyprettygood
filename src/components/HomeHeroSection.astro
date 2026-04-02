@@ -1,0 +1,368 @@
+---
+interface Props {}
+
+const {} = Astro.props;
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow">free web design - by afton</p>
+      <h1 class="hero__heading">
+        <span class="hero__heading-line">Your work is <span class="hero__heading-accent">good.</span></span>
+        <span class="hero__heading-line">Your website</span>
+        <span class="hero__heading-line">should be too.</span>
+      </h1>
+      <p class="hero__body">
+        I build free, custom websites for nonprofits, community orgs, artists,
+        and mission-driven people. No templates, no monthly fees, no WordPress -
+        just a thoughtful site you own outright.
+      </p>
+      <div class="hero__actions">
+        <a href="#work" class="btn btn--secondary">See the work</a>
+        <a href="#contact" class="btn btn--primary">Start a project</a>
+      </div>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+      <canvas id="hero-canvas" class="hero__canvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes hero-reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(var(--space-4));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-accent-land {
+    from {
+      opacity: 0;
+      transform: translateY(var(--space-4)) scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .hero__heading-line {
+    display: block;
+  }
+
+  .hero__heading-accent {
+    color: var(--color-primary);
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .eyebrow {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 0ms both;
+    }
+
+    .hero__heading-line:nth-child(1) {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 100ms both;
+    }
+
+    .hero__heading-line:nth-child(1) .hero__heading-accent {
+      animation: hero-accent-land var(--duration-appear) var(--easing-appear) 100ms both;
+    }
+
+    .hero__heading-line:nth-child(2) {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 220ms both;
+    }
+
+    .hero__heading-line:nth-child(3) {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 340ms both;
+    }
+
+    .hero__body {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 420ms both;
+    }
+
+    .hero__actions {
+      animation: hero-reveal-up var(--duration-appear) var(--easing-appear) 500ms both;
+    }
+  }
+
+  /* Respect in-app reduced-motion toggle */
+  :global([data-motion="reduced"]) .eyebrow,
+  :global([data-motion="reduced"]) .hero__heading-line,
+  :global([data-motion="reduced"]) .hero__heading-accent,
+  :global([data-motion="reduced"]) .hero__body,
+  :global([data-motion="reduced"]) .hero__actions {
+    animation: none;
+  }
+</style>
+
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rand = (a: number, b: number) => a + Math.random() * (b - a);
+  const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
+
+  if (canvas && !prefersReduced) {
+    const ctx = canvas.getContext('2d')!;
+
+    const cssVars = getComputedStyle(document.documentElement);
+    const colors = [
+      cssVars.getPropertyValue('--color-primary').trim() || '#8b5e3c',
+      cssVars.getPropertyValue('--color-primary-light').trim() || '#b07d56',
+      cssVars.getPropertyValue('--color-accent').trim() || '#c8973c',
+      cssVars.getPropertyValue('--color-accent-light').trim() || '#e0b86a',
+      cssVars.getPropertyValue('--color-neutral-300').trim() || '#d4c5b0',
+      cssVars.getPropertyValue('--color-neutral-400').trim() || '#b8a48c',
+    ];
+
+    let CW = 0;
+    let CH = 0;
+    let mx = -9999;
+    let my = -9999;
+    let prevMx = -9999;
+    let prevMy = -9999;
+    let cvx = 0;
+    let cvy = 0;
+
+    const PARTICLE_COUNT = 78;
+    const REPEL_RADIUS = 100;
+    const REPEL_FORCE = 0.42;
+    const DRAG_FORCE = 0.18;
+    const SPRING_K = 0.01;
+    const FRICTION = 0.84;
+    const MAX_SPEED = 5.0;
+    const VEL_SMOOTH = 0.35;
+
+    type Shape = 'circle' | 'ring';
+
+    interface Particle {
+      x: number;
+      y: number;
+      hx: number;
+      hy: number;
+      vx: number;
+      vy: number;
+      r: number;
+      lw: number;
+      color: string;
+      alpha: number;
+      shape: Shape;
+      phase: number;
+      breatheAmp: number;
+    }
+
+    const particles: Particle[] = [];
+
+    const ORBITAL_COUNT = 8;
+
+    interface OrbitalRing {
+      cx: number; // normalized 0–1 so resize is free
+      cy: number;
+      r: number;
+      lw: number;
+      color: string;
+      alpha: number;
+      phase: number;
+      driftAmp: number;
+      driftFreqX: number;
+      driftFreqY: number;
+    }
+
+    const orbitalRings: OrbitalRing[] = [];
+
+    function makeOrbitalRing(): OrbitalRing {
+      return {
+        cx: rand(0.1, 0.9),
+        cy: rand(0.1, 0.9),
+        r: rand(28, 72),
+        lw: rand(0.7, 1.6),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: rand(0.05, 0.11),
+        phase: Math.random() * Math.PI * 2,
+        driftAmp: rand(16, 38),
+        driftFreqX: rand(0.05, 0.13),
+        driftFreqY: rand(0.04, 0.11),
+      };
+    }
+
+    function makeParticle(hx: number, hy: number): Particle {
+      const isRing = Math.random() < 0.28;
+      return {
+        x: hx,
+        y: hy,
+        hx,
+        hy,
+        vx: rand(-0.3, 0.3),
+        vy: rand(-0.25, 0.25),
+        r: isRing ? rand(5, 13) : rand(2.5, 9),
+        lw: rand(1, 2.5),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: isRing ? rand(0.18, 0.45) : rand(0.14, 0.55),
+        shape: isRing ? 'ring' : 'circle',
+        phase: Math.random() * Math.PI * 2,
+        breatheAmp: rand(4, 12),
+      };
+    }
+
+    function randomHomes(): [number, number][] {
+      const pad = 8;
+      return Array.from({ length: PARTICLE_COUNT }, () => [rand(pad, CW - pad), rand(pad, CH - pad)]);
+    }
+
+    function resize() {
+      const rect = canvas!.getBoundingClientRect();
+      CW = rect.width;
+      CH = rect.height;
+      canvas!.width = CW * devicePixelRatio;
+      canvas!.height = CH * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function update() {
+      const now = performance.now() * 0.001;
+      if (mx > -9990 && prevMx > -9990) {
+        cvx = cvx * (1 - VEL_SMOOTH) + (mx - prevMx) * VEL_SMOOTH;
+        cvy = cvy * (1 - VEL_SMOOTH) + (my - prevMy) * VEL_SMOOTH;
+      } else {
+        cvx *= 0.85;
+        cvy *= 0.85;
+      }
+      prevMx = mx;
+      prevMy = my;
+
+      for (const p of particles) {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < REPEL_RADIUS && dist > 0) {
+          const influence = 1 - dist / REPEL_RADIUS;
+          p.vx += (dx / dist) * influence * REPEL_FORCE;
+          p.vy += (dy / dist) * influence * REPEL_FORCE;
+          p.vx += cvx * influence * DRAG_FORCE;
+          p.vy += cvy * influence * DRAG_FORCE;
+        }
+
+        const bx = p.hx + Math.sin(now * 0.4 + p.phase) * p.breatheAmp;
+        const by = p.hy + Math.cos(now * 0.31 + p.phase * 1.3) * p.breatheAmp;
+        p.vx += (bx - p.x) * SPRING_K;
+        p.vy += (by - p.y) * SPRING_K;
+
+        p.vx *= FRICTION;
+        p.vy *= FRICTION;
+        const spd = Math.hypot(p.vx, p.vy);
+        if (spd > MAX_SPEED) {
+          p.vx = (p.vx / spd) * MAX_SPEED;
+          p.vy = (p.vy / spd) * MAX_SPEED;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        const m = p.r;
+        if (p.x < m) {
+          p.x = m;
+          p.vx = Math.abs(p.vx) * 0.4;
+        }
+        if (p.x > CW - m) {
+          p.x = CW - m;
+          p.vx = -Math.abs(p.vx) * 0.4;
+        }
+        if (p.y < m) {
+          p.y = m;
+          p.vy = Math.abs(p.vy) * 0.4;
+        }
+        if (p.y > CH - m) {
+          p.y = CH - m;
+          p.vy = -Math.abs(p.vy) * 0.4;
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, CW, CH);
+
+      // Background orbital rings — drawn first so they sit behind everything
+      const now = performance.now() * 0.001;
+      for (const o of orbitalRings) {
+        const x = o.cx * CW + Math.sin(now * o.driftFreqX + o.phase) * o.driftAmp;
+        const y = o.cy * CH + Math.cos(now * o.driftFreqY + o.phase * 1.4) * o.driftAmp;
+        ctx.globalAlpha = o.alpha;
+        ctx.beginPath();
+        ctx.arc(x, y, o.r, 0, Math.PI * 2);
+        ctx.strokeStyle = o.color;
+        ctx.lineWidth = o.lw;
+        ctx.stroke();
+      }
+
+      for (const p of particles) {
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        if (p.shape === 'ring') {
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = p.lw;
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    function init() {
+      resize();
+      particles.length = 0;
+      orbitalRings.length = 0;
+      const homes = randomHomes();
+      for (let i = 0; i < PARTICLE_COUNT; i += 1) {
+        const [hx, hy] = homes[i];
+        particles.push(makeParticle(hx, hy));
+      }
+      for (let i = 0; i < ORBITAL_COUNT; i += 1) {
+        orbitalRings.push(makeOrbitalRing());
+      }
+      loop();
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas!.getBoundingClientRect();
+      mx = e.clientX - rect.left;
+      my = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      mx = -9999;
+      my = -9999;
+      cvx = 0;
+      cvy = 0;
+      prevMx = -9999;
+      prevMy = -9999;
+    });
+
+    const ro = new ResizeObserver(() => {
+      resize();
+      const homes = randomHomes();
+      particles.forEach((p, i) => {
+        p.hx = homes[i][0];
+        p.hy = homes[i][1];
+        p.x = Math.min(Math.max(p.x, p.r), CW - p.r);
+        p.y = Math.min(Math.max(p.y, p.r), CH - p.r);
+      });
+    });
+    ro.observe(canvas);
+
+    init();
+  }
+</script>

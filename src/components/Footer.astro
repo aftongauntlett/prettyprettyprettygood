@@ -1,7 +1,10 @@
 ---
 // Footer.astro
 const year = new Date().getFullYear();
-const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
+const kofiUrl =
+  import.meta.env.PUBLIC_KOFI_URL?.trim() ||
+  'https://ko-fi.com/prettyprettyprettygood';
+const paypalUrl = 'https://paypal.me/aftons';
 ---
 
 <footer class="site-footer">
@@ -23,6 +26,7 @@ const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
             <li><a href="/#who">About</a></li>
             <li><a href="/#services">Services</a></li>
             <li><a href="/#work">Work</a></li>
+            <li><a href="/#faq">FAQ</a></li>
             <li><a href="/#contact">Start a project</a></li>
           </ul>
         </nav>
@@ -33,18 +37,26 @@ const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
         <h2 class="site-footer__nav-heading">Support this work</h2>
         <p class="site-footer__support-body">
           This service is completely free. If it's useful to you or your community,
-          consider helping keep it going.
+          consider donating to support its ongoing development.
         </p>
-        {kofiUrl && (
+        <div class="site-footer__donate-group">
           <a
             href={kofiUrl}
             class="site-footer__donate-btn"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Donate →
+            Ko-fi
           </a>
-        )}
+          <a
+            href={paypalUrl}
+            class="site-footer__donate-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            PayPal
+          </a>
+        </div>
       </div>
 
     </div>
@@ -191,27 +203,38 @@ const kofiUrl = import.meta.env.PUBLIC_KOFI_URL;
     margin-block-end: var(--space-5);
   }
 
+  .site-footer__donate-group {
+    display: flex;
+    gap: var(--space-3);
+  }
+
   .site-footer__donate-btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
-    color: var(--color-text-on-primary);
-    background-color: var(--color-primary);
-    border: 2px solid var(--color-primary);
     border-radius: var(--radius-md);
     text-decoration: none;
+    border: 1.5px solid var(--color-neutral-300);
+    color: var(--color-text-muted);
+    background-color: transparent;
     transition:
-      background-color var(--transition-fast),
-      border-color var(--transition-fast);
+      background-color var(--transition-base),
+      border-color var(--transition-base),
+      color var(--transition-base);
   }
 
   .site-footer__donate-btn:hover {
-    background-color: var(--color-primary-dark);
-    border-color: var(--color-primary-dark);
-    color: var(--color-text-on-primary);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  .site-footer__donate-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   /* ── Bottom bar: copyright + credit ── */

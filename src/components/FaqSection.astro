@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import type { FaqItem } from '../content/home-data';
+
+interface Props {
+  faqs: FaqItem[];
+}
+
+const { faqs }: Props = Astro.props;
+---
+
+<section class="section section--raised" id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="eyebrow">questions & answers</p>
+      <h2 id="faq-heading">Things people usually ask.</h2>
+      <p class="section-lead">
+        No fine print, no surprises. Here's how this all works.
+      </p>
+    </div>
+    <div class="faq-layout" data-faq-layout>
+      <div class="faq-content">
+        <ul class="faq-list" role="list" data-reveal-stagger>
+          {faqs.map((faq) => (
+            <li class="faq-item">
+              <details class="faq-details">
+                <summary class="faq-summary">
+                  <span class="faq-summary__text">{faq.q}</span>
+                  <span class="faq-summary__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-answer">
+                  <p>{faq.a}</p>
+                  {faq.links && (
+                    <div class="faq-donate">
+                      {faq.links.map((link) => (
+                        <a href={link.href} class="faq-donate__link" target="_blank" rel="noopener noreferrer">
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+        <div class="faq-actions" data-reveal>
+          <button type="button" class="btn btn--secondary" data-faq-toggle-all>
+            Open all
+          </button>
+        </div>
+      </div>
+      <div class="faq-visual" aria-hidden="true">
+        <Image
+          src="/images/tree.jpg"
+          width={900}
+          height={1200}
+          alt=""
+          class="faq-tree-image"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const faqLayout = document.querySelector<HTMLElement>('[data-faq-layout]');
+  const faqList = faqLayout?.querySelector<HTMLElement>('.faq-list');
+  const faqToggleAllButton = faqLayout?.querySelector<HTMLButtonElement>('[data-faq-toggle-all]');
+
+  const getFaqDetails = () =>
+    Array.from(faqLayout?.querySelectorAll<HTMLDetailsElement>('.faq-details') ?? []);
+
+  const hasOpenDetails = () => getFaqDetails().some((details) => details.open);
+
+  const updateToggleButtonLabel = () => {
+    if (!faqToggleAllButton) return;
+    faqToggleAllButton.textContent = hasOpenDetails() ? 'Collapse all' : 'Open all';
+  };
+
+  const measureClosedFaqHeight = () => {
+    if (!faqLayout || !faqList) return;
+
+    const clone = faqList.cloneNode(true) as HTMLElement;
+    clone.querySelectorAll('details[open]').forEach((details) => {
+      details.removeAttribute('open');
+    });
+
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.pointerEvents = 'none';
+    clone.style.inset = '0 auto auto 0';
+    clone.style.width = `${faqList.getBoundingClientRect().width}px`;
+
+    faqLayout.appendChild(clone);
+    const closedHeight = Math.ceil(clone.getBoundingClientRect().height);
+    clone.remove();
+
+    faqLayout.style.setProperty('--faq-closed-height', `${closedHeight}px`);
+  };
+
+  faqToggleAllButton?.addEventListener('click', () => {
+    const shouldCollapse = hasOpenDetails();
+    getFaqDetails().forEach((details) => {
+      details.open = !shouldCollapse;
+    });
+    updateToggleButtonLabel();
+  });
+
+  getFaqDetails().forEach((details) => {
+    details.addEventListener('toggle', updateToggleButtonLabel);
+  });
+
+  updateToggleButtonLabel();
+  measureClosedFaqHeight();
+
+  let resizeRaf = 0;
+  window.addEventListener('resize', () => {
+    window.cancelAnimationFrame(resizeRaf);
+    resizeRaf = window.requestAnimationFrame(measureClosedFaqHeight);
+  });
+</script>

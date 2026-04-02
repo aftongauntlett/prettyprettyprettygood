@@ -7,7 +7,7 @@ Volunteer web design for nonprofits and mission-driven organizations. Built with
 - [Astro](https://astro.build) — static site framework
 - TypeScript (strict mode)
 - Vanilla CSS with custom properties
-- [Formspree](https://formspree.io) — contact form
+- [Resend](https://resend.com) — contact email delivery
 - [Vercel](https://vercel.com) — deployment
 
 ## Development

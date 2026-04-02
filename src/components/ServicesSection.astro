@@ -1,0 +1,47 @@
+---
+import { Palette, Sparkles, Accessibility, Gamepad2, Search, LayoutGrid } from '@lucide/astro';
+import type { ServiceItem } from '../content/home-data';
+
+interface Props {
+  services: ServiceItem[];
+}
+
+const { services }: Props = Astro.props;
+
+const iconMap = {
+  Palette,
+  Sparkles,
+  Accessibility,
+  Gamepad2,
+  Search,
+  LayoutGrid,
+} as const;
+---
+
+<section class="section" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="eyebrow">what i build</p>
+      <h2 id="services-heading">More than a template with your logo on it.</h2>
+      <p class="section-lead">
+        Every site is built by hand. No page builders, no themes, no shortcuts.
+        The goal is a website that feels like you - not like every other site
+        on the same platform.
+      </p>
+    </div>
+    <ul class="service-grid" role="list" data-reveal-stagger>
+      {services.map((s) => {
+        const Icon = iconMap[s.icon];
+        return (
+          <li class="service-card">
+            <Icon size={28} class="service-card__icon" aria-hidden="true" />
+            <div>
+              <h3 class="service-card__title">{s.title}</h3>
+              <p class="service-card__body">{s.body}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

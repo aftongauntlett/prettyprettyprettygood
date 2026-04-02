@@ -1,0 +1,37 @@
+---
+import type { WhoIWorkWithGroup } from '../content/home-data';
+
+interface Props {
+  groups: WhoIWorkWithGroup[];
+}
+
+const { groups }: Props = Astro.props;
+---
+
+<section class="section section--raised" id="who" aria-labelledby="who-heading">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="eyebrow">who this is for</p>
+      <h2 id="who-heading">If this sounds like you, let's talk.</h2>
+      <p class="section-lead">
+        I work with people doing good work - not people trying to extract
+        maximum profit. If you're building something that matters to a community,
+        a cause, or a creative life, this is for you.
+      </p>
+    </div>
+    <dl class="who-groups">
+      {groups.map((group) => (
+        <div class={`who-group who-group--${group.color}`} data-reveal>
+          <dt class="who-group__label">{group.label}</dt>
+          <dd class="who-group__tags">
+            <ul class="tag-grid" role="list">
+              {group.items.map((item) => (
+                <li class="tag">{item}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+---
+import { ExternalLink } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import type { WorkItem } from '../content/home-data';
+
+interface Props {
+  work: WorkItem[];
+}
+
+const { work }: Props = Astro.props;
+---
+
+<section class="section section--raised" id="work" aria-labelledby="work-heading">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <p class="eyebrow">the work</p>
+      <h2 id="work-heading">See my work</h2>
+      <p class="section-lead">
+        Hand-built, accessible, and free to own. Simple to use for the people
+        who need it, and made to last without a monthly bill attached.
+      </p>
+    </div>
+    <ul class="work-grid" role="list" data-reveal-stagger>
+      {work.map((w) => (
+        <li>
+          <a
+            class="work-card"
+            href={w.demo || w.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${w.title} - opens in new tab`}
+          >
+            <div class="work-card__image-wrap">
+              <Image
+                src={w.image}
+                width={1200}
+                height={750}
+                alt={w.imageAlt}
+                class="work-card__image"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="work-card__image-overlay" aria-hidden="true">
+                <ExternalLink size={32} class="work-card__overlay-icon" />
+              </div>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__title-row">
+                <h3 class="work-card__title">{w.title}</h3>
+                <span class={`work-card__status work-card__status--${w.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {w.status}
+                </span>
+              </div>
+              <p class="work-card__desc">{w.description}</p>
+              <ul class="work-card__tech tag-grid" role="list">
+                {w.tech.map((t) => <li class="tag">{t}</li>)}
+              </ul>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

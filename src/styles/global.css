@@ -796,6 +796,7 @@ textarea:disabled {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background-color: var(--color-surface-overlay);
+  border-bottom: 1px solid var(--color-neutral-200);
 }
 
 .work-card__image {

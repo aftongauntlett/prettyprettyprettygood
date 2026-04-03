@@ -21,7 +21,6 @@ export interface WorkItem {
   status: "In Production" | "In Development";
   description: string;
   tech: string[];
-  link: string;
   demo: string;
   image: string;
   imageAlt: string;
@@ -153,7 +152,6 @@ export const work: WorkItem[] = [
     description:
       "A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.",
     tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
-    link: "https://github.com/aftongauntlett/no-whiteboard-jobs-dashboard",
     demo: "https://no-wb.org",
     image: "/images/no-wb.png",
     imageAlt:
@@ -165,7 +163,6 @@ export const work: WorkItem[] = [
     description:
       "A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking - with accessible markup and SEO-friendly structure throughout.",
     tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
-    link: "https://github.com/aftongauntlett/astrid-beauty",
     demo: "https://www.byastridbeautysalon.com/",
     image: "/images/astrid.png",
     imageAlt:
@@ -177,8 +174,7 @@ export const work: WorkItem[] = [
     description:
       "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
     tech: ["Astro", "TypeScript", "Keystatic", "Vercel"],
-    link: "https://github.com/aftongauntlett/ghostbustersva",
-    demo: "",
+    demo: "https://ghostbustersva.vercel.app/",
     image: "/images/gbva.png",
     imageAlt:
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",

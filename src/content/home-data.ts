@@ -147,17 +147,6 @@ export const services: ServiceItem[] = [
 
 export const work: WorkItem[] = [
   {
-    title: "No Whiteboard Dashboard",
-    status: "In Production",
-    description:
-      "A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.",
-    tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
-    demo: "https://no-wb.org",
-    image: "/images/no-wb.png",
-    imageAlt:
-      "Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don't whiteboard in interviews",
-  },
-  {
     title: "Astrid Beauty Hair Salon",
     status: "In Production",
     description:
@@ -169,6 +158,17 @@ export const work: WorkItem[] = [
       "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
   {
+    title: "No Whiteboard Dashboard",
+    status: "In Production",
+    description:
+      "A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.",
+    tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
+    demo: "https://no-wb.org",
+    image: "/images/no-wb.png",
+    imageAlt:
+      "Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don't whiteboard in interviews",
+  },
+  {
     title: "Ghostbusters Virginia",
     status: "In Development",
     description:
@@ -178,6 +178,17 @@ export const work: WorkItem[] = [
     image: "/images/gbva.png",
     imageAlt:
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
+  },
+  {
+    title: "JC Auto Body",
+    status: "In Production",
+    description:
+      "A website for JC Auto Body, a locally owned family-run auto body shop in Chantilly, Virginia. Originally built in 2020, then fully refactored from a Next.js and Firebase setup into a simpler Astro and Vercel static architecture. The rebuild prioritized WCAG 2.2 accessibility and responsive behavior across devices.",
+    tech: ["Astro", "TypeScript", "Vercel"],
+    demo: "https://jcautobodyva.com/",
+    image: "/images/jc-auto-body.png",
+    imageAlt:
+      "Screenshot of the JC Auto Body website showing service information and contact details",
   },
 ];
 

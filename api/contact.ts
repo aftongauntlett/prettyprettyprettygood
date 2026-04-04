@@ -69,16 +69,40 @@ const redirectTo = (requestUrl: string, path: string): Response => {
   return Response.redirect(url, 303);
 };
 
+const wantsJsonResponse = (request: Request): boolean => {
+  if (request.headers.get("x-contact-ajax") === "1") {
+    return true;
+  }
+
+  const accept = request.headers.get("accept")?.toLowerCase() ?? "";
+  return accept.includes("application/json");
+};
+
+const jsonResponse = (body: { ok: boolean }, status: number): Response =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+
 const rejectSubmission = (
   request: Request,
   reason: string,
   clientIp: string | null,
+  status = 400,
 ): Response => {
   console.warn("contact_submission_rejected", {
     reason,
     method: request.method,
     hasClientIp: Boolean(clientIp),
   });
+
+  if (wantsJsonResponse(request)) {
+    return jsonResponse({ ok: false }, status);
+  }
+
   return redirectTo(request.url, suspiciousRedirectPath);
 };
 
@@ -261,7 +285,7 @@ export default async function handler(request: Request): Promise<Response> {
       maxRequestsPerBurstByIp,
     );
     if (hitBurstLimit) {
-      return rejectSubmission(request, "ip_burst_rate_limited", clientIp);
+      return rejectSubmission(request, "ip_burst_rate_limited", clientIp, 429);
     }
 
     const hitDailyIpLimit = isRateLimited(
@@ -270,7 +294,7 @@ export default async function handler(request: Request): Promise<Response> {
       maxRequestsPerDayByIp,
     );
     if (hitDailyIpLimit) {
-      return rejectSubmission(request, "ip_daily_rate_limited", clientIp);
+      return rejectSubmission(request, "ip_daily_rate_limited", clientIp, 429);
     }
   }
 
@@ -281,7 +305,7 @@ export default async function handler(request: Request): Promise<Response> {
     maxRequestsPerDayByEmail,
   );
   if (hitDailyEmailLimit) {
-    return rejectSubmission(request, "email_daily_rate_limited", clientIp);
+    return rejectSubmission(request, "email_daily_rate_limited", clientIp, 429);
   }
 
   const html = `
@@ -331,6 +355,10 @@ export default async function handler(request: Request): Promise<Response> {
       endpoint: resendApiUrl,
       hasClientIp: Boolean(clientIp),
     });
+    if (wantsJsonResponse(request)) {
+      return jsonResponse({ ok: false }, 502);
+    }
+
     return redirectTo(request.url, suspiciousRedirectPath);
   }
 
@@ -352,7 +380,15 @@ export default async function handler(request: Request): Promise<Response> {
       providerBody: providerBody.slice(0, 500),
       hasClientIp: Boolean(clientIp),
     });
+    if (wantsJsonResponse(request)) {
+      return jsonResponse({ ok: false }, 502);
+    }
+
     return redirectTo(request.url, suspiciousRedirectPath);
+  }
+
+  if (wantsJsonResponse(request)) {
+    return jsonResponse({ ok: true }, 200);
   }
 
   return redirectTo(request.url, "/?contact=sent#contact");

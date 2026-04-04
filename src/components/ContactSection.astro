@@ -21,7 +21,9 @@ const { status = null }: Props = Astro.props;
 
     <div class="contact-layout">
       <div class="contact-form-card" data-reveal>
-        <form class="contact-form" action="/api/contact" method="POST">
+        <form class="contact-form" action="/api/contact" method="POST" data-contact-form>
+          <input type="hidden" name="form-started-at" value="" data-contact-started-at />
+
           <div class="field field--honeypot" aria-hidden="true">
             <label class="field__label visually-hidden" for="project-url">Project URL</label>
             <input
@@ -36,14 +38,29 @@ const { status = null }: Props = Astro.props;
 
           {
             status === 'sent' && (
-              <p class="contact-notice contact-notice--success" role="status" aria-live="polite">
+              <p class="contact-notice contact-notice--success" role="status" aria-live="polite" tabindex="-1" data-contact-notice="sent">
                 Message sent. I will get back to you soon.
               </p>
             )
           }
           {
             status === 'error' && (
-              <p class="contact-notice contact-notice--error" role="alert" aria-live="assertive">
+              <p class="contact-notice contact-notice--error" role="alert" aria-live="assertive" tabindex="-1" data-contact-notice="error">
+                Something went wrong while sending your message. Please try again.
+              </p>
+            )
+          }
+
+          {
+            status !== 'sent' && (
+              <p class="contact-notice contact-notice--success" role="status" aria-live="polite" tabindex="-1" data-contact-notice="sent" hidden>
+                Message sent. I will get back to you soon.
+              </p>
+            )
+          }
+          {
+            status !== 'error' && (
+              <p class="contact-notice contact-notice--error" role="alert" aria-live="assertive" tabindex="-1" data-contact-notice="error" hidden>
                 Something went wrong while sending your message. Please try again.
               </p>
             )
@@ -137,3 +154,35 @@ const { status = null }: Props = Astro.props;
     </aside>
   </div>
 </section>
+
+<script is:inline>
+  (() => {
+    const startedAtInput = document.querySelector('[data-contact-started-at]');
+    if (startedAtInput instanceof HTMLInputElement) {
+      startedAtInput.value = String(Date.now());
+    }
+
+    const status = new URLSearchParams(window.location.search).get('contact');
+    if (status !== 'sent' && status !== 'error') {
+      return;
+    }
+
+    const form = document.querySelector('[data-contact-form]');
+    if (!form) {
+      return;
+    }
+
+    const sentNotice = form.querySelector('[data-contact-notice="sent"]');
+    const errorNotice = form.querySelector('[data-contact-notice="error"]');
+
+    sentNotice?.setAttribute('hidden', '');
+    errorNotice?.setAttribute('hidden', '');
+
+    const activeNotice = status === 'sent' ? sentNotice : errorNotice;
+    activeNotice?.removeAttribute('hidden');
+
+    if (activeNotice instanceof HTMLElement) {
+      activeNotice.focus();
+    }
+  })();
+</script>

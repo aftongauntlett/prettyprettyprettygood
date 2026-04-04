@@ -5,7 +5,7 @@ const burstWindowMs = 60 * 1000;
 const dailyWindowMs = 24 * 60 * 60 * 1000;
 const maxRequestsPerBurstByIp = 2;
 const maxRequestsPerDayByIp = 5;
-const maxRequestsPerDayByEmail = 1;
+const maxRequestsPerDayByEmail = 3;
 const minSubmissionTimeMs = 3000;
 const maxSubmissionAgeMs = 2 * 60 * 60 * 1000;
 const maxNameLength = 120;
@@ -67,6 +67,19 @@ const sha256Hex = async (value: string): Promise<string> => {
 const redirectTo = (requestUrl: string, path: string): Response => {
   const url = new URL(path, requestUrl);
   return Response.redirect(url, 303);
+};
+
+const rejectSubmission = (
+  request: Request,
+  reason: string,
+  clientIp: string | null,
+): Response => {
+  console.warn("contact_submission_rejected", {
+    reason,
+    method: request.method,
+    hasClientIp: Boolean(clientIp),
+  });
+  return redirectTo(request.url, suspiciousRedirectPath);
 };
 
 const getRateLimitStore = (): Map<string, RateLimitEntry> => {
@@ -181,7 +194,7 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   if (!isAllowedBrowserSubmission(request)) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "origin_or_referer_invalid", null);
   }
 
   const clientIp = getClientIp(request);
@@ -191,7 +204,7 @@ export default async function handler(request: Request): Promise<Response> {
   const toEmail = process.env.CONTACT_TO_EMAIL ?? "afton.gauntlett@gmail.com";
 
   if (!apiKey) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "missing_resend_api_key", clientIp);
   }
 
   const formData = await request.formData();
@@ -205,11 +218,11 @@ export default async function handler(request: Request): Promise<Response> {
   const normalizedEmail = normalizeEmail(email);
 
   if (hpField) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "honeypot_triggered", clientIp);
   }
 
   if (!name || !normalizedEmail || !message) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "missing_required_fields", clientIp);
   }
 
   if (
@@ -219,26 +232,26 @@ export default async function handler(request: Request): Promise<Response> {
     existingSite.length > maxExistingSiteLength ||
     message.length > maxMessageLength
   ) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "field_length_limit_exceeded", clientIp);
   }
 
   if (!isLikelyEmail(normalizedEmail)) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "invalid_email", clientIp);
   }
 
   if (existingSite && !isLikelyHttpUrl(existingSite)) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "invalid_existing_site_url", clientIp);
   }
 
   const startedAt = toNumber(startedAtRaw);
   const now = Date.now();
   if (!startedAt) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "missing_or_invalid_started_at", clientIp);
   }
 
   const elapsedMs = now - startedAt;
   if (elapsedMs < minSubmissionTimeMs || elapsedMs > maxSubmissionAgeMs) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "submission_timing_invalid", clientIp);
   }
 
   if (clientIp) {
@@ -248,7 +261,7 @@ export default async function handler(request: Request): Promise<Response> {
       maxRequestsPerBurstByIp,
     );
     if (hitBurstLimit) {
-      return redirectTo(request.url, suspiciousRedirectPath);
+      return rejectSubmission(request, "ip_burst_rate_limited", clientIp);
     }
 
     const hitDailyIpLimit = isRateLimited(
@@ -257,7 +270,7 @@ export default async function handler(request: Request): Promise<Response> {
       maxRequestsPerDayByIp,
     );
     if (hitDailyIpLimit) {
-      return redirectTo(request.url, suspiciousRedirectPath);
+      return rejectSubmission(request, "ip_daily_rate_limited", clientIp);
     }
   }
 
@@ -268,7 +281,7 @@ export default async function handler(request: Request): Promise<Response> {
     maxRequestsPerDayByEmail,
   );
   if (hitDailyEmailLimit) {
-    return redirectTo(request.url, suspiciousRedirectPath);
+    return rejectSubmission(request, "email_daily_rate_limited", clientIp);
   }
 
   const html = `

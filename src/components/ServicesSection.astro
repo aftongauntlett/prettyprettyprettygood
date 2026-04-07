@@ -34,11 +34,11 @@ const iconMap = {
         const Icon = iconMap[s.icon];
         return (
           <li class="service-card">
-            <Icon size={28} class="service-card__icon" aria-hidden="true" />
-            <div>
-              <h3 class="service-card__title">{s.title}</h3>
-              <p class="service-card__body">{s.body}</p>
-            </div>
+            <span class="service-card__icon-wrap">
+              <Icon size={36} class="service-card__icon" aria-hidden="true" />
+            </span>
+            <h3 class="service-card__title">{s.title}</h3>
+            <p class="service-card__body">{s.body}</p>
           </li>
         );
       })}

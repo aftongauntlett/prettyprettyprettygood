@@ -1,5 +1,6 @@
 ---
 // Footer.astro
+import { Lightbulb, LightbulbOff } from '@lucide/astro';
 import { primaryNavItems } from '../content/home-data';
 
 const year = new Date().getFullYear();
@@ -20,8 +21,8 @@ const paypalUrl = 'https://paypal.me/aftons';
           pretty<wbr />pretty<wbr />pretty<wbr />good
         </a>
         <p class="site-footer__tagline">
-          Free, custom websites for nonprofits, community orgs, artists, and
-          mission-driven people. No templates. No fees. No strings.
+          Custom websites for nonprofits, community orgs, artists, and
+          mission-driven people. Free when needed, sliding scale when possible.
         </p>
         <nav class="site-footer__nav" aria-label="Footer navigation">
           <ul role="list">
@@ -36,8 +37,8 @@ const paypalUrl = 'https://paypal.me/aftons';
       <div class="site-footer__support">
         <h2 class="site-footer__nav-heading">Support this work</h2>
         <p class="site-footer__support-body">
-          This service is completely free. If it's useful to you or your community,
-          consider donating to support its ongoing development.
+          No one is turned away for lack of funds. If your project has a budget,
+          a contribution helps keep this work sustainable for others.
         </p>
         <div class="site-footer__donate-group">
           <a
@@ -63,20 +64,100 @@ const paypalUrl = 'https://paypal.me/aftons';
 
     <div class="site-footer__bottom">
       <p class="site-footer__copy">
-        &copy; {year} prettyprettyprettygood — volunteer web design for nonprofits &amp; mission-driven orgs.
+        &copy; {year} prettyprettyprettygood — sliding-scale web design for nonprofits &amp; mission-driven orgs.
       </p>
-      <p class="site-footer__credit">
-        Built with care by{' '}
-        <a
-          href="https://github.com/aftongauntlett"
-          rel="noopener noreferrer"
-          target="_blank"
-        >Afton Gauntlett</a>.
-      </p>
+      <div class="site-footer__meta">
+        <button
+          class="site-footer__theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-pressed="false"
+          aria-label="Switch to dark theme."
+        >
+          <span class="site-footer__theme-icon" data-theme-icon-on aria-hidden="true" hidden>
+            <Lightbulb size={16} stroke-width={2} />
+          </span>
+          <span class="site-footer__theme-icon" data-theme-icon-off aria-hidden="true">
+            <LightbulbOff size={16} stroke-width={2} />
+          </span>
+        </button>
+      </div>
     </div>
 
   </div>
 </footer>
+
+<script>
+  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const themeIconOn = themeToggle?.querySelector<HTMLElement>('[data-theme-icon-on]');
+  const themeIconOff = themeToggle?.querySelector<HTMLElement>('[data-theme-icon-off]');
+  const root = document.documentElement;
+  const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+  const storageKey = 'theme-preference';
+
+  const readStoredTheme = (): 'light' | 'dark' | null => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored === 'light' || stored === 'dark' ? stored : null;
+    } catch (_) {
+      return null;
+    }
+  };
+
+  const resolveActiveTheme = (): 'light' | 'dark' => {
+    if (root.dataset.theme === 'light' || root.dataset.theme === 'dark') {
+      return root.dataset.theme;
+    }
+
+    return themeMedia.matches ? 'dark' : 'light';
+  };
+
+  const updateToggleLabel = () => {
+    if (!themeToggle) return;
+
+    const activeTheme = resolveActiveTheme();
+    const isDarkTheme = activeTheme === 'dark';
+
+    const showOnIcon = isDarkTheme;
+
+    if (themeIconOn) {
+      themeIconOn.hidden = !showOnIcon;
+    }
+
+    if (themeIconOff) {
+      themeIconOff.hidden = showOnIcon;
+    }
+
+    themeToggle.setAttribute('aria-pressed', String(isDarkTheme));
+    themeToggle.setAttribute(
+      'aria-label',
+      isDarkTheme
+        ? 'Switch to light theme.'
+        : 'Switch to dark theme.',
+    );
+  };
+
+  if (themeToggle) {
+    updateToggleLabel();
+
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = resolveActiveTheme() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = nextTheme;
+
+      try {
+        localStorage.setItem(storageKey, nextTheme);
+      } catch (_) {}
+
+      updateToggleLabel();
+    });
+
+    themeMedia.addEventListener('change', () => {
+      if (!readStoredTheme()) {
+        updateToggleLabel();
+      }
+    });
+  }
+</script>
 
 <style>
   .site-footer {
@@ -218,19 +299,62 @@ const paypalUrl = 'https://paypal.me/aftons';
     padding-block-start: var(--space-6);
   }
 
-  .site-footer__copy,
-  .site-footer__credit {
+  .site-footer__copy {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
   }
 
-  .site-footer__credit a {
-    color: var(--color-text-muted);
-    text-decoration-thickness: 1px;
+  .site-footer__meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-start: auto;
   }
 
-  .site-footer__credit a:hover {
-    color: var(--color-primary);
+  .site-footer__theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    padding: var(--space-2) var(--space-4);
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .site-footer__theme-toggle:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  .site-footer__theme-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    color: currentColor;
+  }
+
+  .site-footer__theme-icon[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .site-footer__bottom {
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .site-footer__meta {
+      margin-inline-start: auto;
+    }
   }
 
 </style>

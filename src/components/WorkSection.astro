@@ -14,51 +14,85 @@ const { work }: Props = Astro.props;
   <div class="container">
     <div class="section-header" data-reveal>
       <p class="eyebrow">the work</p>
-      <h2 id="work-heading">See my work</h2>
+      <h2 id="work-heading">Recent Projects</h2>
       <p class="section-lead">
-        Hand-built, accessible, and free to own. Simple to use for the people
-        who need it, and made to last without a monthly bill attached.
+        Hand-built and accessible. Free when funding is tight, sliding scale
+        when a project can contribute. Simple to use and made to last without
+        a monthly bill attached.
       </p>
     </div>
     <ul class="work-grid" role="list" data-reveal-stagger>
       {work.map((w) => (
         <li>
-          <a
-            class="work-card"
-            href={w.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${w.title} - opens in new tab`}
-          >
-            <div class="work-card__image-wrap">
-              <Image
-                src={w.image}
-                width={1200}
-                height={750}
-                alt={w.imageAlt}
-                class="work-card__image"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="work-card__image-overlay" aria-hidden="true">
-                <ExternalLink size={32} class="work-card__overlay-icon" />
+          {w.demo ? (
+            <a
+              class="work-card"
+              href={w.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${w.title} - opens in new tab`}
+            >
+              <div class="work-card__image-wrap">
+                <Image
+                  src={w.image}
+                  width={1200}
+                  height={750}
+                  alt={w.imageAlt}
+                  class="work-card__image"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="work-card__image-overlay" aria-hidden="true">
+                  <ExternalLink size={32} class="work-card__overlay-icon" />
+                </div>
               </div>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__title-row">
-                <h3 class="work-card__title">{w.title}</h3>
-                <span class={`work-card__status work-card__status--${w.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                  {w.status}
-                </span>
+              <div class="work-card__content">
+                <div class="work-card__title-row">
+                  <h3 class="work-card__title">{w.title}</h3>
+                  <span class={`work-card__status work-card__status--${w.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {w.status}
+                  </span>
+                </div>
+                <p class="work-card__desc">{w.description}</p>
               </div>
-              <p class="work-card__desc">{w.description}</p>
-              <ul class="work-card__tech tag-grid" role="list">
-                {w.tech.map((t) => <li class="tag">{t}</li>)}
-              </ul>
-            </div>
-          </a>
+            </a>
+          ) : (
+            <article class="work-card" aria-label={`${w.title} - in development`}>
+              <div class="work-card__image-wrap">
+                <Image
+                  src={w.image}
+                  width={1200}
+                  height={750}
+                  alt={w.imageAlt}
+                  class="work-card__image"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="work-card__content">
+                <div class="work-card__title-row">
+                  <h3 class="work-card__title">{w.title}</h3>
+                  <span class={`work-card__status work-card__status--${w.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {w.status}
+                  </span>
+                </div>
+                <p class="work-card__desc">{w.description}</p>
+              </div>
+            </article>
+          )}
         </li>
       ))}
+      <li>
+        <article class="work-card work-card--more" aria-label="More projects are in progress">
+          <div class="work-card__content">
+            <h3 class="work-card__title">More in progress!</h3>
+            <p class="work-card__desc">
+              New builds and redesigns are actively in progress. If you want to
+              be part of the next batch, reach out through the contact form.
+            </p>
+          </div>
+        </article>
+      </li>
     </ul>
   </div>
 </section>

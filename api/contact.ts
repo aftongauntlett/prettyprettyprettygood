@@ -13,6 +13,30 @@ const maxEmailLength = 254;
 const maxOrgLength = 160;
 const maxExistingSiteLength = 2048;
 const maxMessageLength = 5000;
+const maxContributionModelLength = 40;
+const maxBudgetContextLength = 1000;
+
+const allowedContributionModels = new Set([
+  "free-needed",
+  "free-preferred",
+  "sliding-scale",
+  "not-sure",
+]);
+
+const formatContributionModel = (value: string): string => {
+  switch (value) {
+    case "free-needed":
+      return "Fully free is needed right now";
+    case "free-preferred":
+      return "Free is preferred, but may be able to contribute";
+    case "sliding-scale":
+      return "Can contribute on a sliding scale";
+    case "not-sure":
+      return "Not sure yet";
+    default:
+      return "Not provided";
+  }
+};
 
 type RateLimitEntry = {
   count: number;
@@ -224,11 +248,11 @@ export default async function handler(request: Request): Promise<Response> {
   const clientIp = getClientIp(request);
 
   const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-  const toEmail = process.env.CONTACT_TO_EMAIL ?? "afton.gauntlett@gmail.com";
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const toEmail = process.env.CONTACT_TO_EMAIL;
 
-  if (!apiKey) {
-    return rejectSubmission(request, "missing_resend_api_key", clientIp);
+  if (!apiKey || !fromEmail || !toEmail) {
+    return rejectSubmission(request, "email_provider_unconfigured", clientIp);
   }
 
   const formData = await request.formData();
@@ -237,6 +261,8 @@ export default async function handler(request: Request): Promise<Response> {
   const org = asString(formData.get("org"));
   const message = asString(formData.get("message"));
   const existingSite = asString(formData.get("existing-site"));
+  const contributionModel = asString(formData.get("contribution-model"));
+  const budgetContext = asString(formData.get("budget-context"));
   const hpField = asString(formData.get("project-url"));
   const startedAtRaw = asString(formData.get("form-started-at"));
   const normalizedEmail = normalizeEmail(email);
@@ -245,8 +271,12 @@ export default async function handler(request: Request): Promise<Response> {
     return rejectSubmission(request, "honeypot_triggered", clientIp);
   }
 
-  if (!name || !normalizedEmail || !message) {
+  if (!name || !normalizedEmail || !message || !contributionModel) {
     return rejectSubmission(request, "missing_required_fields", clientIp);
+  }
+
+  if (!allowedContributionModels.has(contributionModel)) {
+    return rejectSubmission(request, "invalid_contribution_model", clientIp);
   }
 
   if (
@@ -254,7 +284,9 @@ export default async function handler(request: Request): Promise<Response> {
     normalizedEmail.length > maxEmailLength ||
     org.length > maxOrgLength ||
     existingSite.length > maxExistingSiteLength ||
-    message.length > maxMessageLength
+    message.length > maxMessageLength ||
+    contributionModel.length > maxContributionModelLength ||
+    budgetContext.length > maxBudgetContextLength
   ) {
     return rejectSubmission(request, "field_length_limit_exceeded", clientIp);
   }
@@ -313,6 +345,8 @@ export default async function handler(request: Request): Promise<Response> {
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Email:</strong> ${escapeHtml(normalizedEmail)}</p>
     <p><strong>Organization or project:</strong> ${escapeHtml(org || "Not provided")}</p>
+    <p><strong>Funding preference:</strong> ${escapeHtml(formatContributionModel(contributionModel))}</p>
+    <p><strong>Budget context:</strong> ${escapeHtml(budgetContext || "Not provided")}</p>
     <p><strong>Existing website:</strong> ${escapeHtml(existingSite || "Not provided")}</p>
     <h3>Message</h3>
     <p>${escapeHtml(message).replaceAll("\n", "<br />")}</p>

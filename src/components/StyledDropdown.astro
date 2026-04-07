@@ -1,0 +1,370 @@
+---
+interface StyledDropdownOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  options: StyledDropdownOption[];
+  placeholder?: string;
+  required?: boolean;
+  hint?: string;
+  value?: string;
+}
+
+const {
+  id,
+  name,
+  label,
+  options,
+  placeholder = 'Select one',
+  required = false,
+  hint,
+  value = '',
+}: Props = Astro.props;
+
+const hasMatchingValue = options.some((option) => option.value === value && !option.disabled);
+const initialValue = hasMatchingValue ? value : '';
+const selectedOption = options.find((option) => option.value === initialValue);
+const selectedLabel = selectedOption?.label ?? placeholder;
+
+const labelId = `${id}-label`;
+const valueId = `${id}-value`;
+const listboxId = `${id}-listbox`;
+const selectId = `${id}-native`;
+---
+
+<div class="field styled-dropdown" data-styled-dropdown>
+  <label class="field__label" id={labelId} for={id}>
+    {label}
+    {hint && <span class="field__hint">{hint}</span>}
+  </label>
+
+  <div class="styled-dropdown__control">
+    <button
+      class="field__input styled-dropdown__trigger"
+      type="button"
+      id={id}
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls={listboxId}
+      aria-labelledby={`${labelId} ${valueId}`}
+      data-dropdown-trigger
+      hidden
+    >
+      <span class="styled-dropdown__value" id={valueId} data-dropdown-value>{selectedLabel}</span>
+      <span class="styled-dropdown__icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20" focusable="false">
+          <path d="M5.5 7.5L10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+        </svg>
+      </span>
+    </button>
+
+    <ul
+      class="styled-dropdown__list"
+      id={listboxId}
+      role="listbox"
+      aria-labelledby={labelId}
+      hidden
+      tabindex="-1"
+      data-dropdown-listbox
+    >
+      {
+        !required && (
+          <li
+            class="styled-dropdown__option"
+            id={`${id}-option-empty`}
+            role="option"
+            aria-selected={initialValue === '' ? 'true' : 'false'}
+            data-value=""
+            data-label={placeholder}
+            data-disabled="false"
+            data-dropdown-option
+          >
+            {placeholder}
+          </li>
+        )
+      }
+
+      {
+        options.map((option, index) => (
+          <li
+            class="styled-dropdown__option"
+            id={`${id}-option-${index}`}
+            role="option"
+            aria-selected={option.value === initialValue ? 'true' : 'false'}
+            data-value={option.value}
+            data-label={option.label}
+            data-disabled={option.disabled ? 'true' : 'false'}
+            data-dropdown-option
+          >
+            {option.label}
+          </li>
+        ))
+      }
+    </ul>
+
+    <select
+      class="field__input styled-dropdown__native"
+      id={selectId}
+      name={name}
+      required={required}
+      aria-labelledby={labelId}
+      data-dropdown-native
+    >
+      <option value="" disabled={required} selected={initialValue === ''}>
+        {placeholder}
+      </option>
+      {
+        options.map((option) => (
+          <option value={option.value} disabled={option.disabled} selected={option.value === initialValue}>
+            {option.label}
+          </option>
+        ))
+      }
+    </select>
+
+    <p class="visually-hidden" aria-live="polite" data-dropdown-announcer>
+      {initialValue === '' ? 'No option selected.' : `Selected: ${selectedLabel}`}
+    </p>
+  </div>
+</div>
+
+<script>
+  interface DropdownElements {
+    root: HTMLElement;
+    trigger: HTMLButtonElement;
+    listbox: HTMLElement;
+    valueText: HTMLElement;
+    nativeSelect: HTMLSelectElement;
+    announcer: HTMLElement;
+  }
+
+  const dropdownRoots = document.querySelectorAll<HTMLElement>('[data-styled-dropdown]');
+
+  const getOptionItems = (listbox: HTMLElement): HTMLElement[] => {
+    return Array.from(listbox.querySelectorAll<HTMLElement>('[data-dropdown-option]'));
+  };
+
+  const getEnabledOptions = (listbox: HTMLElement): HTMLElement[] => {
+    return getOptionItems(listbox).filter((option) => option.dataset.disabled !== 'true');
+  };
+
+  const getValueFromOption = (option: HTMLElement): string => option.dataset.value ?? '';
+  const getLabelFromOption = (option: HTMLElement): string => option.dataset.label ?? option.textContent?.trim() ?? '';
+
+  const markSelection = (listbox: HTMLElement, selectedValue: string): void => {
+    getOptionItems(listbox).forEach((option) => {
+      const isSelected = getValueFromOption(option) === selectedValue;
+      option.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      option.classList.toggle('is-selected', isSelected);
+    });
+  };
+
+  const setActiveDescendant = (trigger: HTMLButtonElement, activeOption: HTMLElement | null): void => {
+    const listbox = trigger.parentElement?.querySelector<HTMLElement>('[data-dropdown-listbox]');
+    if (listbox) {
+      getOptionItems(listbox).forEach((option) => {
+        option.classList.toggle('is-active', activeOption?.id === option.id);
+      });
+    }
+
+    if (activeOption) {
+      trigger.setAttribute('aria-activedescendant', activeOption.id);
+      return;
+    }
+
+    trigger.removeAttribute('aria-activedescendant');
+  };
+
+  const closeDropdown = (elements: DropdownElements): void => {
+    elements.root.classList.remove('is-open');
+    elements.trigger.setAttribute('aria-expanded', 'false');
+    elements.listbox.hidden = true;
+    setActiveDescendant(elements.trigger, null);
+  };
+
+  const openDropdown = (elements: DropdownElements): void => {
+    elements.root.classList.add('is-open');
+    elements.trigger.setAttribute('aria-expanded', 'true');
+    elements.listbox.hidden = false;
+  };
+
+  const syncFromNative = (elements: DropdownElements): void => {
+    const selectedValue = elements.nativeSelect.value;
+    const selectedOption = getOptionItems(elements.listbox).find(
+      (option) => getValueFromOption(option) === selectedValue,
+    );
+
+    const nextLabel = selectedOption ? getLabelFromOption(selectedOption) : elements.nativeSelect.options[0]?.text ?? '';
+    elements.valueText.textContent = nextLabel;
+    markSelection(elements.listbox, selectedValue);
+    elements.announcer.textContent = selectedValue === '' ? 'No option selected.' : `Selected: ${nextLabel}`;
+  };
+
+  dropdownRoots.forEach((root) => {
+    const trigger = root.querySelector<HTMLButtonElement>('[data-dropdown-trigger]');
+    const listbox = root.querySelector<HTMLElement>('[data-dropdown-listbox]');
+    const valueText = root.querySelector<HTMLElement>('[data-dropdown-value]');
+    const nativeSelect = root.querySelector<HTMLSelectElement>('[data-dropdown-native]');
+    const announcer = root.querySelector<HTMLElement>('[data-dropdown-announcer]');
+
+    if (!trigger || !listbox || !valueText || !nativeSelect || !announcer) {
+      return;
+    }
+
+    const elements: DropdownElements = {
+      root,
+      trigger,
+      listbox,
+      valueText,
+      nativeSelect,
+      announcer,
+    };
+
+    elements.root.classList.add('is-enhanced');
+    elements.trigger.hidden = false;
+
+    const moveActiveOption = (direction: 1 | -1): HTMLElement | null => {
+      const enabledOptions = getEnabledOptions(elements.listbox);
+      if (enabledOptions.length === 0) {
+        return null;
+      }
+
+      const activeId = elements.trigger.getAttribute('aria-activedescendant');
+      const currentIndex = enabledOptions.findIndex((option) => option.id === activeId);
+      const selectedIndex = enabledOptions.findIndex(
+        (option) => getValueFromOption(option) === elements.nativeSelect.value,
+      );
+
+      const startIndex = currentIndex >= 0 ? currentIndex : selectedIndex >= 0 ? selectedIndex : 0;
+      const nextIndex = (startIndex + direction + enabledOptions.length) % enabledOptions.length;
+      const nextOption = enabledOptions[nextIndex];
+      setActiveDescendant(elements.trigger, nextOption);
+      nextOption.scrollIntoView({ block: 'nearest' });
+      return nextOption;
+    };
+
+    const selectOption = (option: HTMLElement): void => {
+      if (option.dataset.disabled === 'true') {
+        return;
+      }
+
+      const nextValue = getValueFromOption(option);
+      const nextLabel = getLabelFromOption(option);
+
+      elements.nativeSelect.value = nextValue;
+      elements.valueText.textContent = nextLabel;
+      markSelection(elements.listbox, nextValue);
+      elements.announcer.textContent = nextValue === '' ? 'No option selected.' : `Selected: ${nextLabel}`;
+      elements.nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
+      closeDropdown(elements);
+      elements.trigger.focus();
+    };
+
+    trigger.addEventListener('click', () => {
+      const isOpen = elements.root.classList.contains('is-open');
+      if (isOpen) {
+        closeDropdown(elements);
+        return;
+      }
+
+      openDropdown(elements);
+      moveActiveOption(1);
+    });
+
+    trigger.addEventListener('keydown', (event) => {
+      const isOpen = elements.root.classList.contains('is-open');
+
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (!isOpen) {
+          openDropdown(elements);
+        }
+
+        moveActiveOption(event.key === 'ArrowDown' ? 1 : -1);
+        return;
+      }
+
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+
+        if (!isOpen) {
+          openDropdown(elements);
+          moveActiveOption(1);
+          return;
+        }
+
+        const activeId = elements.trigger.getAttribute('aria-activedescendant');
+        const activeOption = activeId
+          ? elements.listbox.querySelector<HTMLElement>(`#${CSS.escape(activeId)}`)
+          : getEnabledOptions(elements.listbox)[0] ?? null;
+
+        if (activeOption) {
+          selectOption(activeOption);
+        }
+        return;
+      }
+
+      if (event.key === 'Escape' && isOpen) {
+        event.preventDefault();
+        closeDropdown(elements);
+        return;
+      }
+
+      if (event.key === 'Tab' && isOpen) {
+        closeDropdown(elements);
+      }
+    });
+
+    listbox.addEventListener('click', (event) => {
+      const option = (event.target as HTMLElement).closest<HTMLElement>('[data-dropdown-option]');
+      if (!option) {
+        return;
+      }
+
+      selectOption(option);
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (!elements.root.contains(target)) {
+        closeDropdown(elements);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      if (!elements.root.classList.contains('is-open')) {
+        return;
+      }
+
+      closeDropdown(elements);
+      elements.trigger.focus();
+    });
+
+    const parentForm = elements.nativeSelect.form;
+    if (parentForm) {
+      parentForm.addEventListener('reset', () => {
+        window.requestAnimationFrame(() => {
+          syncFromNative(elements);
+          closeDropdown(elements);
+        });
+      });
+    }
+
+    syncFromNative(elements);
+  });
+</script>

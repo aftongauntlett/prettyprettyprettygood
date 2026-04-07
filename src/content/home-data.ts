@@ -20,8 +20,7 @@ export interface WorkItem {
   title: string;
   status: "In Production" | "In Development";
   description: string;
-  tech: string[];
-  demo: string;
+  demo?: string;
   image: string;
   imageAlt: string;
 }
@@ -151,7 +150,6 @@ export const work: WorkItem[] = [
     status: "In Production",
     description:
       "A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking - with accessible markup and SEO-friendly structure throughout.",
-    tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
     demo: "https://www.byastridbeautysalon.com/",
     image: "/images/astrid.png",
     imageAlt:
@@ -162,48 +160,51 @@ export const work: WorkItem[] = [
     status: "In Production",
     description:
       "A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.",
-    tech: ["Astro", "TypeScript", "Tailwind CSS", "Vercel"],
     demo: "https://no-wb.org",
     image: "/images/no-wb.png",
     imageAlt:
       "Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don't whiteboard in interviews",
   },
   {
-    title: "Ghostbusters Virginia",
-    status: "In Development",
-    description:
-      "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
-    tech: ["Astro", "TypeScript", "Keystatic", "Vercel"],
-    demo: "https://ghostbustersva.vercel.app/",
-    image: "/images/gbva.png",
-    imageAlt:
-      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
-  },
-  {
     title: "JC Auto Body",
     status: "In Production",
     description:
       "A website for JC Auto Body, a locally owned family-run auto body shop in Chantilly, Virginia. Originally built in 2020, then fully refactored from a Next.js and Firebase setup into a simpler Astro and Vercel static architecture. The rebuild prioritized WCAG 2.2 accessibility and responsive behavior across devices.",
-    tech: ["Astro", "TypeScript", "Vercel"],
     demo: "https://jcautobodyva.com/",
     image: "/images/jc-auto-body.png",
     imageAlt:
       "Screenshot of the JC Auto Body website showing service information and contact details",
   },
+  {
+    title: "Siren Song Shop",
+    status: "In Development",
+    description:
+      "A curated recommendation platform built as a trust-first alternative to affiliate-heavy shopping sites. Siren Song centers personally vetted picks, local resources, and practical guides, with Astro Content Collections and Keystatic powering fast editorial updates. Designed for WCAG-aware accessibility, clean SEO structure, and strong performance across mobile and desktop.",
+    demo: "https://sirensongshop.com/",
+    image: "/images/siren-song.png",
+    imageAlt:
+      "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
+  },
+  {
+    title: "Ghostbusters Virginia",
+    status: "In Development",
+    description:
+      "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
+    demo: "https://ghostbustersva.vercel.app/",
+    image: "/images/gbva.png",
+    imageAlt:
+      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
+  },
 ];
 
 export const faqs: FaqItem[] = [
   {
-    q: "Is this actually free? What's the catch?",
-    a: "It's genuinely free. I do this because I believe in the work organizations like yours do, and a good website shouldn't require a small fortune or be a painful process. The only things that ever cost money are third-party services you choose to use - like a domain name - and you pay those directly. No invoices from me, ever.",
+    q: "How does pricing work?",
+    a: "I use a hybrid model: free when funding is tight, sliding scale when a project can contribute. No one is turned away for lack of funds. If your organization has a budget, your contribution helps me keep offering fully free work to others. Third-party costs like domains are still paid directly by you.",
   },
   {
-    q: "Why do you do this for free?",
-    a: "Two reasons, honestly. First, I genuinely want to help - a lot of people don't have a website simply because the idea feels expensive and overwhelming, and I want to change that for whoever I can. Second, running a traditional design business wasn't good for me. The billing, the deadlines, the client meetings - it took the joy out of the work. Doing this on my own terms, in a way that feels meaningful, is how I stay sane. I do appreciate support. But I never expect it, and I never want anyone to feel obligated. Please don't pay me during a project. If later on you notice a real impact on your organization and you want to say thank you, a donation is always welcome. Only if you can afford it, and only if you feel I earned it.",
-    links: [
-      { label: "Ko-fi", href: "https://ko-fi.com/prettyprettyprettygood" },
-      { label: "PayPal", href: "https://paypal.me/aftons" },
-    ],
+    q: "How do you decide free vs. sliding scale?",
+    a: "Case by case, based on budget reality, project scope, and impact. If your resources are limited, we can keep it fully free. If you have a budget, we can agree on a sliding-scale contribution that feels fair and keeps the work sustainable.",
   },
   {
     q: "Do I need a domain? What does that cost?",
@@ -218,23 +219,11 @@ export const faqs: FaqItem[] = [
     a: "Yes, if you want to. I use Keystatic - a lightweight content management system similar in simplicity to WordPress, but without the bloat or monthly fees. You can swap images, update text, change links, and more without touching any code. The only requirement is a free GitHub account. If you'd rather not deal with any of that, no problem - I'll build the site and you can email me whenever something needs updating.",
   },
   {
-    q: "Can you help set up Google Business?",
-    a: "Yes. If you need a Google Business Profile so you show up on Maps and in local search results, I can walk you through setting that up. It's free and makes a real difference for discoverability.",
-  },
-  {
     q: "Is the site accessible and good for SEO?",
     a: "Both are built in from the start, not added as an afterthought. I target WCAG 2.2 AA accessibility as a minimum and follow current SEO best practices throughout. That said, web standards evolve over time - and since this is volunteer work, I can't guarantee the site will always be fully current as things change. I do my best, and I'll always be honest about limitations.",
   },
   {
     q: "How long does a project take?",
     a: "I typically turn a site around within five days once I've started on it. That said, I work when I'm available - I take on projects based on fit and bandwidth, and I can't commit to hard deadlines or delivery guarantees. If I take on your project, I'll be upfront about timing from the start.",
-  },
-  {
-    q: "Are you available after the site launches?",
-    a: "Yes. I'm around for support, small updates, and questions after launch - I want the handoff to feel good, not abrupt. This is volunteer work, though, so please be mindful of that. I'll always communicate clearly about my availability and won't leave you without a heads-up if I need to step back.",
-  },
-  {
-    q: "Do you use AI?",
-    a: "Yes. I've been a developer for six years, including time with Fortune 500 teams, and I remember the Stack Overflow marathon days well. It's a tool I use deliberately, not a shortcut I lean on blindly. One practical thing worth knowing: if you'd like me to write or pre-fill content for your website, I'll use AI to help with that. I'm a developer, not a copywriter, and I'd rather be honest about that than overpromise. AI-drafted copy will be coherent - but it won't know your organization the way you do. I'd strongly encourage you to provide your own content or, at minimum, read through and revise whatever I draft. Your voice matters, and no tool can replicate it.",
   },
 ];

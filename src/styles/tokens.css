@@ -40,6 +40,7 @@
   --color-text: #2a1f14; /* near-black with warmth */
   --color-text-muted: #735e4a;
   --color-text-on-primary: #fffdf8;
+  --color-text-on-accent: #1c160f;
 
   /* Feedback */
   --color-error: #b53a2f;
@@ -48,37 +49,6 @@
   --color-success-surface: #b8e8ce;
   --color-primary-surface: #f8ceaa;
   --color-accent-surface: #edf5ec;
-
-  /* --------------------------------------------------------------------------
-     Color Palette — Dark Mode
-     -------------------------------------------------------------------------- */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-primary: #d4835a;
-      --color-primary-light: #e8a07a;
-      --color-primary-dark: #b06840;
-
-      --color-accent: #8fb38e;
-      --color-accent-light: #aecead;
-      --color-accent-dark: #6b8f6a;
-
-      --color-surface: #18120b;
-      --color-surface-subtle: #1e160e; /* between surface and raised — for cards on page bg */
-      --color-surface-raised: #231a11;
-      --color-surface-overlay: #2e221a;
-
-      --color-text: #f5efe7;
-      --color-text-muted: #b8a48c;
-      --color-text-on-primary: #18120b;
-
-      --color-error: #e57373;
-      --color-error-surface: #2e1515;
-      --color-success: #6dbf8e;
-      --color-success-surface: #0a3320;
-      --color-primary-surface: #3a1c06;
-      --color-accent-surface: #0d1f0d;
-    }
-  }
 
   /* --------------------------------------------------------------------------
      Spacing Scale — 0.25rem (4px) base
@@ -180,50 +150,122 @@
   --reveal-stagger: 80ms;
 }
 
+/* Let native controls (form fields, scrollbars) adapt to the active scheme. */
+:root {
+  color-scheme: light dark;
+}
+
+/* Follow system dark mode only when no explicit light override exists. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #e2876a;
+    --color-primary-light: #f2ab93;
+    --color-primary-dark: #c9694d;
+
+    --color-accent: #a7c2ab;
+    --color-accent-light: #c4d8c8;
+    --color-accent-dark: #89a990;
+
+    --color-neutral-50: #faf6f0;
+    --color-neutral-100: #f0e6d8;
+    --color-neutral-200: #403328;
+    --color-neutral-300: #5f4b3a;
+    --color-neutral-400: #7e6855;
+    --color-neutral-500: #9f8773;
+    --color-neutral-600: #c0ae9b;
+    --color-neutral-700: #d7ccbf;
+    --color-neutral-800: #ebe0d2;
+    --color-neutral-900: #f5efe7;
+
+    --color-surface: #18120b;
+    --color-surface-subtle: #241a12;
+    --color-surface-raised: #2b1f17;
+    --color-surface-overlay: #33261c;
+
+    --color-text: #f3efe9;
+    --color-text-muted: #c8beb0;
+    --color-text-on-primary: #18120b;
+    --color-text-on-accent: #18120b;
+
+    --color-error: #e57373;
+    --color-error-surface: #2e1515;
+    --color-success: #6dbf8e;
+    --color-success-surface: #13261f;
+    --color-primary-surface: #3a1c06;
+    --color-accent-surface: #15241b;
+  }
+}
+
 /* --------------------------------------------------------------------------
    [data-theme] attribute overrides (for JS-controlled theme toggling)
    -------------------------------------------------------------------------- */
 [data-theme="dark"] {
-  --color-primary: #c4896a;
-  --color-primary-light: #dba888;
-  --color-primary-dark: #9c6248;
+  --color-primary: #e2876a;
+  --color-primary-light: #f2ab93;
+  --color-primary-dark: #c9694d;
 
-  --color-accent: #d4a84e;
-  --color-accent-light: #eac67a;
-  --color-accent-dark: #b08530;
+  --color-accent: #a7c2ab;
+  --color-accent-light: #c4d8c8;
+  --color-accent-dark: #89a990;
+
+  --color-neutral-50: #faf6f0;
+  --color-neutral-100: #f0e6d8;
+  --color-neutral-200: #403328;
+  --color-neutral-300: #5f4b3a;
+  --color-neutral-400: #7e6855;
+  --color-neutral-500: #9f8773;
+  --color-neutral-600: #c0ae9b;
+  --color-neutral-700: #d7ccbf;
+  --color-neutral-800: #ebe0d2;
+  --color-neutral-900: #f5efe7;
 
   --color-surface: #18120b;
-  --color-surface-raised: #231a11;
-  --color-surface-overlay: #2e221a;
+  --color-surface-subtle: #241a12;
+  --color-surface-raised: #2b1f17;
+  --color-surface-overlay: #33261c;
 
-  --color-text: #f5efe7;
-  --color-text-muted: #b8a48c;
+  --color-text: #f3efe9;
+  --color-text-muted: #c8beb0;
   --color-text-on-primary: #18120b;
+  --color-text-on-accent: #18120b;
 
   --color-error: #e57373;
   --color-error-surface: #2e1515;
   --color-success: #6dbf8e;
-  --color-success-surface: #0a3320;
+  --color-success-surface: #13261f;
   --color-primary-surface: #3a1c06;
-  --color-accent-surface: #0d1f0d;
+  --color-accent-surface: #15241b;
 }
 
 [data-theme="light"] {
-  --color-primary: #8b5e3c;
-  --color-primary-light: #b07d56;
-  --color-primary-dark: #6b4328;
+  --color-primary: #b8622e;
+  --color-primary-light: #d08050;
+  --color-primary-dark: #9a5024;
 
-  --color-accent: #c8973c;
-  --color-accent-light: #e0b86a;
-  --color-accent-dark: #a07820;
+  --color-accent: #7b9e7a;
+  --color-accent-light: #9ebf9d;
+  --color-accent-dark: #5a7d59;
+
+  --color-neutral-50: #fdfaf6;
+  --color-neutral-100: #f5efe7;
+  --color-neutral-200: #e8dece;
+  --color-neutral-300: #d4c5b0;
+  --color-neutral-400: #b8a48c;
+  --color-neutral-500: #96806a;
+  --color-neutral-600: #735e4a;
+  --color-neutral-700: #52412f;
+  --color-neutral-800: #342a1e;
+  --color-neutral-900: #1c160f;
 
   --color-surface: #fffdf8;
+  --color-surface-subtle: #faf6f0;
   --color-surface-raised: #f5efe7;
   --color-surface-overlay: #ede4d6;
 
   --color-text: #2a1f14;
   --color-text-muted: #735e4a;
   --color-text-on-primary: #fffdf8;
+  --color-text-on-accent: #1c160f;
 
   --color-error: #b53a2f;
   --color-error-surface: #fdecea;

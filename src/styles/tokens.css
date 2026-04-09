@@ -160,7 +160,7 @@
   :root:not([data-theme="light"]) {
     --color-primary: #e2876a;
     --color-primary-light: #f2ab93;
-    --color-primary-dark: #c9694d;
+    --color-primary-dark: #e69076;
 
     --color-accent: #a7c2ab;
     --color-accent-light: #c4d8c8;

@@ -18,8 +18,8 @@ const maxBudgetContextLength = 1000;
 
 const allowedContributionModels = new Set([
   "free-needed",
-  "free-preferred",
   "sliding-scale",
+  "budget",
   "not-sure",
 ]);
 
@@ -27,10 +27,10 @@ const formatContributionModel = (value: string): string => {
   switch (value) {
     case "free-needed":
       return "Fully free is needed right now";
-    case "free-preferred":
-      return "Free is preferred, but may be able to contribute";
     case "sliding-scale":
       return "Can contribute on a sliding scale";
+    case "budget":
+      return "Has a real budget and happy to contribute";
     case "not-sure":
       return "Not sure yet";
     default:

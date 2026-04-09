@@ -92,11 +92,8 @@ const { status = null }: Props = Astro.props;
             required
             options={[
               { value: 'free-needed', label: 'We need this to be fully free right now.' },
-              {
-                value: 'free-preferred',
-                label: 'Free is preferred, but we might contribute if we can.',
-              },
               { value: 'sliding-scale', label: 'We can contribute on a sliding scale.' },
+              { value: 'budget', label: 'We have a real budget and are happy to contribute.' },
               { value: 'not-sure', label: 'Not sure yet.' },
             ]}
           />

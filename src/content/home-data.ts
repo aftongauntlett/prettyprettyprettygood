@@ -135,12 +135,12 @@ export const services: ServiceItem[] = [
   {
     icon: "Search",
     title: "Finding Your Vision",
-    body: "Don't know what you need yet? That's fine - the best part. We figure out what your web presence could be, then build it.",
+    body: "Don't know what you need yet? That's fine — the best part. We figure out what your web presence could be, then build it. No brief required, no idea too rough.",
   },
   {
     icon: "LayoutGrid",
     title: "Off Paid Platforms",
-    body: "Migrating you off WordPress, Squarespace, or anything else charging you monthly for things you should just own.",
+    body: "Migrating you off WordPress, Squarespace, or anything else charging you monthly for things you should just own. You keep your content, your domain, and your history — just without the recurring bill.",
   },
 ];
 
@@ -216,7 +216,7 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "Can I update the site myself?",
-    a: "Yes, if you want to. I use Keystatic - a lightweight content management system similar in simplicity to WordPress, but without the bloat or monthly fees. You can swap images, update text, change links, and more without touching any code. The only requirement is a free GitHub account. If you'd rather not deal with any of that, no problem - I'll build the site and you can email me whenever something needs updating.",
+    a: "Yes, if you ever need something updated, just message me and I'll handle it. If you'd prefer to manage content on your own, I can set up an easy content management system similar to what you may know from WordPress — no coding required. Either way works.",
   },
   {
     q: "Is the site accessible and good for SEO?",

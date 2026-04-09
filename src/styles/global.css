@@ -1002,34 +1002,29 @@ textarea:disabled {
   overflow: hidden;
 }
 
-.work-card--more {
-  display: block;
-  min-height: 100%;
-  border-style: dashed;
-  border-color: color-mix(
-    in srgb,
-    var(--color-primary) 35%,
-    var(--color-neutral-300)
-  );
-  background-color: color-mix(
-    in srgb,
-    var(--color-primary) 6%,
-    var(--color-surface)
-  );
-}
-
-.work-card--more .work-card__content {
-  justify-content: center;
-  align-items: center;
+.work-more {
+  max-width: 68rem;
+  margin-inline: auto;
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-neutral-200);
   text-align: center;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.work-card--more .work-card__desc {
-  display: block;
-  -webkit-line-clamp: unset;
-  -webkit-box-orient: initial;
-  overflow: visible;
+.work-more__label {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text);
+}
+
+.work-more__text {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
 }
 
 /* Contact */

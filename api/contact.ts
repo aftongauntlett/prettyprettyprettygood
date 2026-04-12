@@ -248,7 +248,7 @@ export default async function handler(request: Request): Promise<Response> {
   const clientIp = getClientIp(request);
 
   const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const fromEmail = process.env.CONTACT_FROM_EMAIL;
   const toEmail = process.env.CONTACT_TO_EMAIL;
 
   if (!apiKey || !fromEmail || !toEmail) {

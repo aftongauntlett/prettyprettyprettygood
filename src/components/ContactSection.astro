@@ -121,6 +121,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
             <input class="field__input" type="url" id="existing-site" name="existing-site" placeholder="https://" autocomplete="url" />
           </div>
 
+          <button type="submit" class="btn btn--primary" data-contact-submit>
+            <span data-contact-submit-label>Send</span>
+            <Send class="btn__icon" aria-hidden="true" size={18} stroke-width={2} />
+          </button>
+
           {
             turnstileSiteKey && (
               <div class="field">
@@ -128,11 +133,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
               </div>
             )
           }
-
-          <button type="submit" class="btn btn--primary" data-contact-submit>
-            <span data-contact-submit-label>Send</span>
-            <Send class="btn__icon" aria-hidden="true" size={18} stroke-width={2} />
-          </button>
         </form>
 
         <div class="contact-thanks" data-contact-thanks role="status" aria-live="polite" tabindex="-1" hidden>

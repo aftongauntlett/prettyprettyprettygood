@@ -209,6 +209,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1';
     let turnstileWidgetId = null;
+    let turnstileLoadAttempts = 0;
+    const maxTurnstileLoadAttempts = 60;
+    const turnstileLoadRetryMs = 150;
+    let hasTurnstileError = false;
 
     const loadTurnstileWidget = () => {
       if (!(turnstileContainer instanceof HTMLElement)) {
@@ -216,10 +220,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       }
 
       const siteKey = turnstileContainer.dataset.sitekey;
+      if (!siteKey) {
+        return;
+      }
+
       const turnstileApi = window.turnstile;
 
-      if (!siteKey || !turnstileApi || typeof turnstileApi.render !== 'function') {
-        window.setTimeout(loadTurnstileWidget, 100);
+      if (!turnstileApi || typeof turnstileApi.render !== 'function') {
+        turnstileLoadAttempts += 1;
+        if (turnstileLoadAttempts > maxTurnstileLoadAttempts) {
+          hasTurnstileError = true;
+          return;
+        }
+
+        window.setTimeout(loadTurnstileWidget, turnstileLoadRetryMs);
         return;
       }
 
@@ -229,6 +243,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
 
       turnstileWidgetId = turnstileApi.render(turnstileContainer, {
         sitekey: siteKey,
+        retry: 'never',
+        'refresh-expired': 'manual',
+        'refresh-timeout': 'manual',
+        callback: () => {
+          hasTurnstileError = false;
+        },
+        'error-callback': () => {
+          hasTurnstileError = true;
+        },
       });
     };
 
@@ -242,6 +265,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         return;
       }
 
+      hasTurnstileError = false;
       turnstileApi.reset(turnstileWidgetId);
     };
 
@@ -329,9 +353,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       event.preventDefault();
       hideError();
 
-      if (!isLocalSubmitMock && turnstileContainer instanceof HTMLElement && !hasTurnstileToken()) {
-        showError();
-        return;
+      if (!isLocalSubmitMock && turnstileContainer instanceof HTMLElement) {
+        if (hasTurnstileError || !hasTurnstileToken()) {
+          resetTurnstileWidget();
+          showError();
+          return;
+        }
       }
 
       setSubmittingState(true);

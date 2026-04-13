@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { status = null }: Props = Astro.props;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 ---
 
 <section class="section" id="contact" aria-labelledby="contact-heading">
@@ -120,6 +121,14 @@ const { status = null }: Props = Astro.props;
             <input class="field__input" type="url" id="existing-site" name="existing-site" placeholder="https://" autocomplete="url" />
           </div>
 
+          {
+            turnstileSiteKey && (
+              <div class="field">
+                <div data-contact-turnstile data-sitekey={turnstileSiteKey}></div>
+              </div>
+            )
+          }
+
           <button type="submit" class="btn btn--primary" data-contact-submit>
             <span data-contact-submit-label>Send</span>
             <Send class="btn__icon" aria-hidden="true" size={18} stroke-width={2} />
@@ -176,6 +185,16 @@ const { status = null }: Props = Astro.props;
   </div>
 </section>
 
+{
+  turnstileSiteKey && (
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+      async
+      defer
+    ></script>
+  )
+}
+
 <script is:inline>
   (() => {
     const form = document.querySelector('[data-contact-form]');
@@ -185,9 +204,59 @@ const { status = null }: Props = Astro.props;
     const thanksPanel = document.querySelector('[data-contact-thanks]');
     const submitButton = form?.querySelector('[data-contact-submit]');
     const submitLabel = form?.querySelector('[data-contact-submit-label]');
+    const turnstileContainer = form?.querySelector('[data-contact-turnstile]');
     const isLocalSubmitMock =
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1';
+    let turnstileWidgetId = null;
+
+    const loadTurnstileWidget = () => {
+      if (!(turnstileContainer instanceof HTMLElement)) {
+        return;
+      }
+
+      const siteKey = turnstileContainer.dataset.sitekey;
+      const turnstileApi = window.turnstile;
+
+      if (!siteKey || !turnstileApi || typeof turnstileApi.render !== 'function') {
+        window.setTimeout(loadTurnstileWidget, 100);
+        return;
+      }
+
+      if (turnstileWidgetId !== null) {
+        return;
+      }
+
+      turnstileWidgetId = turnstileApi.render(turnstileContainer, {
+        sitekey: siteKey,
+      });
+    };
+
+    const resetTurnstileWidget = () => {
+      if (turnstileWidgetId === null) {
+        return;
+      }
+
+      const turnstileApi = window.turnstile;
+      if (!turnstileApi || typeof turnstileApi.reset !== 'function') {
+        return;
+      }
+
+      turnstileApi.reset(turnstileWidgetId);
+    };
+
+    const hasTurnstileToken = () => {
+      if (!(form instanceof HTMLFormElement)) {
+        return false;
+      }
+
+      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+      if (!(tokenInput instanceof HTMLInputElement)) {
+        return false;
+      }
+
+      return Boolean(tokenInput.value);
+    };
 
     const setStartedAt = () => {
       if (startedAtInput instanceof HTMLInputElement) {
@@ -240,6 +309,7 @@ const { status = null }: Props = Astro.props;
     };
 
     setStartedAt();
+    loadTurnstileWidget();
 
     if (!(form instanceof HTMLFormElement)) {
       return;
@@ -258,6 +328,12 @@ const { status = null }: Props = Astro.props;
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       hideError();
+
+      if (!isLocalSubmitMock && turnstileContainer instanceof HTMLElement && !hasTurnstileToken()) {
+        showError();
+        return;
+      }
+
       setSubmittingState(true);
 
       try {
@@ -265,6 +341,7 @@ const { status = null }: Props = Astro.props;
           await new Promise((resolve) => setTimeout(resolve, 600));
           form.reset();
           setStartedAt();
+          resetTurnstileWidget();
           showThanks();
           return;
         }
@@ -279,20 +356,24 @@ const { status = null }: Props = Astro.props;
         });
 
         if (!response.ok) {
+          resetTurnstileWidget();
           showError();
           return;
         }
 
         const data = await response.json();
         if (!data?.ok) {
+          resetTurnstileWidget();
           showError();
           return;
         }
 
         form.reset();
         setStartedAt();
+        resetTurnstileWidget();
         showThanks();
       } catch {
+        resetTurnstileWidget();
         showError();
       } finally {
         setSubmittingState(false);

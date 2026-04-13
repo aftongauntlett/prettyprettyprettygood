@@ -26,6 +26,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       <div class="contact-form-card" data-reveal>
         <form class="contact-form" action="/api/contact" method="POST" data-contact-form>
           <input type="hidden" name="form-started-at" value="" data-contact-started-at />
+          <input type="hidden" name="cf-turnstile-response" value="" data-contact-turnstile-token />
 
           <div class="field field--honeypot" aria-hidden="true">
             <label class="field__label visually-hidden" for="project-url">Project URL</label>
@@ -125,14 +126,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
             <span data-contact-submit-label>Send</span>
             <Send class="btn__icon" aria-hidden="true" size={18} stroke-width={2} />
           </button>
-
-          {
-            turnstileSiteKey && (
-              <div class="field">
-                <div data-contact-turnstile data-sitekey={turnstileSiteKey}></div>
-              </div>
-            )
-          }
         </form>
 
         <div class="contact-thanks" data-contact-thanks role="status" aria-live="polite" tabindex="-1" hidden>
@@ -182,6 +175,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         </aside>
       </div>
     </div>
+
+    {
+      turnstileSiteKey && (
+        <div class="contact-turnstile-row" data-contact-turnstile-row data-reveal>
+          <div class="field">
+            <div data-contact-turnstile data-sitekey={turnstileSiteKey}></div>
+          </div>
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -204,7 +207,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
     const thanksPanel = document.querySelector('[data-contact-thanks]');
     const submitButton = form?.querySelector('[data-contact-submit]');
     const submitLabel = form?.querySelector('[data-contact-submit-label]');
-    const turnstileContainer = form?.querySelector('[data-contact-turnstile]');
+    const turnstileContainer = document.querySelector('[data-contact-turnstile]');
+    const turnstileRow = document.querySelector('[data-contact-turnstile-row]');
+    const turnstileTokenInput = form?.querySelector('[data-contact-turnstile-token]');
     const isLocalSubmitMock =
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1';
@@ -246,10 +251,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         retry: 'never',
         'refresh-expired': 'manual',
         'refresh-timeout': 'manual',
-        callback: () => {
+        callback: (token) => {
+          if (turnstileTokenInput instanceof HTMLInputElement) {
+            turnstileTokenInput.value = typeof token === 'string' ? token : '';
+          }
+
           hasTurnstileError = false;
         },
         'error-callback': () => {
+          if (turnstileTokenInput instanceof HTMLInputElement) {
+            turnstileTokenInput.value = '';
+          }
+
           hasTurnstileError = true;
         },
       });
@@ -265,21 +278,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         return;
       }
 
+      if (turnstileTokenInput instanceof HTMLInputElement) {
+        turnstileTokenInput.value = '';
+      }
+
       hasTurnstileError = false;
       turnstileApi.reset(turnstileWidgetId);
     };
 
     const hasTurnstileToken = () => {
-      if (!(form instanceof HTMLFormElement)) {
+      if (!(turnstileTokenInput instanceof HTMLInputElement)) {
         return false;
       }
 
-      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
-      if (!(tokenInput instanceof HTMLInputElement)) {
-        return false;
-      }
-
-      return Boolean(tokenInput.value);
+      return Boolean(turnstileTokenInput.value);
     };
 
     const setStartedAt = () => {
@@ -302,6 +314,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
     const showThanks = () => {
       if (form instanceof HTMLElement) {
         form.hidden = true;
+      }
+
+      if (turnstileRow instanceof HTMLElement) {
+        turnstileRow.hidden = true;
       }
 
       if (formCard instanceof HTMLElement) {

@@ -1078,6 +1078,20 @@ textarea:disabled {
   display: none;
 }
 
+.contact-turnstile-row {
+  margin-top: var(--space-6);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.contact-turnstile-row[hidden] {
+  display: none;
+}
+
+.contact-turnstile-row .field {
+  width: fit-content;
+}
+
 .contact-thanks {
   margin-top: 0;
   width: 100%;

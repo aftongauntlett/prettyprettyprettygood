@@ -378,18 +378,28 @@ const paypalUrl = 'https://paypal.me/aftons';
 
   @media (max-width: 40rem) {
     .site-footer__bottom {
-      grid-template-columns: 1fr;
-      justify-items: flex-start;
-      text-align: left;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-3) var(--space-4);
+      text-align: center;
+    }
+
+    .site-footer__bottom .site-footer__identity {
+      order: 1;
+      justify-content: center;
     }
 
     .site-footer__copy {
-      justify-self: flex-start;
-      text-align: left;
+      order: 3;
+      flex-basis: 100%;
+      text-align: center;
     }
 
     .site-footer__meta {
-      justify-self: flex-start;
+      order: 2;
+      justify-content: center;
       margin-inline-start: 0;
     }
   }

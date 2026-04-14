@@ -66,10 +66,9 @@ export const whoIWorkWith: WhoIWorkWithGroup[] = [
       "Civic Orgs",
       "Mutual Aid",
       "Animal Welfare",
-      "Housing Orgs",
-      "Intentional Communities",
+      "Intentional Living",
       "Fan Communities",
-      "Neurodivergent Communities",
+      "Neurodivergent Folks",
     ],
   },
   {

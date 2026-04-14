@@ -1,5 +1,5 @@
 ---
-import { ExternalLink } from '@lucide/astro';
+import { ChevronDown, ExternalLink } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import type { WorkItem } from '../content/home-data';
 
@@ -85,7 +85,10 @@ const { work }: Props = Astro.props;
     </ul>
     <div class="work-more" data-reveal>
       <p class="work-more__label">More coming soon</p>
-      <p class="work-more__text">New projects actively in progress. Reach out if you want to be part of the next batch.</p>
+      <p class="work-more__text">New projects actively in progress. Reach out below if you want to be part of the next batch.</p>
+      <span class="work-more__cue" aria-hidden="true">
+        <ChevronDown size={22} />
+      </span>
     </div>
   </div>
 </section>

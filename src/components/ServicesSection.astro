@@ -39,13 +39,6 @@ const iconMap = {
             </span>
             <h3 class="service-card__title">{s.title}</h3>
             <p class="service-card__body">{s.body}</p>
-            {s.chips && s.chips.length > 0 && (
-              <ul class="service-card__chips" role="list" aria-label={`${s.title} highlights`}>
-                {s.chips.map((chip) => (
-                  <li class="service-card__chip">{chip}</li>
-                ))}
-              </ul>
-            )}
           </li>
         );
       })}

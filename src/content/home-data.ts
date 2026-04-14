@@ -14,7 +14,6 @@ export interface ServiceItem {
     | "LayoutGrid";
   title: string;
   body: string;
-  chips?: string[];
 }
 
 export interface WorkItem {
@@ -117,37 +116,31 @@ export const services: ServiceItem[] = [
     icon: "Palette",
     title: "Custom Static Sites",
     body: "Fast, accessible, and built to last. No monthly platform fees, no template lock-in, and no fragile plugin pileups. You get a site that feels like you and that you own outright.",
-    chips: ["Built to own", "Fast and durable"],
   },
   {
     icon: "Sparkles",
     title: "Animation & Motion",
     body: "Personality-forward design with thoughtful motion that adds delight and guides attention. Every effect is there for a reason, never just noise, and always includes a reduced-motion fallback.",
-    chips: ["Motion with purpose", "Reduced-motion safe"],
   },
   {
     icon: "Accessibility",
     title: "Accessibility-First",
     body: "WCAG 2.2 AA is the floor, with AAA patterns where practical. Keyboard navigation, semantic HTML, and clear structure are built in from day one, not patched in later.",
-    chips: ["WCAG 2.2 AA+", "Keyboard-first UX"],
   },
   {
     icon: "Gamepad2",
     title: "Browser-Based Games",
     body: "I love building interactive, game-like websites where we break the mold and make something new and exciting. These are my favorite projects: playful, surprising, and still clear and accessible.",
-    chips: ["Experimental builds", "Favorite to create"],
   },
   {
     icon: "Search",
     title: "Finding Your Vision",
     body: "If your idea is messy, weird, or still forming, that is welcome here. We shape your direction together, then build a site with personality, clarity, and room for your dreams to breathe.",
-    chips: ["Neurodivergent-friendly", "Weird ideas welcome"],
   },
   {
     icon: "LayoutGrid",
     title: "Off Paid Platforms",
     body: "Move off WordPress, Squarespace, or any platform charging monthly for things you should own. You keep your content, domain, and history - just without recurring lock-in or platform dependency.",
-    chips: ["Leave platform lock-in", "Keep your domain"],
   },
 ];
 

@@ -53,7 +53,7 @@ export const primaryNavItems: NavItem[] = [
     label: "Contact",
     href: "/#contact",
     section: "contact",
-    footerLabel: "Start a project",
+    footerLabel: "Contact",
   },
 ];
 
@@ -69,6 +69,7 @@ export const whoIWorkWith: WhoIWorkWithGroup[] = [
       "Housing Orgs",
       "Intentional Communities",
       "Fan Communities",
+      "Neurodivergent Communities",
     ],
   },
   {

@@ -190,7 +190,7 @@ export const work: WorkItem[] = [
     status: "In Development",
     description:
       "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
-    demo: "https://ghostbustersva.vercel.app/",
+    demo: "https://gbva-site.vercel.app/",
     image: "/images/gbva.png",
     imageAlt:
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",

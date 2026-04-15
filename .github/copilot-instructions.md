@@ -12,13 +12,11 @@ Volunteer web design service for nonprofits and mission-driven organizations. Al
 
 ## Tech Stack
 
-| Tool                               | Role                                                                                                                              |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [Astro](https://astro.build)       | Static site framework — Astro components preferred over framework components unless interactivity specifically requires otherwise |
-| TypeScript (strict mode)           | All code is typed. No `any`. Props interfaces defined for every component.                                                        |
-| Vanilla CSS with custom properties | No CSS frameworks. All values derive from `src/styles/tokens.css`.                                                                |
-| [Formspree](https://formspree.io)  | Contact form backend — no server-side code needed                                                                                 |
-| [Vercel](https://vercel.com)       | Deployment                                                                                                                        |
+- [Astro](https://astro.build): Static site framework. Prefer Astro components over framework components unless interactivity specifically requires otherwise.
+- TypeScript (strict mode): All code is typed. No `any`. Props interfaces are defined for every component.
+- Vanilla CSS with custom properties: No CSS frameworks. All values derive from `src/styles/tokens.css`.
+- [Resend](https://resend.com): Transactional email delivery for the contact flow via `api/contact.ts`.
+- [Vercel](https://vercel.com): Deployment platform.
 
 ---
 
@@ -99,3 +97,13 @@ If a task requires:
 - A new third-party dependency → **ask before adding**.
 - A layout or component pattern that has broader implications → **ask before implementing**.
 - Any content decision (copy, imagery, structure) → **ask**.
+
+---
+
+## Error Handling and Code Quality
+
+- **Never silence, ignore, or disable errors or warnings.** All type errors, lint errors, and test failures must be properly fixed, even if unrelated to the current change.
+- Do not use `// eslint-disable`, `// @ts-ignore`, or similar comments to suppress errors.
+- Always use reusable components for repeated UI patterns.
+- Always use design tokens from `tokens.css` for all visual values—never hard-code CSS values.
+- All code must pass strict TypeScript, lint, and test checks before merging or deploying.

@@ -1503,6 +1503,10 @@ textarea:disabled {
   line-height: var(--leading-relaxed);
 }
 
+.faq-answer p + p {
+  margin-top: var(--space-4);
+}
+
 .faq-donate {
   display: flex;
   justify-content: flex-end;

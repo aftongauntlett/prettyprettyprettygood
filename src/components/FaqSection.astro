@@ -28,7 +28,7 @@ const { faqs }: Props = Astro.props;
                   <span class="faq-summary__icon" aria-hidden="true"></span>
                 </summary>
                 <div class="faq-answer">
-                  <p>{faq.a}</p>
+                  {Array.isArray(faq.a) ? faq.a.map((para) => <p set:html={para} />) : <p>{faq.a}</p>}
                   {faq.links && (
                     <div class="faq-donate">
                       {faq.links.map((link) => (

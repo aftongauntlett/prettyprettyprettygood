@@ -32,7 +32,7 @@ export interface FaqLink {
 
 export interface FaqItem {
   q: string;
-  a: string;
+  a: string | string[];
   links?: FaqLink[];
 }
 
@@ -199,16 +199,20 @@ export const work: WorkItem[] = [
 
 export const faqs: FaqItem[] = [
   {
-    q: "How does pricing work?",
-    a: "I use a hybrid model: free when funding is tight, sliding scale when a project can contribute. No one is turned away for lack of funds. If your organization has a budget, your contribution helps me keep offering fully free work to others. Third-party costs like domains are still paid directly by you.",
-  },
-  {
     q: "How do you decide free vs. sliding scale?",
-    a: "Case by case, based on budget reality, project scope, and impact. If your resources are limited, we can keep it fully free. If you have a budget, we can agree on a sliding-scale contribution that feels fair and keeps the work sustainable.",
+    a: "I use a hybrid model and decide case by case based on budget reality, scope, and impact. If funds are tight, we can keep it fully free. If your organization has budget, we can agree on a fair sliding-scale contribution that helps sustain free work for others. Third-party costs like domains are always paid directly by you.",
   },
   {
     q: "Do I need a domain? What does that cost?",
     a: "If you don't have one, I can help you find and register one. Domains typically run $10-20 per year depending on the extension - you'd pay that directly to the registrar, no markup from me. If you already have a domain somewhere, I can help move it over at no cost.",
+  },
+  {
+    q: "Do you build more complex websites?",
+    a: "Yes - I can build more complex projects with things like login/auth flows, storefronts, booking calendars, backend services, and databases. Those builds involve significantly more planning and maintenance, so they are available as paid projects, not under the free option.",
+  },
+  {
+    q: "How long does a project take?",
+    a: "It depends on scope. Smaller sites can come together in a day; others take up to a week when there's back-and-forth on design choices or content. My current task load can affect timing too. I'll always be upfront about where things stand.",
   },
   {
     q: "Who owns the website after it's built?",
@@ -219,15 +223,19 @@ export const faqs: FaqItem[] = [
     a: "Yes. If you're code-savvy (or want to learn), I can walk you through making edits with GitHub so you can manage updates yourself. If you'd rather have a drag-and-drop style CMS (similar to WordPress), I can build that too - but that setup is outside the free offer.",
   },
   {
-    q: "Do you build more complex websites?",
-    a: "Yes - I can build more complex projects with things like login/auth flows, storefronts, booking calendars, backend services, and databases. Those builds involve significantly more planning and maintenance, so they are available as paid projects, not under the free option.",
-  },
-  {
     q: "Is the site accessible and good for SEO?",
     a: "Both are built in from the start, not added as an afterthought. I target WCAG 2.2 AA accessibility as a minimum and follow current SEO best practices throughout. That said, web standards evolve over time - and since this is volunteer work, I can't guarantee the site will always be fully current as things change. I do my best, and I'll always be honest about limitations.",
   },
   {
-    q: "How long does a project take?",
-    a: "I typically turn a site around within five days once I've started on it. That said, I work when I'm available - I take on projects based on fit and bandwidth, and I can't commit to hard deadlines or delivery guarantees. If I take on your project, I'll be upfront about timing from the start.",
+    q: "Can you help with Google Business, Analytics, or other free tools?",
+    a: "Yes - if you want help setting up Google Business Profile, Google Analytics, or similar free tools, I'm happy to walk you through it. These are straightforward to configure and genuinely useful for visibility and insight. I don't assist with ad campaigns or paid advertising of any kind, and I won't put ads on your site.",
+  },
+  {
+    q: "Do you use AI?",
+    a: [
+      "<strong>For development:</strong> Yes, I have 6 years of professional development experience at Fortune 500 companies and remember the Stack Overflow days well. I consider myself a frontend developer, but I'm comfortable across the stack. I wouldn't offer these services if I didn't feel confident handing something off. I'm not a vibe-coder - but AI has become a meaningful part of my workflow. If that makes you uneasy, I completely understand, which is exactly why I'm being transparent about it.",
+      "<strong>For art, images, and assets:</strong> I don't use AI to generate artwork, images, or audio - and I ask the same of you. Any assets you'd like on your site should come with a clear source: licensed work, original creations, or pieces you have explicit permission to display with proper attribution. This isn't about being difficult - it's about respecting artists and the people whose work makes the web worth looking at. This whole project is built on doing right by people, and that includes creators.",
+      "<strong>For your written content:</strong> I can use AI to help generate page copy, and it does a decent job with a good prompt. That said, I always recommend writing your own - no one can tell your story better than you. If you do want AI-generated content, that's completely fine, but you're responsible for reviewing it and making sure it's accurate and properly reflects your voice and intentions.",
+    ],
   },
 ];

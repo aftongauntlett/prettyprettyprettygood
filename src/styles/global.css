@@ -589,13 +589,39 @@ textarea:disabled {
 .who-group .tag {
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-xs);
-  transition: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .who-group .tag:hover {
-  background-color: var(--color-surface);
-  border-color: var(--color-neutral-200);
+  background-color: color-mix(
+    in srgb,
+    var(--color-neutral-100) 52%,
+    var(--color-surface)
+  );
+  border-color: var(--color-neutral-300);
   color: var(--color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .who-group .tag:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-neutral-200) 78%,
+      var(--color-surface)
+    );
+    border-color: var(--color-neutral-300);
+  }
+}
+
+[data-theme="dark"] .who-group .tag:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-neutral-200) 78%,
+    var(--color-surface)
+  );
+  border-color: var(--color-neutral-300);
 }
 
 .js .who-group[data-reveal] .tag-grid > li {
@@ -683,13 +709,56 @@ textarea:disabled {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: var(--radius-full);
-  background-color: var(--color-primary-surface);
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent) 28%,
+    var(--color-surface)
+  );
   flex-shrink: 0;
   margin-bottom: var(--space-1);
 }
 
 .service-card__icon {
-  color: var(--color-primary);
+  color: var(--color-accent-light);
+  transition: color var(--transition-fast);
+}
+
+.service-card:hover .service-card__icon {
+  color: var(--color-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .service-card__icon-wrap {
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-light) 30%,
+      var(--color-surface)
+    );
+  }
+
+  :root:not([data-theme="light"]) .service-card__icon {
+    color: var(--color-accent);
+  }
+
+  :root:not([data-theme="light"]) .service-card:hover .service-card__icon {
+    color: var(--color-accent-light);
+  }
+}
+
+[data-theme="dark"] .service-card__icon-wrap {
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent-light) 30%,
+    var(--color-surface)
+  );
+}
+
+[data-theme="dark"] .service-card__icon {
+  color: var(--color-accent);
+}
+
+[data-theme="dark"] .service-card:hover .service-card__icon {
+  color: var(--color-accent-light);
 }
 
 .service-card:hover .service-card__icon {

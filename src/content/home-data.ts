@@ -212,11 +212,15 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "Who owns the website after it's built?",
-    a: "You do - fully. Everything is set up in your name: the domain, the hosting account, the code. I don't retain access or hold anything on your behalf. The moment your site goes live, it belongs to you outright. You're never dependent on me to keep it running.",
+    a: "You do - fully. Everything is set up in your name: the domain, the hosting account, and the code. Once it's handed off, it's yours. If you want updates later, you can still reach out and I can help with edits by request.",
   },
   {
-    q: "Can I update the site myself?",
-    a: "Yes, if you ever need something updated, just message me and I'll handle it. If you'd prefer to manage content on your own, I can set up an easy content management system similar to what you may know from WordPress — no coding required. Either way works.",
+    q: "Can I edit the website after handoff?",
+    a: "Yes. If you're code-savvy (or want to learn), I can walk you through making edits with GitHub so you can manage updates yourself. If you'd rather have a drag-and-drop style CMS (similar to WordPress), I can build that too - but that setup is outside the free offer.",
+  },
+  {
+    q: "Do you build more complex websites?",
+    a: "Yes - I can build more complex projects with things like login/auth flows, storefronts, booking calendars, backend services, and databases. Those builds involve significantly more planning and maintenance, so they are available as paid projects, not under the free option.",
   },
   {
     q: "Is the site accessible and good for SEO?",

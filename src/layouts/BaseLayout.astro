@@ -9,12 +9,14 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
 }
 
 const {
   title,
   description,
   ogImage = '/images/pppg-landing.png',
+  ogImageAlt = 'prettyprettyprettygood — sliding-scale web design for nonprofits, artists, and mission-driven people',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -35,10 +37,13 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="prettyprettyprettygood" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -46,6 +51,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />

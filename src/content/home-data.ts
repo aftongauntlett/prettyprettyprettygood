@@ -177,7 +177,7 @@ export const work: WorkItem[] = [
   },
   {
     title: "Siren Song Shop",
-    status: "In Development",
+    status: "In Production",
     description:
       "A curated recommendation platform built as a trust-first alternative to affiliate-heavy shopping sites. Siren Song centers personally vetted picks, local resources, and practical guides, with Astro Content Collections and Keystatic powering fast editorial updates. Designed for WCAG-aware accessibility, clean SEO structure, and strong performance across mobile and desktop.",
     demo: "https://sirensongshop.com/",

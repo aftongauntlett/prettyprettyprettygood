@@ -219,12 +219,16 @@ export const faqs: FaqItem[] = [
     a: "You do - fully. Everything is set up in your name: the domain, the hosting account, and the code. Once it's handed off, it's yours. If you want updates later, you can still reach out and I can help with edits by request.",
   },
   {
-    q: "Can I edit the website after handoff?",
+    q: "Do I need to manage website edits myself?",
+    a: "No - the main benefit for most clients is that I handle edits for you. Just send me what you want changed by email, text, or call, and I will take care of it. You never need to learn code, log into a CMS, or manage technical tools unless you want to. If helpful, I can also set up a simple password-protected request page for your site so submitting and tracking update requests is easy.",
+  },
+  {
+    q: "What if I want to edit the website myself later?",
     a: "Yes. If you're code-savvy (or want to learn), I can walk you through making edits with GitHub so you can manage updates yourself. If you'd rather have a drag-and-drop style CMS (similar to WordPress), I can build that too - but that setup is outside the free offer.",
   },
   {
     q: "Is the site accessible and good for SEO?",
-    a: "Both are built in from the start, not added as an afterthought. I target WCAG 2.2 AA accessibility as a minimum and follow current SEO best practices throughout. That said, web standards evolve over time - and since this is volunteer work, I can't guarantee the site will always be fully current as things change. I do my best, and I'll always be honest about limitations.",
+    a: "I design toward WCAG 2.2 AA and follow current SEO best practices throughout, then validate with automated checks and manual QA before handoff. I don't make legal-style compliance guarantees, because standards and site content can change over time - but accessibility and search performance are always core requirements in my process.",
   },
   {
     q: "Can you help with Google Business, Analytics, or other free tools?",

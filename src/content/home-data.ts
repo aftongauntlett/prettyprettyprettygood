@@ -146,16 +146,6 @@ export const services: ServiceItem[] = [
 
 export const work: WorkItem[] = [
   {
-    title: "Astrid Beauty Hair Salon",
-    status: "In Production",
-    description:
-      "A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking - with accessible markup and SEO-friendly structure throughout.",
-    demo: "https://www.byastridbeautysalon.com/",
-    image: "/images/astrid.png",
-    imageAlt:
-      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
-  },
-  {
     title: "No Whiteboard Dashboard",
     status: "In Production",
     description:
@@ -166,14 +156,24 @@ export const work: WorkItem[] = [
       "Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don't whiteboard in interviews",
   },
   {
-    title: "JC Auto Body",
-    status: "In Production",
+    title: "NPC Finder",
+    status: "In Development",
     description:
-      "A website for JC Auto Body, a locally owned family-run auto body shop in Chantilly, Virginia. Originally built in 2020, then fully refactored from a Next.js and Firebase setup into a simpler Astro and Vercel static architecture. The rebuild prioritized WCAG 2.2 accessibility and responsive behavior across devices.",
-    demo: "https://jcautobodyva.com/",
-    image: "/images/jc-auto-body.png",
+      "A private media tracker and collaborative playlist app covering Movies & TV, Books, Music, and Games. Combines per-entry status history, notes, and ratings with mixed-media playlists that are private by default and shareable with invited users. Built on Supabase Auth and PostgreSQL RLS to support social profiles, friend tags, recommendations, and media import within an invite-only workflow.",
+    demo: "https://www.npcfinder.com/",
+    image: "/images/npcfinder-grid.png",
     imageAlt:
-      "Screenshot of the JC Auto Body website showing service information and contact details",
+      "Screenshot of NPC Finder showing the media tracker grid view with movie and TV show poster cards organized by status",
+  },
+  {
+    title: "Ghostbusters Virginia",
+    status: "In Development",
+    description:
+      "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
+    demo: "https://gbva-site.vercel.app/",
+    image: "/images/gbva.png",
+    imageAlt:
+      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
   },
   {
     title: "Siren Song Shop",
@@ -186,14 +186,24 @@ export const work: WorkItem[] = [
       "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
   },
   {
-    title: "Ghostbusters Virginia",
-    status: "In Development",
+    title: "JC Auto Body",
+    status: "In Production",
     description:
-      "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
-    demo: "https://gbva-site.vercel.app/",
-    image: "/images/gbva.png",
+      "A website for JC Auto Body, a locally owned family-run auto body shop in Chantilly, Virginia. Originally built in 2020, then fully refactored from a Next.js and Firebase setup into a simpler Astro and Vercel static architecture. The rebuild prioritized WCAG 2.2 accessibility and responsive behavior across devices.",
+    demo: "https://jcautobodyva.com/",
+    image: "/images/jc-auto-body.png",
     imageAlt:
-      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
+      "Screenshot of the JC Auto Body website showing service information and contact details",
+  },
+  {
+    title: "Astrid Beauty Hair Salon",
+    status: "In Production",
+    description:
+      "A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking - with accessible markup and SEO-friendly structure throughout.",
+    demo: "https://www.byastridbeautysalon.com/",
+    image: "/images/astrid.png",
+    imageAlt:
+      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
 ];
 

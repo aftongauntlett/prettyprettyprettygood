@@ -16,9 +16,9 @@ const { work }: Props = Astro.props;
       <p class="eyebrow">the work</p>
       <h2 id="work-heading">Recent Projects</h2>
       <p class="section-lead">
-        A few recent projects that show the kind of thoughtful, accessible
-        sites I build. Take a look at the work and what each one was designed
-        to do.
+        A few recent custom-coded projects that show the kind of thoughtful,
+        accessible sites I build. Take a look at the work and what each one
+        was designed to do.
       </p>
     </div>
     <ul class="work-grid" role="list" data-reveal-stagger>
@@ -38,10 +38,21 @@ const { work }: Props = Astro.props;
                   width={1200}
                   height={750}
                   alt={w.imageAlt}
-                  class="work-card__image"
+                  class={w.imageLight ? 'work-card__image work-card__image--dark' : 'work-card__image'}
                   loading="lazy"
                   decoding="async"
                 />
+                {w.imageLight && (
+                  <Image
+                    src={w.imageLight}
+                    width={1200}
+                    height={750}
+                    alt={w.imageAlt}
+                    class="work-card__image work-card__image--light"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 <div class="work-card__image-overlay" aria-hidden="true">
                   <ExternalLink size={32} class="work-card__overlay-icon" />
                 </div>
@@ -57,17 +68,28 @@ const { work }: Props = Astro.props;
               </div>
             </a>
           ) : (
-            <article class="work-card" aria-label={`${w.title} - in development`}>
+            <article class="work-card" aria-label={`${w.title} - ${w.status.toLowerCase()}`}>
               <div class="work-card__image-wrap">
                 <Image
                   src={w.image}
                   width={1200}
                   height={750}
                   alt={w.imageAlt}
-                  class="work-card__image"
+                  class={w.imageLight ? 'work-card__image work-card__image--dark' : 'work-card__image'}
                   loading="lazy"
                   decoding="async"
                 />
+                {w.imageLight && (
+                  <Image
+                    src={w.imageLight}
+                    width={1200}
+                    height={750}
+                    alt={w.imageAlt}
+                    class="work-card__image work-card__image--light"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
               </div>
               <div class="work-card__content">
                 <div class="work-card__title-row">

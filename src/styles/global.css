@@ -987,6 +987,30 @@ textarea:disabled {
   transition: none;
 }
 
+/* Screenshots with a light-mode variant: show the light version by default,
+   swap to the dark version when dark mode is active. */
+.work-card__image--dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .work-card__image--light {
+    display: none;
+  }
+
+  :root:not([data-theme="light"]) .work-card__image--dark {
+    display: block;
+  }
+}
+
+[data-theme="dark"] .work-card__image--light {
+  display: none;
+}
+
+[data-theme="dark"] .work-card__image--dark {
+  display: block;
+}
+
 .work-card__image-overlay {
   position: absolute;
   inset: 0;
@@ -1034,7 +1058,7 @@ textarea:disabled {
   border: 1px solid transparent;
 }
 
-.work-card__status--in-production {
+.work-card__status--live-site {
   background-color: color-mix(
     in srgb,
     var(--color-accent-surface) 78%,
@@ -1044,7 +1068,7 @@ textarea:disabled {
   color: var(--color-accent-dark);
 }
 
-.work-card__status--in-development {
+.work-card__status--in-progress {
   background-color: color-mix(
     in srgb,
     var(--color-neutral-100) 82%,
@@ -1055,14 +1079,14 @@ textarea:disabled {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .work-card__status--in-development {
+  :root:not([data-theme="light"]) .work-card__status--in-progress {
     background-color: var(--color-neutral-200);
     border-color: var(--color-neutral-400);
     color: var(--color-neutral-800);
   }
 }
 
-[data-theme="dark"] .work-card__status--in-development {
+[data-theme="dark"] .work-card__status--in-progress {
   background-color: var(--color-neutral-200);
   border-color: var(--color-neutral-400);
   color: var(--color-neutral-800);

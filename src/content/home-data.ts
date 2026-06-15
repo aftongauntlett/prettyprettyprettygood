@@ -18,10 +18,11 @@ export interface ServiceItem {
 
 export interface WorkItem {
   title: string;
-  status: "In Production" | "In Development";
+  status: "Live Site" | "In Progress";
   description: string;
   demo?: string;
   image: string;
+  imageLight?: string;
   imageAlt: string;
 }
 
@@ -146,64 +147,67 @@ export const services: ServiceItem[] = [
 
 export const work: WorkItem[] = [
   {
-    title: "No Whiteboard Dashboard",
-    status: "In Production",
+    title: "GAM[fest]",
+    status: "In Progress",
     description:
-      "A frontend dashboard built on the open-source Hiring Without Whiteboards dataset, turning a large markdown company list into a fast, searchable web experience. Includes full-text search, multi-filtering, card and list view modes, pagination, dark and light themes, and mobile-first navigation.",
-    demo: "https://no-wb.org",
-    image: "/images/no-wb.png",
+      "A custom-coded recap site for GAM[fest], a Baltimore community festival celebrating games, art, and music on a giant LED billboard. Designed to feel like a playful arcade experience while still making the event story, photos, and community energy easy to explore on any device.",
+    demo: "https://gamfest-demo.vercel.app/",
+    image: "/images/gamfest.png",
+    imageLight: "/images/gamfest-light.png",
     imageAlt:
-      "Screenshot of the No Whiteboard Jobs Dashboard showing a searchable list of tech companies that don't whiteboard in interviews",
+      "Screenshot of the GAM[fest] website showing the retro arcade-themed hero scene with the festival's billboard design",
   },
   {
-    title: "NPC Finder",
-    status: "In Development",
+    title: "Siren Song Shop",
+    status: "Live Site",
     description:
-      "A private media tracker and collaborative playlist app covering Movies & TV, Books, Music, and Games. Combines per-entry status history, notes, and ratings with mixed-media playlists that are private by default and shareable with invited users. Built on Supabase Auth and PostgreSQL RLS to support social profiles, friend tags, recommendations, and media import within an invite-only workflow.",
-    demo: "https://www.npcfinder.com/",
-    image: "/images/npcfinder-grid.png",
+      "A custom-built recommendation site for practical, trust-first shopping guides and local resources. The site is structured for fast publishing, strong search visibility, and a calm browsing experience that helps readers find useful picks without the clutter of affiliate-heavy platforms.",
+    demo: "https://sirensongshop.com/",
+    image: "/images/siren-song.png",
+    imageLight: "/images/siren-song-light.png",
     imageAlt:
-      "Screenshot of NPC Finder showing the media tracker grid view with movie and TV show poster cards organized by status",
+      "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
+  },
+  {
+    title: "RCAN",
+    status: "In Progress",
+    description:
+      "A nonprofit website for the Returning Citizens Assistance Network, a Washington, DC group supporting people re-entering society after incarceration. Built to make the mission clear, guide visitors toward donations and volunteering, and give partner congregations a stronger public home.",
+    demo: "https://rcan.vercel.app/",
+    image: "/images/rcan.png",
+    imageAlt:
+      "Screenshot of the RCAN website showing the homepage hero and community impact information",
   },
   {
     title: "Ghostbusters Virginia",
-    status: "In Production",
+    status: "Live Site",
     description:
-      "A community-focused website for Ghostbusters Virginia, refactored into a modern Astro site. Includes event listings, curated image galleries with a lightbox, news and media pages, and an integrated contact and booking flow. Prioritizes accessibility, SEO-friendly structure, and mobile-first performance.",
+      "A community-focused website for Ghostbusters Virginia, rebuilt as a faster custom site with clearer paths to events, media, bookings, and contact. The redesign makes it easier for fans, event organizers, and press to find what they need while keeping the group personality front and center.",
     demo: "https://ghostbustersva.com/",
     image: "/images/gbva.png",
     imageAlt:
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
   },
   {
-    title: "Siren Song Shop",
-    status: "In Production",
+    title: "Astrid Beauty Hair Salon",
+    status: "Live Site",
     description:
-      "A curated recommendation platform built as a trust-first alternative to affiliate-heavy shopping sites. Siren Song centers personally vetted picks, local resources, and practical guides, with Astro Content Collections and Keystatic powering fast editorial updates. Designed for WCAG-aware accessibility, clean SEO structure, and strong performance across mobile and desktop.",
-    demo: "https://sirensongshop.com/",
-    image: "/images/siren-song.png",
+      "A custom website for a working hair salon, redesigned to help new and returning clients understand services, review pricing guidance, and book with less friction. Built with clean, accessible structure so the business feels polished without depending on a template platform.",
+    demo: "https://www.byastridbeautysalon.com/",
+    image: "/images/astrid.png",
+    imageLight: "/images/astrid-light.png",
     imageAlt:
-      "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
+      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
   {
     title: "JC Auto Body",
-    status: "In Production",
+    status: "Live Site",
     description:
-      "A website for JC Auto Body, a locally owned family-run auto body shop in Chantilly, Virginia. Originally built in 2020, then fully refactored from a Next.js and Firebase setup into a simpler Astro and Vercel static architecture. The rebuild prioritized WCAG 2.2 accessibility and responsive behavior across devices.",
+      "A custom site for a family-run auto body shop in Chantilly, Virginia, built to make services, location details, and contact information easy to find. The latest rebuild simplified the architecture, improved accessibility, and made the site faster and more reliable across devices.",
     demo: "https://jcautobodyva.com/",
     image: "/images/jc-auto-body.png",
     imageAlt:
       "Screenshot of the JC Auto Body website showing service information and contact details",
-  },
-  {
-    title: "Astrid Beauty Hair Salon",
-    status: "In Production",
-    description:
-      "A production website for Astrid Beauty Salon, originally hand-built for a client with real customers. Rebuilt in 2026 as a full refactor and redesign. Focused on clear service presentation, pricing guidance, and a low-friction path to booking - with accessible markup and SEO-friendly structure throughout.",
-    demo: "https://www.byastridbeautysalon.com/",
-    image: "/images/astrid.png",
-    imageAlt:
-      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
 ];
 

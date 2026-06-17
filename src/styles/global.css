@@ -1173,9 +1173,6 @@ textarea:disabled {
 
 .contact-form-card {
   order: 2;
-  border-left: 1px solid
-    color-mix(in srgb, var(--color-neutral-300) 52%, transparent);
-  padding-left: var(--space-8);
 }
 
 .contact-form-card.is-complete {
@@ -1198,10 +1195,48 @@ textarea:disabled {
   margin-bottom: 0;
 }
 
-.contact-steps .caveat {
-  margin-block-start: auto;
-  align-self: stretch;
-  text-align: left;
+.contact-closer {
+  width: min(100%, 42rem);
+  margin: var(--space-12) auto 0;
+  text-align: center;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.contact-links a:hover {
+  color: var(--color-primary);
+  text-decoration-thickness: 2px;
+}
+
+.contact-closer .caveat {
+  margin-block-start: 0;
+  padding: var(--space-5) var(--space-6) 0;
+  background-color: transparent;
+  border-left: none;
+  border-top: 1px solid
+    color-mix(in srgb, var(--color-neutral-300) 40%, transparent);
+  border-radius: 0;
+}
+
+.contact-closer .caveat p {
+  font-size: var(--text-base);
 }
 
 .contact-form {
@@ -1591,14 +1626,12 @@ textarea:disabled {
     text-align: center;
   }
 
-  .contact-steps .caveat {
-    text-align: center;
+  .contact-closer {
+    margin-top: var(--space-10);
   }
 
   .contact-form-card {
     order: 1;
-    border-left: none;
-    padding-left: 0;
   }
 
   .step {

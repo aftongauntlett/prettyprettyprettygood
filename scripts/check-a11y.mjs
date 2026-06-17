@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 const cliArgs = process.argv.slice(2);
 const url = cliArgs[0] ?? "http://127.0.0.1:4321/";
 const extraLighthouseArgs = cliArgs.slice(1);
-const outputPath = ".tmp-lighthouse-a11y.json";
+const outputPath = `.tmp-lighthouse-a11y-${process.pid}.json`;
 
 const lighthouseArgs = [
   "--yes",

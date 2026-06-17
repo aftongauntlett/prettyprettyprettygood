@@ -1,6 +1,10 @@
 ---
-import { Send } from '@lucide/astro';
+import { Send, Mail } from '@lucide/astro';
 import StyledDropdown from './StyledDropdown.astro';
+import BlueskyIcon from './icons/BlueskyIcon.astro';
+
+const blueskyUrl = 'https://bsky.app/profile/prettyprettypretty.bsky.social';
+const contactEmail = 'contact@prettyprettyprettygood.org';
 
 interface Props {
   status?: 'sent' | 'error' | null;
@@ -101,20 +105,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
           />
 
           <div class="field">
-            <label class="field__label" for="budget-context">
-              Budget context
-              <span class="field__hint">(optional)</span>
-            </label>
-            <textarea
-              class="field__input field__textarea"
-              id="budget-context"
-              name="budget-context"
-              rows="3"
-              placeholder="Anything helpful about budget, timeline, or constraints."
-            ></textarea>
-          </div>
-
-          <div class="field">
             <label class="field__label" for="existing-site">
               Existing website
               <span class="field__hint">(if you have one)</span>
@@ -167,13 +157,31 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
             </div>
           </li>
         </ol>
-        <aside class="caveat" data-reveal>
-          <p>
-            I take projects based on availability and whether the work excites me.
-            I can't take everything - but I read every message.
-          </p>
-        </aside>
       </div>
+    </div>
+
+    <div class="contact-closer" data-reveal>
+      <aside class="caveat">
+        <p>
+          I take projects based on availability and whether the work excites me.
+          I can't take everything - but I read every message.
+        </p>
+      </aside>
+
+      <ul class="contact-links" role="list" aria-label="Other ways to get in touch">
+        <li>
+          <a href={blueskyUrl} target="_blank" rel="noopener noreferrer">
+            <BlueskyIcon size={16} />
+            Bluesky
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${contactEmail}`}>
+            <Mail size={16} stroke-width={2} aria-hidden="true" />
+            {contactEmail}
+          </a>
+        </li>
+      </ul>
     </div>
 
     {

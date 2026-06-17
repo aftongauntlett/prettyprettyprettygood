@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 496">
+  <!-- Glasses: top edge at y=5, cy=43, r=38 -->
+  <circle cx="278" cy="43" r="38" fill="none" stroke="#C8715A" stroke-width="5"/>
+  <circle cx="402" cy="43" r="38" fill="none" stroke="#C8715A" stroke-width="5"/>
+  <line x1="316" y1="43" x2="364" y2="43" stroke="#C8715A" stroke-width="5"/>
+  <line x1="240" y1="54" x2="212" y2="63" stroke="#C8715A" stroke-width="5" stroke-linecap="round"/>
+  <line x1="440" y1="54" x2="468" y2="63" stroke="#C8715A" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Text: baseline of last line + descender = viewBox bottom -->
+  <text x="340" y="168" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-0.01em" fill="#7A9E87">pretty</text>
+  <text x="340" y="264" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-0.01em" fill="#7A9E87">pretty</text>
+  <text x="340" y="360" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-0.01em" fill="#7A9E87">pretty</text>
+  <text x="340" y="456" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="88" font-weight="700" letter-spacing="-0.01em" fill="#C8715A">good.</text>
+</svg>

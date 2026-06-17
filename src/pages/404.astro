@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found | prettyprettyprettygood"
+  description="The page you were looking for could not be found. Head back home or start a project with prettyprettyprettygood."
+>
+  <section class="not-found" aria-labelledby="not-found-heading">
+    <div class="container not-found__inner">
+      <div class="not-found__media" aria-hidden="true">
+        <img
+          src="/images/prettyprettyprettygood-logo.svg"
+          alt=""
+          class="not-found__logo"
+          width="680"
+          height="496"
+          loading="eager"
+        />
+      </div>
+
+      <div class="not-found__content">
+        <p class="not-found__code" aria-hidden="true">404</p>
+        <h1 id="not-found-heading">This page wandered off.</h1>
+        <p class="not-found__body">
+          The link may be old, mistyped, or still becoming its best self. The
+          homepage has the good stuff: services, recent work, FAQ, and the
+          project form.
+        </p>
+        <div class="not-found__actions" aria-label="404 page actions">
+          <a href="/" class="btn btn--primary">Go home</a>
+          <a href="/#contact" class="btn btn--secondary">Start a project</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: clamp(42rem, 78vh, 56rem);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: var(--space-16);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--color-primary-surface) 42%, transparent),
+        transparent 38%
+      ),
+      linear-gradient(
+        315deg,
+        color-mix(in srgb, var(--color-accent-surface) 58%, transparent),
+        transparent 42%
+      ),
+      var(--color-surface);
+  }
+
+  .not-found__inner {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .not-found__media {
+    display: grid;
+    place-items: center;
+    min-height: 30rem;
+    padding: var(--space-10);
+    border: 1px solid color-mix(in srgb, var(--color-neutral-300) 46%, transparent);
+    border-radius: var(--radius-2xl);
+    background-color: color-mix(in srgb, var(--color-surface-subtle) 82%, transparent);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .not-found__logo {
+    width: min(100%, 38rem);
+    height: auto;
+    filter: drop-shadow(0 1rem 1.5rem rgb(42 31 20 / 0.08));
+  }
+
+  .not-found__content {
+    max-width: 39rem;
+  }
+
+  .not-found__code {
+    margin-bottom: var(--space-10);
+    font-family: var(--font-display);
+    font-size: clamp(7.5rem, 18vw, 14.5rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 0.78;
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-primary);
+    text-shadow: 0.08em 0.08em 0 color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  .not-found h1 {
+    margin-bottom: var(--space-5);
+    color: var(--color-neutral-700);
+    font-size: clamp(var(--text-4xl), 5vw, 4.25rem);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .not-found__body {
+    max-width: 34rem;
+    margin-bottom: var(--space-8);
+    color: var(--color-text-muted);
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 56rem) {
+    .not-found {
+      min-height: auto;
+      padding-block: var(--space-12);
+    }
+
+    .not-found__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      text-align: center;
+    }
+
+    .not-found__media {
+      min-height: 22rem;
+      order: -1;
+    }
+
+    .not-found__content,
+    .not-found__body {
+      margin-inline: auto;
+    }
+
+    .not-found__actions {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .not-found__media {
+      min-height: 17rem;
+      padding: var(--space-6);
+      border-radius: var(--radius-xl);
+    }
+
+    .not-found h1 {
+      font-size: var(--text-4xl);
+    }
+
+    .not-found__actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .not-found__actions .btn {
+      justify-content: center;
+    }
+  }
+</style>

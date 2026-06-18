@@ -123,6 +123,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
             Thanks for reaching out. If it feels like a good fit, I will respond within a day or two. I try to reply to everyone, but requests are high and I cannot always respond to every message.
           </p>
         </div>
+
+        {
+          turnstileSiteKey && (
+            <div class="contact-turnstile-row" data-contact-turnstile-row data-reveal>
+              <div class="field">
+                <div data-contact-turnstile data-sitekey={turnstileSiteKey}></div>
+              </div>
+            </div>
+          )
+        }
       </div>
 
       <div class="contact-steps">
@@ -183,16 +193,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         </li>
       </ul>
     </div>
-
-    {
-      turnstileSiteKey && (
-        <div class="contact-turnstile-row" data-contact-turnstile-row data-reveal>
-          <div class="field">
-            <div data-contact-turnstile data-sitekey={turnstileSiteKey}></div>
-          </div>
-        </div>
-      )
-    }
   </div>
 </section>
 

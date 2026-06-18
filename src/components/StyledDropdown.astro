@@ -3,6 +3,7 @@ interface StyledDropdownOption {
   value: string;
   label: string;
   disabled?: boolean;
+  separatorBefore?: boolean;
 }
 
 interface Props {
@@ -41,6 +42,7 @@ const selectId = `${id}-native`;
 <div class="field styled-dropdown" data-styled-dropdown>
   <label class="field__label" id={labelId} for={id}>
     {label}
+    {required && <span class="field__required" aria-hidden="true">*</span>}
     {hint && <span class="field__hint">{hint}</span>}
   </label>
 
@@ -92,18 +94,21 @@ const selectId = `${id}-native`;
 
       {
         options.map((option, index) => (
-          <li
-            class="styled-dropdown__option"
-            id={`${id}-option-${index}`}
-            role="option"
-            aria-selected={option.value === initialValue ? 'true' : 'false'}
-            data-value={option.value}
-            data-label={option.label}
-            data-disabled={option.disabled ? 'true' : 'false'}
-            data-dropdown-option
-          >
-            {option.label}
-          </li>
+          <>
+            {option.separatorBefore && <li class="styled-dropdown__divider" aria-hidden="true" />}
+            <li
+              class="styled-dropdown__option"
+              id={`${id}-option-${index}`}
+              role="option"
+              aria-selected={option.value === initialValue ? 'true' : 'false'}
+              data-value={option.value}
+              data-label={option.label}
+              data-disabled={option.disabled ? 'true' : 'false'}
+              data-dropdown-option
+            >
+              {option.label}
+            </li>
+          </>
         ))
       }
     </ul>
@@ -275,7 +280,6 @@ const selectId = `${id}-native`;
       }
 
       openDropdown(elements);
-      moveActiveOption(1);
     });
 
     trigger.addEventListener('keydown', (event) => {
@@ -296,7 +300,6 @@ const selectId = `${id}-native`;
 
         if (!isOpen) {
           openDropdown(elements);
-          moveActiveOption(1);
           return;
         }
 

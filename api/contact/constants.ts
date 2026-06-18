@@ -37,6 +37,7 @@ const allowedContributionModels = new Set([
   "sliding-scale",
   "budget",
   "not-sure",
+  "designer",
 ]);
 
 export const isAllowedContributionModel = (value: string): boolean =>
@@ -52,6 +53,8 @@ export const formatContributionModel = (value: string): string => {
       return "Has a real budget and happy to contribute";
     case "not-sure":
       return "Not sure yet";
+    case "designer":
+      return "Is a designer interested in collaborating";
     default:
       return "Not provided";
   }

@@ -6,7 +6,7 @@ import ServicesSection from '../components/ServicesSection.astro';
 import WorkSection from '../components/WorkSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import FaqSection from '../components/FaqSection.astro';
-import { whoIWorkWith, services, work, faqs } from '../content/home-data';
+import { whoIWorkWith, services, work, faqs, faqCallout } from '../content/home-data';
 
 const contactParam = Astro.url.searchParams.get('contact');
 const contactStatus = contactParam === 'sent' || contactParam === 'error'
@@ -23,5 +23,5 @@ const contactStatus = contactParam === 'sent' || contactParam === 'error'
   <ServicesSection services={services} />
   <WorkSection work={work} />
   <ContactSection status={contactStatus} />
-  <FaqSection faqs={faqs} />
+  <FaqSection faqs={faqs} callout={faqCallout} />
 </BaseLayout>

@@ -1,11 +1,12 @@
 ---
-import type { FaqItem } from '../content/home-data';
+import type { FaqItem, FaqCallout } from '../content/home-data';
 
 interface Props {
   faqs: FaqItem[];
+  callout?: FaqCallout;
 }
 
-const { faqs }: Props = Astro.props;
+const { faqs, callout }: Props = Astro.props;
 ---
 
 <section class="section section--raised" id="faq" aria-labelledby="faq-heading">
@@ -17,7 +18,7 @@ const { faqs }: Props = Astro.props;
         No fine print, no surprises. Here's how this all works.
       </p>
     </div>
-    <div class="faq-layout" data-faq-layout>
+    <div class="faq-layout">
       <div class="faq-content">
         <ul class="faq-list" role="list" data-reveal-stagger>
           {faqs.map((faq) => (
@@ -31,11 +32,19 @@ const { faqs }: Props = Astro.props;
                   {Array.isArray(faq.a) ? faq.a.map((para) => <p set:html={para} />) : <p>{faq.a}</p>}
                   {faq.links && (
                     <div class="faq-donate">
-                      {faq.links.map((link) => (
-                        <a href={link.href} class="btn btn--support" target="_blank" rel="noopener noreferrer">
-                          {link.label}
-                        </a>
-                      ))}
+                      {faq.links.map((link) => {
+                        const isExternal = /^https?:\/\//.test(link.href);
+                        return (
+                          <a
+                            href={link.href}
+                            class="btn btn--support"
+                            target={isExternal ? '_blank' : undefined}
+                            rel={isExternal ? 'noopener noreferrer' : undefined}
+                          >
+                            {link.label}
+                          </a>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -43,41 +52,16 @@ const { faqs }: Props = Astro.props;
             </li>
           ))}
         </ul>
-        <div class="faq-actions" data-reveal>
-          <button type="button" class="btn btn--secondary" data-faq-toggle-all>
-            Open all
-          </button>
-        </div>
+        {callout && (
+          <div class="faq-callout" data-reveal>
+            <p class="faq-callout__heading">{callout.heading}</p>
+            <p class="faq-callout__body">{callout.body}</p>
+            <a href={callout.link.href} class="btn btn--support">
+              {callout.link.label}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  const faqLayout = document.querySelector<HTMLElement>('[data-faq-layout]');
-  const faqToggleAllButton = faqLayout?.querySelector<HTMLButtonElement>('[data-faq-toggle-all]');
-
-  const getFaqDetails = () =>
-    Array.from(faqLayout?.querySelectorAll<HTMLDetailsElement>('.faq-details') ?? []);
-
-  const hasOpenDetails = () => getFaqDetails().some((details) => details.open);
-
-  const updateToggleButtonLabel = () => {
-    if (!faqToggleAllButton) return;
-    faqToggleAllButton.textContent = hasOpenDetails() ? 'Collapse all' : 'Open all';
-  };
-
-  faqToggleAllButton?.addEventListener('click', () => {
-    const shouldCollapse = hasOpenDetails();
-    getFaqDetails().forEach((details) => {
-      details.open = !shouldCollapse;
-    });
-    updateToggleButtonLabel();
-  });
-
-  getFaqDetails().forEach((details) => {
-    details.addEventListener('toggle', updateToggleButtonLabel);
-  });
-
-  updateToggleButtonLabel();
-</script>

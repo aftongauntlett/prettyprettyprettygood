@@ -61,25 +61,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
           }
 
           <div class="field">
-            <label class="field__label" for="name">Your name</label>
+            <label class="field__label" for="name">Your name <span class="field__required" aria-hidden="true">*</span></label>
             <input class="field__input" type="text" id="name" name="name" placeholder="What should I call you?" autocomplete="name" required />
           </div>
 
           <div class="field">
-            <label class="field__label" for="email">Email address</label>
+            <label class="field__label" for="email">Email address <span class="field__required" aria-hidden="true">*</span></label>
             <input class="field__input" type="email" id="email" name="email" placeholder="Where should I write back?" autocomplete="email" required />
           </div>
 
           <div class="field">
-            <label class="field__label" for="org">
-              Organization or project
-              <span class="field__hint">(optional)</span>
-            </label>
-            <input class="field__input" type="text" id="org" name="org" placeholder="Your org, band, co-op, studio..." />
+            <label class="field__label" for="existing-site">Existing or desired website/domain <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__input" type="text" id="existing-site" name="existing-site" placeholder="https://yoursite.com, or just the domain you'd like" autocomplete="url" required />
           </div>
 
           <div class="field">
-            <label class="field__label" for="message">Tell me about your work</label>
+            <label class="field__label" for="message">Tell me about your work <span class="field__required" aria-hidden="true">*</span></label>
             <textarea
               class="field__input field__textarea"
               id="message"
@@ -101,16 +98,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
               { value: 'sliding-scale', label: 'We can contribute on a sliding scale.' },
               { value: 'budget', label: 'We have a real budget and are happy to contribute.' },
               { value: 'not-sure', label: 'Not sure yet.' },
+              { value: 'designer', label: 'I am a designer interested in collaborating', separatorBefore: true },
             ]}
           />
-
-          <div class="field">
-            <label class="field__label" for="existing-site">
-              Existing website
-              <span class="field__hint">(if you have one)</span>
-            </label>
-            <input class="field__input" type="url" id="existing-site" name="existing-site" placeholder="https://" autocomplete="url" />
-          </div>
 
           <button type="submit" class="btn btn--primary" data-contact-submit>
             <span data-contact-submit-label>Send</span>

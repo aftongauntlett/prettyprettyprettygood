@@ -37,6 +37,12 @@ export interface FaqItem {
   links?: FaqLink[];
 }
 
+export interface FaqCallout {
+  heading: string;
+  body: string;
+  link: FaqLink;
+}
+
 export interface NavItem {
   label: string;
   href: string;
@@ -249,11 +255,17 @@ export const faqs: FaqItem[] = [
     a: "Yes - if you want help setting up Google Business Profile, Google Analytics, or similar free tools, I'm happy to walk you through it. These are straightforward to configure and genuinely useful for visibility and insight. I don't assist with ad campaigns or paid advertising of any kind, and I won't put ads on your site.",
   },
   {
-    q: "Do you use AI?",
-    a: [
-      "<strong>For development:</strong> Yes, I have 6 years of professional development experience at Fortune 500 companies and remember the Stack Overflow days well. I consider myself a frontend developer, but I'm comfortable across the stack. I wouldn't offer these services if I didn't feel confident handing something off. I'm not a vibe-coder - but AI has become a meaningful part of my workflow. If that makes you uneasy, I completely understand, which is exactly why I'm being transparent about it.",
-      "<strong>For art, images, and assets:</strong> I don't use AI to generate artwork, images, or audio - and I ask the same of you. Any assets you'd like on your site should come with a clear source: licensed work, original creations, or pieces you have explicit permission to display with proper attribution. This isn't about being difficult - it's about respecting artists and the people whose work makes the web worth looking at. This whole project is built on doing right by people, and that includes creators.",
-      "<strong>For your written content:</strong> I can use AI to help generate page copy, and it does a decent job with a good prompt. That said, I always recommend writing your own - no one can tell your story better than you. If you do want AI-generated content, that's completely fine, but you're responsible for reviewing it and making sure it's accurate and properly reflects your voice and intentions.",
-    ],
+    q: "Who are you?",
+    a: "I'm a frontend-leaning full-stack engineer with 6 years of professional experience, including work as a lead engineer at Fortune 500 companies supporting mission-critical government programs - leading migrations, refactors, and system designs. This project is where I get to bring that same level of craft to people and causes I actually care about, without the corporate overhead.",
+  },
+  {
+    q: "What's your stance on AI?",
+    a: "I don't love it, but I won't lie - it has changed how I write code. I use it for development thoughtfully, the same way I'd use any other tool in my stack. I don't use it to generate artwork, images, or audio - and I ask the same of you. Any assets on your site should come from a clear source: licensed work, original creations, or pieces you have explicit permission to use with proper attribution.",
   },
 ];
+
+export const faqCallout: FaqCallout = {
+  heading: "Are you a designer or illustrator?",
+  body: "I'd love to team up with an artist on illustrations, sprites, logos, and other visual assets for client projects.",
+  link: { label: "Get in touch", href: "/#contact" },
+};

@@ -3,7 +3,20 @@ import {
   resendApiUrl,
   resendTimeoutMs,
 } from "./constants";
-import { escapeHtml } from "./utils";
+import { escapeHtml, isLikelyHttpUrl } from "./utils";
+
+const formatExistingSite = (value: string): string => {
+  if (!value) {
+    return "Not provided";
+  }
+
+  if (isLikelyHttpUrl(value)) {
+    const escapedUrl = escapeHtml(value);
+    return `<a href="${escapedUrl}">${escapedUrl}</a>`;
+  }
+
+  return escapeHtml(value);
+};
 
 type ContactEmailBodyData = {
   name: string;
@@ -39,7 +52,7 @@ export const buildContactEmailHtml = ({
   <p><strong>Organization or project:</strong> ${escapeHtml(org || "Not provided")}</p>
   <p><strong>Funding preference:</strong> ${escapeHtml(formatContributionModel(contributionModel))}</p>
   <p><strong>Budget context:</strong> ${escapeHtml(budgetContext || "Not provided")}</p>
-  <p><strong>Existing website:</strong> ${escapeHtml(existingSite || "Not provided")}</p>
+  <p><strong>Existing or desired website/domain:</strong> ${formatExistingSite(existingSite)}</p>
   <h3>Message</h3>
   <p>${escapeHtml(message).replaceAll("\n", "<br />")}</p>
 `;

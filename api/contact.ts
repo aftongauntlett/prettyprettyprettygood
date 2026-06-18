@@ -22,7 +22,6 @@ import { verifyTurnstileToken } from "./contact/turnstile";
 import {
   asString,
   isLikelyEmail,
-  isLikelyHttpUrl,
   normalizeEmail,
   sha256Hex,
   toNumber,
@@ -75,7 +74,7 @@ export default async function handler(request: Request): Promise<Response> {
     return rejectSubmission(request);
   }
 
-  if (!name || !normalizedEmail || !message || !contributionModel) {
+  if (!name || !normalizedEmail || !message || !contributionModel || !existingSite) {
     return rejectSubmission(request);
   }
 
@@ -96,10 +95,6 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   if (!isLikelyEmail(normalizedEmail)) {
-    return rejectSubmission(request);
-  }
-
-  if (existingSite && !isLikelyHttpUrl(existingSite)) {
     return rejectSubmission(request);
   }
 

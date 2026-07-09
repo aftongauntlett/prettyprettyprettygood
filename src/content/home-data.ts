@@ -176,10 +176,10 @@ export const work: WorkItem[] = [
   },
   {
     title: "RCAN",
-    status: "In Progress",
+    status: "Live Site",
     description:
       "A nonprofit website for the Returning Citizens Assistance Network, a Washington, DC group supporting people re-entering society after incarceration. Built to make the mission clear, guide visitors toward donations and volunteering, and give partner congregations a stronger public home.",
-    demo: "https://rcan.vercel.app/",
+    demo: "https://www.rcandc.org/",
     image: "/images/rcan.png",
     imageAlt:
       "Screenshot of the RCAN website showing the homepage hero and community impact information",

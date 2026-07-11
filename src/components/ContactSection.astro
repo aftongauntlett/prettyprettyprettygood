@@ -2,8 +2,10 @@
 import { Send, Mail } from '@lucide/astro';
 import StyledDropdown from './StyledDropdown.astro';
 import BlueskyIcon from './icons/BlueskyIcon.astro';
+import FacebookIcon from './icons/FacebookIcon.astro';
 
 const blueskyUrl = 'https://bsky.app/profile/prettyprettypretty.bsky.social';
+const facebookUrl = 'https://www.facebook.com/prettyprettyprettygoodorg';
 const contactEmail = 'contact@prettyprettyprettygood.org';
 
 interface Props {
@@ -173,6 +175,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
           <a href={blueskyUrl} target="_blank" rel="noopener noreferrer">
             <BlueskyIcon size={16} />
             Bluesky
+          </a>
+        </li>
+        <li>
+          <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
+            <FacebookIcon size={16} />
+            Facebook
           </a>
         </li>
         <li>

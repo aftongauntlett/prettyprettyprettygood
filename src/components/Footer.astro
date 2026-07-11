@@ -80,6 +80,8 @@ const paypalUrl = 'https://paypal.me/aftons';
       </ul>
       <p class="site-footer__copy">
         &copy; {year} prettyprettyprettygood. All rights reserved.
+        <span aria-hidden="true"> · </span>
+        <a href="/privacy">Privacy Policy</a>
       </p>
       <div class="site-footer__meta">
         <button
@@ -374,6 +376,16 @@ const paypalUrl = 'https://paypal.me/aftons';
     color: var(--color-text-muted);
     justify-self: center;
     text-align: center;
+  }
+
+  .site-footer__copy a {
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .site-footer__copy a:hover {
+    color: var(--color-primary);
   }
 
   .site-footer__meta {

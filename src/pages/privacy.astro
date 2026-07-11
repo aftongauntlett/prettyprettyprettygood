@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = 'July 11, 2026';
+const contactEmail = 'contact@prettyprettyprettygood.org';
+---
+
+<BaseLayout
+  title="Privacy Policy | prettyprettyprettygood"
+  description="What prettyprettyprettygood collects through the contact form, why, and who it's shared with."
+>
+  <section class="section privacy" aria-labelledby="privacy-heading">
+    <div class="container privacy__inner">
+      <div class="section-header privacy__header" data-reveal>
+        <p class="eyebrow">privacy policy</p>
+        <h1 id="privacy-heading">Short version: I collect what the contact form needs, and nothing else.</h1>
+        <p class="section-lead">Last updated {lastUpdated}.</p>
+      </div>
+
+      <div class="privacy__prose" data-reveal>
+        <h2>What this site collects</h2>
+        <p>
+          This site doesn't use tracking cookies, analytics, or advertising
+          scripts. The only personal information collected is what you
+          submit through the <a href="/#contact">contact form</a>: your name,
+          email address, website/domain, project message, and funding
+          preference.
+        </p>
+
+        <h2>How it's used</h2>
+        <p>
+          Contact form submissions are sent directly to me by email so I can
+          respond to your project inquiry. That's the only reason this
+          information is collected — it isn't used for marketing, sold, or
+          shared with anyone outside the services below.
+        </p>
+
+        <h2>Who it passes through</h2>
+        <p>A few third-party services help the contact form work and keep it free of spam:</p>
+        <ul>
+          <li><strong>Resend</strong> — delivers your message to me by email.</li>
+          <li><strong>Cloudflare Turnstile</strong> — verifies you're a human, not a bot, before the form submits.</li>
+          <li><strong>Upstash Redis</strong> — briefly stores a hashed version of your email and IP address to prevent spam and abuse. This data automatically expires and is not used for any other purpose.</li>
+        </ul>
+        <p>
+          Each of these services processes data on my behalf under their own
+          privacy and security terms. None of them are used to advertise to
+          you or to track you across other sites.
+        </p>
+
+        <h2>Ko-fi and PayPal</h2>
+        <p>
+          The Ko-fi and PayPal buttons on this site are plain links that take
+          you to those companies' own websites. Nothing from those services
+          is embedded on this site or shares data with it — anything you do
+          on Ko-fi or PayPal is covered by their own privacy policies.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          This site sets no tracking or advertising cookies. A small
+          amount of information (like your theme preference) may be saved
+          locally in your browser so the site remembers your choice — it
+          never leaves your device.
+        </p>
+
+        <h2>Questions</h2>
+        <p>
+          If you want to know what information I have about you, or want it
+          deleted, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy__inner {
+    max-width: 48rem;
+  }
+
+  .privacy__header {
+    max-width: 100%;
+    text-align: left;
+    margin-inline: 0;
+  }
+
+  .privacy__prose {
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+  }
+
+  .privacy__prose h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-3);
+    color: var(--color-neutral-700);
+    font-size: var(--text-xl);
+  }
+
+  .privacy__prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .privacy__prose p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .privacy__prose ul {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-muted);
+    list-style: disc;
+  }
+
+  .privacy__prose li + li {
+    margin-top: var(--space-2);
+  }
+
+  .privacy__prose a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .privacy__prose a:hover {
+    color: var(--color-primary-dark);
+  }
+</style>

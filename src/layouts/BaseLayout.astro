@@ -2,7 +2,6 @@
 import SkipToContent from '../components/SkipToContent.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
 interface Props {
@@ -80,7 +79,6 @@ const ogImageURL = new URL(ogImage, Astro.site);
       <slot />
     </main>
     <Footer />
-    <SpeedInsights />
 
     <!-- Scroll-reveal: IntersectionObserver adds .is-visible to [data-reveal]
          and [data-reveal-stagger] elements as they enter the viewport. -->

@@ -244,23 +244,23 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "What if I want to edit the website myself later?",
-    a: "Yes. If you're code-savvy (or want to learn), I can walk you through making edits with GitHub so you can manage updates yourself. If you'd rather have a drag-and-drop style CMS (similar to WordPress), I can build that too - but that setup is outside the free offer.",
+    a: "That's an option too. If you're code-savvy (or want to learn), I can walk you through making edits with GitHub so you can manage updates yourself. If you'd rather have a drag-and-drop style CMS (similar to WordPress), I can build that too - but that setup is outside the free offer.",
   },
   {
     q: "Is the site accessible and good for SEO?",
     a: "I design toward WCAG 2.2 AA and follow current SEO best practices throughout, then validate with automated checks and manual QA before handoff. I don't make legal-style compliance guarantees, because standards and site content can change over time - but accessibility and search performance are always core requirements in my process.",
   },
   {
-    q: "Can you help with Google Business, Analytics, or other free tools?",
-    a: "Yes - if you want help setting up Google Business Profile, Google Analytics, or similar free tools, I'm happy to walk you through it. These are straightforward to configure and genuinely useful for visibility and insight. I don't assist with ad campaigns or paid advertising of any kind, and I won't put ads on your site.",
-  },
-  {
-    q: "Who are you?",
-    a: "I'm a frontend-leaning full-stack engineer with 6 years of professional experience, including work as a lead engineer at Fortune 500 companies supporting mission-critical government programs - leading migrations, refactors, and system designs. This project is where I get to bring that same level of craft to people and causes I actually care about, without the corporate overhead.",
+    q: "Can you help with Google Business, Analytics, or donation/payment tools?",
+    a: "Yes - I'm happy to help set up Google Business Profile, Google Analytics, Donorbox, or similar free and low-cost tools, and embed the widgets directly on your site. I'm not a tax or legal expert though - I learn a bit more with every project, but I don't know your legal/nonprofit status, and if the tool becomes something you use, you should confirm your setup is right with an accountant or lawyer. I don't assist with ad campaigns or paid advertising of any kind, and I won't put ads on your site.",
   },
   {
     q: "What's your stance on AI?",
-    a: "I don't love it, but I won't lie - it has changed how I write code. I use it for development thoughtfully, the same way I'd use any other tool in my stack. I don't use it to generate artwork, images, or audio - and I ask the same of you. Any assets on your site should come from a clear source: licensed work, original creations, or pieces you have explicit permission to use with proper attribution.",
+    a: "I think it's a genuinely impressive tool for coding, and I use it thoughtfully as part of my development process - the same way I'd use any other tool in my stack. Where I draw the line is art, music, and other creative media: I don't use it to generate artwork, images, or audio, and I ask the same of you. Any assets on your site should come from a clear source: licensed work, original creations, or pieces you have explicit permission to use with proper attribution.",
+  },
+  {
+    q: "Who are you?",
+    a: "I'm a frontend-leaning full-stack engineer with 6 years of professional experience, including work as a lead engineer at Fortune 500 companies supporting mission-critical government programs. I hold an active TS/SCI clearance and Security+ certification, and I've spent that time leading migrations, refactors, and system designs on work where getting it right is imperative. My time with the DoD was invaluable, but I stepped away from the cleared industry to focus on this project, where my skills could be used for doing good and bringing joy into the world - for love, not war. This is where I get to bring that same level of craft to people and causes that build something good, without the corporate overhead.",
   },
 ];
 

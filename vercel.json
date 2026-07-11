@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/redis-keepalive",
-      "schedule": "17 3 * * *"
-    }
-  ]
-}

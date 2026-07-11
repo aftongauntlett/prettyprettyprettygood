@@ -7,7 +7,7 @@ Volunteer web design for nonprofits and mission-driven organizations. Built with
 - [Astro](https://astro.build) — static site framework
 - TypeScript (strict mode)
 - Vanilla CSS with custom properties
-- [Resend](https://resend.com) — contact email delivery
+- [Formspree](https://formspree.io) — contact form handling and delivery
 - [Vercel](https://vercel.com) — deployment
 
 ## Development
@@ -26,16 +26,9 @@ If you need Vercel env vars locally, pull them on demand:
 vercel env pull .env.development.local
 ```
 
-## Contact Endpoint Security
+## Contact Form
 
-- Same-origin `Origin`/`Referer` enforcement
-- Honeypot field (`project-url`) and submit-timing trap (`form-started-at`)
-- Server-side validation and HTML escaping before rendering email content
-- Distributed Upstash Redis rate limiting (IP and email-based, configurable with env vars)
-- Optional Cloudflare Turnstile verification when `PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set
+The contact form (`src/components/ContactSection.astro`) submits directly to Formspree — no backend route in this repo. Spam protection is handled by:
 
-## Redis Keepalive Cron
-
-- Cron path: `/api/redis-keepalive`
-- Schedule: daily at `03:17` UTC (configured in `vercel.json`)
-- Required env var in Vercel: `CRON_SECRET` (used to authenticate cron requests)
+- Cloudflare Turnstile widget, rendered client-side when `PUBLIC_TURNSTILE_SITE_KEY` is set; verified server-side by Formspree using the secret key configured in the Formspree dashboard (not stored in this repo)
+- Formspree's built-in honeypot field (`_gotcha`)

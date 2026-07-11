@@ -15,7 +15,6 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@lucide/astro": "^1.7.0",
-    "@upstash/redis": "^1.37.0",
     "astro": "^6.1.2"
   },
   "devDependencies": {

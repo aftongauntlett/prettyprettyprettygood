@@ -7,6 +7,7 @@ import FacebookIcon from './icons/FacebookIcon.astro';
 const blueskyUrl = 'https://bsky.app/profile/prettyprettypretty.bsky.social';
 const facebookUrl = 'https://www.facebook.com/prettyprettyprettygoodorg';
 const contactEmail = 'contact@prettyprettyprettygood.org';
+const formspreeEndpoint = 'https://formspree.io/f/xnjeavny';
 
 interface Props {
   status?: 'sent' | 'error' | null;
@@ -30,17 +31,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
 
     <div class="contact-layout">
       <div class="contact-form-card" data-reveal>
-        <form class="contact-form" action="/api/contact" method="POST" data-contact-form>
-          <input type="hidden" name="form-started-at" value="" data-contact-started-at />
+        <form class="contact-form" action={formspreeEndpoint} method="POST" data-contact-form>
+          <input type="hidden" name="_next" value={new URL('/?contact=sent#contact', Astro.site).toString()} />
           <input type="hidden" name="cf-turnstile-response" value="" data-contact-turnstile-token />
 
           <div class="field field--honeypot" aria-hidden="true">
-            <label class="field__label visually-hidden" for="project-url">Project URL</label>
+            <label class="field__label visually-hidden" for="_gotcha">Project URL</label>
             <input
               class="field__input"
               type="text"
-              id="project-url"
-              name="project-url"
+              id="_gotcha"
+              name="_gotcha"
               tabindex="-1"
               autocomplete="off"
             />
@@ -209,7 +210,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
   (() => {
     const form = document.querySelector('[data-contact-form]');
     const formCard = form?.closest('.contact-form-card');
-    const startedAtInput = document.querySelector('[data-contact-started-at]');
     const errorNotice = form?.querySelector('[data-contact-notice="error"]');
     const thanksPanel = document.querySelector('[data-contact-thanks]');
     const submitButton = form?.querySelector('[data-contact-submit]');
@@ -301,12 +301,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       return Boolean(turnstileTokenInput.value);
     };
 
-    const setStartedAt = () => {
-      if (startedAtInput instanceof HTMLInputElement) {
-        startedAtInput.value = String(Date.now());
-      }
-    };
-
     const hideError = () => {
       errorNotice?.setAttribute('hidden', '');
     };
@@ -355,7 +349,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       }
     };
 
-    setStartedAt();
     loadTurnstileWidget();
 
     if (!(form instanceof HTMLFormElement)) {
@@ -390,7 +383,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         if (isLocalSubmitMock) {
           await new Promise((resolve) => setTimeout(resolve, 600));
           form.reset();
-          setStartedAt();
           resetTurnstileWidget();
           showThanks();
           return;
@@ -401,7 +393,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
           body: new FormData(form),
           headers: {
             Accept: 'application/json',
-            'x-contact-ajax': '1',
           },
         });
 
@@ -419,7 +410,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
         }
 
         form.reset();
-        setStartedAt();
         resetTurnstileWidget();
         showThanks();
       } catch {

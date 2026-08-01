@@ -1092,6 +1092,16 @@ textarea:disabled {
   color: var(--color-neutral-800);
 }
 
+.work-card__status--template-—-available {
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-surface) 78%,
+    var(--color-surface)
+  );
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  color: var(--color-primary-dark);
+}
+
 .work-card__title {
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);

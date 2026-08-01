@@ -18,7 +18,7 @@ export interface ServiceItem {
 
 export interface WorkItem {
   title: string;
-  status: "Live Site" | "In Progress";
+  status: "Live Site" | "In Progress" | "Template — Available";
   description: string;
   demo?: string;
   image: string;
@@ -214,6 +214,16 @@ export const work: WorkItem[] = [
     image: "/images/jc-auto-body.png",
     imageAlt:
       "Screenshot of the JC Auto Body website showing service information and contact details",
+  },
+  {
+    title: "Magic Festival",
+    status: "Template — Available",
+    description:
+      "A ready-to-launch template for event sites - festivals, races, conventions - with an animated hero, live schedule, photo gallery, and donation flow already built in. Fully themeable via design tokens, so it re-skins fast for a real event. Currently unclaimed - if this fits what you're planning, it's available.",
+    demo: "https://magic-festival.vercel.app/",
+    image: "/images/magic-festival.png",
+    imageAlt:
+      "Screenshot of the Magic Festival template website showing the animated hero scene with placeholder festival branding",
   },
 ];
 

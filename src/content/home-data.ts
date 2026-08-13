@@ -18,7 +18,7 @@ export interface ServiceItem {
 
 export interface WorkItem {
   title: string;
-  status: "Live Site" | "In Progress" | "Template — Available";
+  status: "Live Site" | "In Progress" | "Design Available";
   description: string;
   demo?: string;
   image: string;
@@ -175,14 +175,15 @@ export const work: WorkItem[] = [
       "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
   },
   {
-    title: "RCAN",
+    title: "Astrid Beauty Hair Salon",
     status: "Live Site",
     description:
-      "A nonprofit website for the Returning Citizens Assistance Network, a Washington, DC group supporting people re-entering society after incarceration. Built to make the mission clear, guide visitors toward donations and volunteering, and give partner congregations a stronger public home.",
-    demo: "https://www.rcandc.org/",
-    image: "/images/rcan.png",
+      "A custom website for a working hair salon, redesigned to help new and returning clients understand services, review pricing guidance, and book with less friction. Built with clean, accessible structure so the business feels polished without depending on a template platform.",
+    demo: "https://www.byastridbeautysalon.com/",
+    image: "/images/astrid.png",
+    imageLight: "/images/astrid-light.png",
     imageAlt:
-      "Screenshot of the RCAN website showing the homepage hero and community impact information",
+      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
   {
     title: "Ghostbusters Virginia",
@@ -195,15 +196,14 @@ export const work: WorkItem[] = [
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
   },
   {
-    title: "Astrid Beauty Hair Salon",
+    title: "RCAN",
     status: "Live Site",
     description:
-      "A custom website for a working hair salon, redesigned to help new and returning clients understand services, review pricing guidance, and book with less friction. Built with clean, accessible structure so the business feels polished without depending on a template platform.",
-    demo: "https://www.byastridbeautysalon.com/",
-    image: "/images/astrid.png",
-    imageLight: "/images/astrid-light.png",
+      "A nonprofit website for the Returning Citizens Assistance Network, a Washington, DC group supporting people re-entering society after incarceration. Built to make the mission clear, guide visitors toward donations and volunteering, and give partner congregations a stronger public home.",
+    demo: "https://www.rcandc.org/",
+    image: "/images/rcan.png",
     imageAlt:
-      "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
+      "Screenshot of the RCAN website showing the homepage hero and community impact information",
   },
   {
     title: "JC Auto Body",
@@ -216,8 +216,28 @@ export const work: WorkItem[] = [
       "Screenshot of the JC Auto Body website showing service information and contact details",
   },
   {
+    title: "Glorious Health Ministries",
+    status: "Live Site",
+    description:
+      "A faith-based marketing site for Glorious Health Ministries, a healing and support ministry for widows. The site introduces the ministry's three pillars - Gatherings, Connection, and Sisterhood - shares the founder's story, and gives widows, churches, and funeral homes a clear way to learn more and get in touch.",
+    demo: "https://www.glorioushealthministries.com/",
+    image: "/images/glorioushealth.png",
+    imageAlt:
+      "Screenshot of the Glorious Health Ministries website showing the hero section with the ministry's dove logo and its three pillars: Gatherings, Connection, and Sisterhood",
+  },
+  {
+    title: "Carol I. Zacheiss, Attorney at Law",
+    status: "Live Site",
+    description:
+      "A marketing site for Carol I. Zacheiss, a criminal defense attorney serving Hopewell, Prince George, and Petersburg, Virginia. Built as a standalone custom site with clear paths to requesting a consultation and reviewing practice areas.",
+    demo: "https://tricitiescriminallaw.com/",
+    image: "/images/tricities.png",
+    imageAlt:
+      "Screenshot of the Carol I. Zacheiss, Attorney at Law website showing the hero section with the statue of Lady Justice and the firm's areas of experience",
+  },
+  {
     title: "Magic Festival",
-    status: "Template — Available",
+    status: "Design Available",
     description:
       "A ready-to-launch template for event sites - festivals, races, conventions - with an animated hero, live schedule, photo gallery, and donation flow already built in. Fully themeable via design tokens, so it re-skins fast for a real event. Currently unclaimed - if this fits what you're planning, it's available.",
     demo: "https://magic-festival.vercel.app/",

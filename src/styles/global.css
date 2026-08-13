@@ -1092,7 +1092,7 @@ textarea:disabled {
   color: var(--color-neutral-800);
 }
 
-.work-card__status--template-—-available {
+.work-card__status--design-available {
   background-color: color-mix(
     in srgb,
     var(--color-primary-surface) 78%,

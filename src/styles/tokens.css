@@ -11,7 +11,7 @@
      -------------------------------------------------------------------------- */
 
   /* Brand */
-  --color-primary: #b8622e; /* burnt orange */
+  --color-primary: #a8541f; /* burnt orange, darkened from #b8622e for WCAG AA text contrast (4.28:1 -> 5.23:1 on --color-surface) */
   --color-primary-light: #d08050;
   --color-primary-dark: #9a5024;
 
@@ -90,11 +90,11 @@
 
   /* --------------------------------------------------------------------------
      Font Families
-     Self-hosted fonts are placed in /public/fonts/.
-     font-display: swap is set in the @font-face declarations in global.css.
+     Self-hosted via @fontsource-variable (see imports in global.css).
+     font-display: swap is set in the @font-face declarations those packages ship.
      -------------------------------------------------------------------------- */
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "DM Sans", "system-ui", sans-serif;
+  --font-display: "Fraunces Variable", "Georgia", serif;
+  --font-body: "DM Sans Variable", "system-ui", sans-serif;
   --font-mono: "JetBrains Mono", "Menlo", "Consolas", monospace;
 
   --font-weight-normal: 400;
@@ -238,7 +238,7 @@
 }
 
 [data-theme="light"] {
-  --color-primary: #b8622e;
+  --color-primary: #a8541f;
   --color-primary-light: #d08050;
   --color-primary-dark: #9a5024;
 

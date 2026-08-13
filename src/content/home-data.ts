@@ -1,3 +1,18 @@
+import type { ImageMetadata } from "astro";
+
+import gamfest from "../images/work/gamfest.png";
+import gamfestLight from "../images/work/gamfest-light.png";
+import sirenSong from "../images/work/siren-song.png";
+import sirenSongLight from "../images/work/siren-song-light.png";
+import astrid from "../images/work/astrid.png";
+import astridLight from "../images/work/astrid-light.png";
+import gbva from "../images/work/gbva.png";
+import rcan from "../images/work/rcan.png";
+import jcAutoBody from "../images/work/jc-auto-body.png";
+import gloriousHealth from "../images/work/glorioushealth.png";
+import tricities from "../images/work/tricities.png";
+import magicFestival from "../images/work/magic-festival.png";
+
 export interface WhoIWorkWithGroup {
   label: string;
   color: "primary" | "accent";
@@ -21,8 +36,8 @@ export interface WorkItem {
   status: "Live Site" | "In Progress" | "Design Available";
   description: string;
   demo?: string;
-  image: string;
-  imageLight?: string;
+  image: ImageMetadata;
+  imageLight?: ImageMetadata;
   imageAlt: string;
 }
 
@@ -158,8 +173,8 @@ export const work: WorkItem[] = [
     description:
       "A custom-coded recap site for GAM[fest], a Baltimore community festival celebrating games, art, and music on a giant LED billboard. Designed to feel like a playful arcade experience while still making the event story, photos, and community energy easy to explore on any device.",
     demo: "https://gamfest-demo.vercel.app/",
-    image: "/images/gamfest.png",
-    imageLight: "/images/gamfest-light.png",
+    image: gamfest,
+    imageLight: gamfestLight,
     imageAlt:
       "Screenshot of the GAM[fest] website showing the retro arcade-themed hero scene with the festival's billboard design",
   },
@@ -169,8 +184,8 @@ export const work: WorkItem[] = [
     description:
       "A custom-built recommendation site for practical, trust-first shopping guides and local resources. The site is structured for fast publishing, strong search visibility, and a calm browsing experience that helps readers find useful picks without the clutter of affiliate-heavy platforms.",
     demo: "https://sirensongshop.com/",
-    image: "/images/siren-song.png",
-    imageLight: "/images/siren-song-light.png",
+    image: sirenSong,
+    imageLight: sirenSongLight,
     imageAlt:
       "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
   },
@@ -180,8 +195,8 @@ export const work: WorkItem[] = [
     description:
       "A custom website for a working hair salon, redesigned to help new and returning clients understand services, review pricing guidance, and book with less friction. Built with clean, accessible structure so the business feels polished without depending on a template platform.",
     demo: "https://www.byastridbeautysalon.com/",
-    image: "/images/astrid.png",
-    imageLight: "/images/astrid-light.png",
+    image: astrid,
+    imageLight: astridLight,
     imageAlt:
       "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
@@ -191,7 +206,7 @@ export const work: WorkItem[] = [
     description:
       "A community-focused website for Ghostbusters Virginia, rebuilt as a faster custom site with clearer paths to events, media, bookings, and contact. The redesign makes it easier for fans, event organizers, and press to find what they need while keeping the group personality front and center.",
     demo: "https://ghostbustersva.com/",
-    image: "/images/gbva.png",
+    image: gbva,
     imageAlt:
       "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
   },
@@ -201,7 +216,7 @@ export const work: WorkItem[] = [
     description:
       "A nonprofit website for the Returning Citizens Assistance Network, a Washington, DC group supporting people re-entering society after incarceration. Built to make the mission clear, guide visitors toward donations and volunteering, and give partner congregations a stronger public home.",
     demo: "https://www.rcandc.org/",
-    image: "/images/rcan.png",
+    image: rcan,
     imageAlt:
       "Screenshot of the RCAN website showing the homepage hero and community impact information",
   },
@@ -211,7 +226,7 @@ export const work: WorkItem[] = [
     description:
       "A custom site for a family-run auto body shop in Chantilly, Virginia, built to make services, location details, and contact information easy to find. The latest rebuild simplified the architecture, improved accessibility, and made the site faster and more reliable across devices.",
     demo: "https://jcautobodyva.com/",
-    image: "/images/jc-auto-body.png",
+    image: jcAutoBody,
     imageAlt:
       "Screenshot of the JC Auto Body website showing service information and contact details",
   },
@@ -221,7 +236,7 @@ export const work: WorkItem[] = [
     description:
       "A faith-based marketing site for Glorious Health Ministries, a healing and support ministry for widows. The site introduces the ministry's three pillars - Gatherings, Connection, and Sisterhood - shares the founder's story, and gives widows, churches, and funeral homes a clear way to learn more and get in touch.",
     demo: "https://www.glorioushealthministries.com/",
-    image: "/images/glorioushealth.png",
+    image: gloriousHealth,
     imageAlt:
       "Screenshot of the Glorious Health Ministries website showing the hero section with the ministry's dove logo and its three pillars: Gatherings, Connection, and Sisterhood",
   },
@@ -231,7 +246,7 @@ export const work: WorkItem[] = [
     description:
       "A marketing site for Carol I. Zacheiss, a criminal defense attorney serving Hopewell, Prince George, and Petersburg, Virginia. Built as a standalone custom site with clear paths to requesting a consultation and reviewing practice areas.",
     demo: "https://tricitiescriminallaw.com/",
-    image: "/images/tricities.png",
+    image: tricities,
     imageAlt:
       "Screenshot of the Carol I. Zacheiss, Attorney at Law website showing the hero section with the statue of Lady Justice and the firm's areas of experience",
   },
@@ -241,7 +256,7 @@ export const work: WorkItem[] = [
     description:
       "A ready-to-launch template for event sites - festivals, races, conventions - with an animated hero, live schedule, photo gallery, and donation flow already built in. Fully themeable via design tokens, so it re-skins fast for a real event. Currently unclaimed - if this fits what you're planning, it's available.",
     demo: "https://magic-festival.vercel.app/",
-    image: "/images/magic-festival.png",
+    image: magicFestival,
     imageAlt:
       "Screenshot of the Magic Festival template website showing the animated hero scene with placeholder festival branding",
   },

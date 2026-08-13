@@ -5,19 +5,13 @@
 @import "./tokens.css";
 
 /* --------------------------------------------------------------------------
-   Self-hosted font faces
-   Files live in /public/fonts/. Add @font-face blocks here when fonts
-   are downloaded. font-display: swap ensures text remains visible during load.
-
-   Example:
-   @font-face {
-     font-family: 'Fraunces';
-     src: url('/fonts/Fraunces-VariableFont.woff2') format('woff2');
-     font-weight: 100 900;
-     font-style: normal;
-     font-display: swap;
-   }
+   Self-hosted font faces, served from @fontsource-variable (npm packages
+   that vendor the actual woff2 files — no request to Google's CDN).
+   Each declares font-weight: 100 900 as a single variable-font file, with
+   font-display: swap so text stays visible while it loads.
    -------------------------------------------------------------------------- */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/dm-sans";
 
 /* --------------------------------------------------------------------------
    Modern CSS Reset

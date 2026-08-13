@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const lastUpdated = 'July 11, 2026';
+const lastUpdated = 'August 13, 2026';
 const contactEmail = 'contact@prettyprettyprettygood.org';
 ---
 
@@ -38,9 +38,8 @@ const contactEmail = 'contact@prettyprettyprettygood.org';
         <h2>Who it passes through</h2>
         <p>A few third-party services help the contact form work and keep it free of spam:</p>
         <ul>
-          <li><strong>Resend</strong> — delivers your message to me by email.</li>
+          <li><strong>Formspree</strong> — receives your form submission and delivers it to me by email.</li>
           <li><strong>Cloudflare Turnstile</strong> — verifies you're a human, not a bot, before the form submits.</li>
-          <li><strong>Upstash Redis</strong> — briefly stores a hashed version of your email and IP address to prevent spam and abuse. This data automatically expires and is not used for any other purpose.</li>
         </ul>
         <p>
           Each of these services processes data on my behalf under their own

@@ -691,6 +691,14 @@ textarea:disabled {
   gap: var(--space-6);
 }
 
+/* If the count is odd, center the lone trailing card instead of leaving it
+   flush left with an empty slot beside it. */
+.service-grid > li:nth-child(odd):nth-last-child(1) {
+  grid-column: 1 / -1;
+  max-width: calc(50% - (var(--space-6) / 2));
+  margin-inline: auto;
+}
+
 .service-card {
   display: flex;
   flex-direction: column;
@@ -1094,6 +1102,30 @@ textarea:disabled {
   );
   border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
   color: var(--color-primary-dark);
+}
+
+.work-card__status--closed-testing {
+  background-color: color-mix(
+    in srgb,
+    var(--color-neutral-100) 82%,
+    var(--color-surface)
+  );
+  border-color: color-mix(in srgb, var(--color-neutral-400) 45%, transparent);
+  color: var(--color-text-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .work-card__status--closed-testing {
+    background-color: var(--color-neutral-200);
+    border-color: var(--color-neutral-400);
+    color: var(--color-neutral-800);
+  }
+}
+
+[data-theme="dark"] .work-card__status--closed-testing {
+  background-color: var(--color-neutral-200);
+  border-color: var(--color-neutral-400);
+  color: var(--color-neutral-800);
 }
 
 .work-card__title {
@@ -1695,5 +1727,9 @@ textarea:disabled {
 
   .service-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-grid > li:nth-child(odd):nth-last-child(1) {
+    max-width: none;
   }
 }

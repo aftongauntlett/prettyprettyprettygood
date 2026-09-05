@@ -11,7 +11,10 @@ import rcan from "../images/work/rcan.png";
 import jcAutoBody from "../images/work/jc-auto-body.png";
 import gloriousHealth from "../images/work/glorioushealth.png";
 import tricities from "../images/work/tricities.png";
-import magicFestival from "../images/work/magic-festival.png";
+import magicDark from "../images/work/magic-dark.png";
+import magicLight from "../images/work/magic-light.png";
+import meowdrateDark from "../images/work/meowdrate-dark.png";
+import meowdrateLight from "../images/work/meowdrate-light.png";
 
 export interface WhoIWorkWithGroup {
   label: string;
@@ -26,14 +29,15 @@ export interface ServiceItem {
     | "Accessibility"
     | "Gamepad2"
     | "Search"
-    | "LayoutGrid";
+    | "LayoutGrid"
+    | "Smartphone";
   title: string;
   body: string;
 }
 
 export interface WorkItem {
   title: string;
-  status: "Live Site" | "In Progress" | "Design Available";
+  status: "Live Site" | "In Progress" | "Design Available" | "Closed Testing";
   description: string;
   demo?: string;
   image: ImageMetadata;
@@ -164,6 +168,11 @@ export const services: ServiceItem[] = [
     title: "Off Paid Platforms",
     body: "Move off WordPress, Squarespace, or any platform charging monthly for things you should own. You keep your content, domain, and history - just without recurring lock-in or platform dependency.",
   },
+  {
+    icon: "Smartphone",
+    title: "Mobile Apps",
+    body: "Native Android and iOS apps for ideas that outgrow a browser tab. Built the same way as my sites: accessible, fast, and free of ads, trackers, and data collection you didn't ask for.",
+  },
 ];
 
 export const work: WorkItem[] = [
@@ -179,15 +188,14 @@ export const work: WorkItem[] = [
       "Screenshot of the GAM[fest] website showing the retro arcade-themed hero scene with the festival's billboard design",
   },
   {
-    title: "Siren Song Shop",
+    title: "Ghostbusters Virginia",
     status: "Live Site",
     description:
-      "A custom-built recommendation site for practical, trust-first shopping guides and local resources. The site is structured for fast publishing, strong search visibility, and a calm browsing experience that helps readers find useful picks without the clutter of affiliate-heavy platforms.",
-    demo: "https://sirensongshop.com/",
-    image: sirenSong,
-    imageLight: sirenSongLight,
+      "A community-focused website for Ghostbusters Virginia, rebuilt as a faster custom site with clearer paths to events, media, bookings, and contact. The redesign makes it easier for fans, event organizers, and press to find what they need while keeping the group personality front and center.",
+    demo: "https://ghostbustersva.com/",
+    image: gbva,
     imageAlt:
-      "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
+      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
   },
   {
     title: "Astrid Beauty Hair Salon",
@@ -201,14 +209,15 @@ export const work: WorkItem[] = [
       "Screenshot of the Astrid Beauty Hair Salon website showing service listings and booking information",
   },
   {
-    title: "Ghostbusters Virginia",
+    title: "Siren Song Shop",
     status: "Live Site",
     description:
-      "A community-focused website for Ghostbusters Virginia, rebuilt as a faster custom site with clearer paths to events, media, bookings, and contact. The redesign makes it easier for fans, event organizers, and press to find what they need while keeping the group personality front and center.",
-    demo: "https://ghostbustersva.com/",
-    image: gbva,
+      "A custom-built recommendation site for practical, trust-first shopping guides and local resources. The site is structured for fast publishing, strong search visibility, and a calm browsing experience that helps readers find useful picks without the clutter of affiliate-heavy platforms.",
+    demo: "https://sirensongshop.com/",
+    image: sirenSong,
+    imageLight: sirenSongLight,
     imageAlt:
-      "Screenshot of the Ghostbusters Virginia community website showing event listings and team information",
+      "Screenshot of the Siren Song website showing curated product recommendations and local resources for sustainable living",
   },
   {
     title: "RCAN",
@@ -256,16 +265,28 @@ export const work: WorkItem[] = [
     description:
       "A ready-to-launch template for event sites - festivals, races, conventions - with an animated hero, live schedule, photo gallery, and donation flow already built in. Fully themeable via design tokens, so it re-skins fast for a real event. Currently unclaimed - if this fits what you're planning, it's available.",
     demo: "https://magic-festival.vercel.app/",
-    image: magicFestival,
+    image: magicDark,
+    imageLight: magicLight,
     imageAlt:
       "Screenshot of the Magic Festival template website showing the animated hero scene with placeholder festival branding",
+  },
+  {
+    title: "Meowdrate",
+    status: "Closed Testing",
+    description:
+      "A landing site for Meowdrate, a hydration app built as a rescue mission instead of a guilt trip - log a drink and the floodwater around a trapped cat slowly recedes until it's saved when you hit your daily goal. No ads, accounts, streaks, or data collection, just a dynamic day-to-night sky and a little snarky encouragement. Currently in closed testing on Android, with an iOS version coming soon.",
+    demo: "https://meowdrate.com/",
+    image: meowdrateDark,
+    imageLight: meowdrateLight,
+    imageAlt:
+      "Screenshot of the Meowdrate website showing a phone mockup of the app's flooded rescue scene with a trapped cat and hydration log",
   },
 ];
 
 export const faqs: FaqItem[] = [
   {
     q: "How do you decide free vs. sliding scale?",
-    a: "I use a hybrid model and decide case by case based on budget reality, scope, and impact. If funds are tight, we can keep it fully free. If your organization has budget, we can agree on a fair sliding-scale contribution that helps sustain free work for others. Third-party costs like domains are always paid directly by you.",
+    a: "I use a hybrid model and decide case by case based on budget reality, scope, and impact. Right now I'm at capacity for fully free projects, so I'm only taking on sliding-scale work - if your organization has budget, we can agree on a fair contribution that helps sustain free work for others once a slot opens back up. Third-party costs like domains are always paid directly by you.",
   },
   {
     q: "Do I need a domain? What does that cost?",

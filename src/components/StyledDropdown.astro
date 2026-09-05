@@ -3,6 +3,7 @@ interface StyledDropdownOption {
   value: string;
   label: string;
   disabled?: boolean;
+  disabledReason?: string;
   separatorBefore?: boolean;
 }
 
@@ -101,9 +102,11 @@ const selectId = `${id}-native`;
               id={`${id}-option-${index}`}
               role="option"
               aria-selected={option.value === initialValue ? 'true' : 'false'}
+              aria-disabled={option.disabled ? 'true' : undefined}
               data-value={option.value}
               data-label={option.label}
               data-disabled={option.disabled ? 'true' : 'false'}
+              title={option.disabled ? option.disabledReason : undefined}
               data-dropdown-option
             >
               {option.label}
@@ -126,7 +129,12 @@ const selectId = `${id}-native`;
       </option>
       {
         options.map((option) => (
-          <option value={option.value} disabled={option.disabled} selected={option.value === initialValue}>
+          <option
+            value={option.value}
+            disabled={option.disabled}
+            selected={option.value === initialValue}
+            title={option.disabled ? option.disabledReason : undefined}
+          >
             {option.label}
           </option>
         ))

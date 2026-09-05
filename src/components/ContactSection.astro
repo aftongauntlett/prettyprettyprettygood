@@ -24,8 +24,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
       <h2 id="contact-heading">Tell me what you're building.</h2>
       <p class="section-lead">
         Don't overthink it. A few sentences about who you are and what you need
-        is plenty. If funding is tight, you can still request fully free work.
-        If your org has a budget, you can opt into a sliding-scale contribution.
+        is plenty. I'm at capacity for fully free projects right now, but
+        sliding-scale work is still open - if funding is tight, reach out anyway
+        and I'll keep you in mind for when a free slot opens back up.
       </p>
     </div>
 
@@ -97,7 +98,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? ''
             placeholder="Select one"
             required
             options={[
-              { value: 'free-needed', label: 'We need this to be fully free right now.' },
+              {
+                value: 'free-needed',
+                label: 'We need this to be fully free right now.',
+                disabled: true,
+                disabledReason: "Not currently available - I'm at capacity for free projects.",
+              },
               { value: 'sliding-scale', label: 'We can contribute on a sliding scale.' },
               { value: 'budget', label: 'We have a real budget and are happy to contribute.' },
               { value: 'not-sure', label: 'Not sure yet.' },
